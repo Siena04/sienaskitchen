@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sunday Table | Cute Recipe Journal</title>
+    <meta
+      name="description"
+      content="A kawaii-inspired recipe journal with a clean, practical cooking layout."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+  </head>
+  <body data-page="home">
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand-lockup">
+          <p class="eyebrow">Kitchen notebook</p>
+          <a href="./index.html" class="brand-name">Sunday Table</a>
+        </div>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="#recipeView">Featured recipe</a>
+          <a href="#recipeLibrary">Recipe library</a>
+          <a href="#about">About</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero-window">
+          <div class="window-chrome">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Cute, calm, and practical</p>
+              <h1>Your recipes, but styled like a cozy little kitchen journal.</h1>
+              <p class="hero-text">
+                The layout is built for real cooking: big title, clear ingredient
+                list, obvious steps, and related recipes. The look is pastel,
+                soft, and slightly kawaii without becoming busy.
+              </p>
+              <div class="hero-actions">
+                <a class="button" href="#recipeView">Read featured recipe</a>
+                <a class="button button-ghost" href="#recipeLibrary">Browse all recipes</a>
+              </div>
+              <div class="hero-mini-cards">
+                <div class="mini-card">
+                  <span class="mini-icon" aria-hidden="true">
+                    <i data-lucide="utensils-crossed"></i>
+                  </span>
+                  <strong>Recipe-first layout</strong>
+                  <p>Cookwell-inspired structure for reading while cooking.</p>
+                </div>
+                <div class="mini-card">
+                  <span class="mini-icon" aria-hidden="true">
+                    <i data-lucide="book-open"></i>
+                  </span>
+                  <strong>Kawaii direction</strong>
+                  <p>Notebook panels, rounded shapes, and gentle illustrated accents.</p>
+                </div>
+              </div>
+            </div>
+            <div class="hero-illustration-card">
+              <div class="sticker-cluster">
+                <span class="sticker">strawberry</span>
+                <span class="sticker">paper scraps</span>
+                <span class="sticker">bunny art</span>
+              </div>
+              <div class="mascot-board">
+                <div class="mascot-polaroid">
+                  <picture class="mascot-frame">
+                    <source srcset="./assets/hero-bunny.png" type="image/png" />
+                    <img
+                      class="mascot-art"
+                      src="./assets/hero-mascot-placeholder.svg"
+                      alt="Bunny placeholder for the recipe website"
+                    />
+                  </picture>
+                </div>
+                <div class="doodle-row">
+                  <span aria-hidden="true"><i data-lucide="sparkles"></i></span>
+                  <span aria-hidden="true"><i data-lucide="star"></i></span>
+                  <span aria-hidden="true"><i data-lucide="heart"></i></span>
+                  <span aria-hidden="true"><i data-lucide="leaf"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="recipeView" class="recipe-view-section">
+          <div class="section-heading recipe-heading">
+            <div>
+              <p class="section-kicker">Featured recipe</p>
+              <h2>Recipe page layout</h2>
+            </div>
+            <div class="search-controls">
+              <label class="search-field">
+                <span class="sr-only">Search recipes</span>
+                <input
+                  id="searchInput"
+                  type="search"
+                  placeholder="Search title, ingredient, or tag"
+                />
+              </label>
+              <label class="filter-field">
+                <span class="sr-only">Filter by category</span>
+                <select id="categoryFilter">
+                  <option value="all">All categories</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div id="recipeViewContainer" aria-live="polite"></div>
+        </section>
+
+        <section id="recipeLibrary" class="library-section">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Recipe library</p>
+              <h2>More to cook next</h2>
+            </div>
+            <p class="section-caption">
+              These cards keep the cute art direction, but the selected recipe
+              always opens into the more practical step-by-step layout above.
+            </p>
+          </div>
+          <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
+        </section>
+
+        <section id="about" class="story-grid">
+          <article class="panel notebook-card">
+            <p class="section-kicker">About the cook</p>
+            <h2>A little intro can live here.</h2>
+            <p>
+              Add your story, your cooking style, what kind of recipes you love
+              sharing, and a note that connects your Instagram audience to your
+              website.
+            </p>
+          </article>
+          <article class="panel notebook-card socials-card">
+            <p class="section-kicker">Social links</p>
+            <h2>Give the site somewhere to send people.</h2>
+            <div class="social-links">
+              <a href="https://instagram.com/" target="_blank" rel="noreferrer"
+                >Instagram</a
+              >
+              <a href="https://tiktok.com/" target="_blank" rel="noreferrer"
+                >TikTok</a
+              >
+              <a href="https://pinterest.com/" target="_blank" rel="noreferrer"
+                >Pinterest</a
+              >
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <template id="recipeCardTemplate">
+      <article class="recipe-card notebook-card">
+        <div class="recipe-image-wrap">
+          <img class="recipe-image" alt="" loading="lazy" />
+        </div>
+        <div class="recipe-card-body">
+          <p class="recipe-category"></p>
+          <h3 class="recipe-title"></h3>
+          <p class="recipe-description"></p>
+          <div class="recipe-meta"></div>
+          <button class="button button-small" type="button">Open recipe page</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
