@@ -1,0 +1,12 @@
+{
+  "name": "sunday-table",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A recipe website with a lightweight Node server.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
