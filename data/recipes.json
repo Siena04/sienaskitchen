@@ -1,0 +1,86 @@
+[
+  {
+    "id": "golden-lemon-pasta",
+    "title": "Golden Lemon Pasta",
+    "category": "Dinner",
+    "description": "A silky, bright pasta with lemon, parmesan, and plenty of black pepper.",
+    "prepTime": "15 mins",
+    "cookTime": "15 mins",
+    "serves": "4",
+    "tags": ["quick", "vegetarian", "weeknight"],
+    "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=1200&q=80",
+    "ingredients": [
+      "350g spaghetti",
+      "3 tablespoons butter",
+      "2 cloves garlic, minced",
+      "1 lemon, zest and juice",
+      "1 cup grated parmesan",
+      "1/2 cup pasta water",
+      "Black pepper and salt"
+    ],
+    "steps": [
+      "Cook the pasta in well-salted water until al dente.",
+      "Melt the butter and briefly cook the garlic in a large pan.",
+      "Add lemon zest, juice, parmesan, and a splash of pasta water to make a glossy sauce.",
+      "Toss through the hot pasta and loosen with more pasta water as needed.",
+      "Finish with extra parmesan and black pepper before serving."
+    ],
+    "notes": "Add grilled chicken or prawns if you want a higher-protein version."
+  },
+  {
+    "id": "sticky-ginger-traybake",
+    "title": "Sticky Ginger Chicken Traybake",
+    "category": "Dinner",
+    "description": "Roast chicken thighs with ginger, soy, honey, and charred greens all on one tray.",
+    "prepTime": "20 mins",
+    "cookTime": "45 mins",
+    "serves": "4",
+    "tags": ["traybake", "family", "easy"],
+    "image": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80",
+    "ingredients": [
+      "8 chicken thighs",
+      "2 tablespoons soy sauce",
+      "2 tablespoons honey",
+      "1 tablespoon grated ginger",
+      "2 teaspoons sesame oil",
+      "1 bunch broccolini",
+      "Cooked rice, to serve"
+    ],
+    "steps": [
+      "Heat the oven to 200C.",
+      "Mix soy, honey, ginger, and sesame oil, then coat the chicken.",
+      "Arrange chicken on a tray and roast for 30 minutes.",
+      "Add broccolini to the tray and continue roasting until the chicken is sticky and cooked through.",
+      "Serve over rice with pan juices spooned over the top."
+    ],
+    "notes": "A squeeze of lime at the table lifts the glaze."
+  },
+  {
+    "id": "raspberry-cloud-cake",
+    "title": "Raspberry Cloud Cake",
+    "category": "Dessert",
+    "description": "A soft vanilla cake layered with cream and raspberries for birthdays or afternoon tea.",
+    "prepTime": "30 mins",
+    "cookTime": "35 mins",
+    "serves": "10",
+    "tags": ["baking", "celebration", "sweet"],
+    "image": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1200&q=80",
+    "ingredients": [
+      "225g butter, softened",
+      "225g caster sugar",
+      "4 eggs",
+      "225g self-raising flour",
+      "1 teaspoon vanilla extract",
+      "300ml thickened cream",
+      "2 cups raspberries"
+    ],
+    "steps": [
+      "Heat the oven to 180C and line two cake tins.",
+      "Beat butter and sugar until pale, then mix in eggs one at a time.",
+      "Fold through flour and vanilla, then divide between tins.",
+      "Bake until golden and springy, then cool completely.",
+      "Fill with whipped cream and raspberries, then dust the top with icing sugar."
+    ],
+    "notes": "Swap in strawberries, peaches, or passionfruit depending on the season."
+  }
+]
