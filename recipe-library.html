@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A-Z Recipe Library | Siena's Kitchen</title>
+    <meta
+      name="description"
+      content="A complete A-Z recipe library with an expanded, step-by-step view for every recipe."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+    <script src="./recipe-library.js" defer></script>
+  </head>
+  <body data-page="library">
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand-lockup">
+          <p class="eyebrow">The recipes of</p>
+          <div class="brand-title">
+            <img
+              class="brand-logo"
+              src="./assets/kitchen-logo-icon.png"
+              alt="Siena's Kitchen logo"
+            />
+            <a href="./index.html" class="brand-name">Siena's Kitchen</a>
+          </div>
+          <a
+            class="brand-handle"
+            href="https://instagram.com/sienaskitchen"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="brand-handle-icon" aria-hidden="true">
+              <i data-lucide="instagram"></i>
+            </span>
+            @sienaskitchen
+          </a>
+        </div>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Measurement Conversion Tools
+          </a>
+          <a href="./recipe-library.html" aria-current="page">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe library
+          </a>
+          <a href="./index.html#about">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="az-library">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">A-Z recipe library</p>
+              <h2>Browse every recipe</h2>
+            </div>
+            <p class="section-caption">
+              Scroll the list to explore every recipe, then tap a title to load the full details.
+            </p>
+          </div>
+          <a class="button button-ghost back-button" href="./index.html">Return to main page</a>
+
+          <div class="az-layout">
+            <div class="az-panel">
+              <label class="search-field az-search">
+                <span class="sr-only">Search recipes</span>
+                <input
+                  id="azSearchInput"
+                  type="search"
+                  placeholder="Search by title, ingredient, or tag"
+                  autocomplete="off"
+                />
+              </label>
+              <label class="filter-field az-filter">
+                <span class="sr-only">Filter by series</span>
+                <select id="azSeriesFilter">
+                  <option value="all">All series</option>
+                  <option value="junk-food-rebuilt">Junk Food, Rebuilt</option>
+                  <option value="meal-prep">Meal prep</option>
+                  <option value="baked-favourites">Baked Favourites</option>
+                  <option value="breakfast">Breakfasts</option>
+                  <option value="dinner">Dinners</option>
+                  <option value="budget-meals">Budget meals</option>
+                </select>
+              </label>
+              <div id="azSuggestions" class="az-suggestions" role="listbox" hidden></div>
+
+              <div class="az-list-shell">
+                <div id="azListScroll" class="az-list-scroll" tabindex="0">
+                  <div id="azList" class="az-list" role="list"></div>
+                </div>
+                <div id="azScrollBubble" class="az-scroll-bubble" aria-hidden="true">A</div>
+              </div>
+            </div>
+
+            <div class="az-detail">
+              <div id="azRecipeView" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="eyebrow">Sunday Table</p>
+          <strong class="footer-title">Siena's Kitchen</strong>
+          <div class="footer-stickers" aria-hidden="true">
+            <img class="sticker-img" src="./assets/stickers/page1-01.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-03.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-01.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-08.png" alt="" />
+          </div>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Explore</p>
+          <a href="./index.html#about">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
+          <a href="./recipe-library.html">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe Library
+          </a>
+          <a href="./conversion.html">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Measurement conversion tools
+          </a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Follow</p>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="instagram"></i></span>
+            Instagram
+          </a>
+          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="video"></i></span>
+            TikTok
+          </a>
+          <a href="https://pinterest.com/" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="pin"></i></span>
+            Pinterest
+          </a>
+          <a href="mailto:hello@sienaskitchen.com">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="mail"></i></span>
+            hello@sienaskitchen.com
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -8,6 +8,12 @@
     "cookTime": "15 mins",
     "serves": "4",
     "tags": ["quick", "vegetarian", "weeknight"],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
     "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=1200&q=80",
     "ingredients": [
       "350g spaghetti",
@@ -36,6 +42,12 @@
     "cookTime": "45 mins",
     "serves": "4",
     "tags": ["traybake", "family", "easy"],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
     "image": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80",
     "ingredients": [
       "8 chicken thighs",
@@ -64,6 +76,12 @@
     "cookTime": "35 mins",
     "serves": "10",
     "tags": ["baking", "celebration", "sweet"],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
     "image": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1200&q=80",
     "ingredients": [
       "225g butter, softened",
@@ -82,5 +100,169 @@
       "Fill with whipped cream and raspberries, then dust the top with icing sugar."
     ],
     "notes": "Swap in strawberries, peaches, or passionfruit depending on the season."
+  },
+  {
+    "id": "mr-beans-apple-snaps",
+    "title": "Mr Bean's Apple Snaps",
+    "category": "Dessert",
+    "description": "Spiced apple cookies topped with thin apple slices, sprinkles, and warm autumn spices.",
+    "prepTime": "",
+    "cookTime": "12-14 mins",
+    "serves": "",
+    "tags": ["baking", "cookies", "apple", "spiced"],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "300g all-purpose flour",
+      "1 1/2 tablespoons ground ginger",
+      "2 teaspoons ground cinnamon, plus more for topping if desired",
+      "1 teaspoon baking soda",
+      "1 teaspoon grated nutmeg",
+      "1/2 teaspoon baking powder",
+      "1/8 teaspoon cloves (or allspice)",
+      "1/8 teaspoon salt",
+      "227g butter, softened",
+      "3/4 cup sugar",
+      "3 tablespoons brown sugar",
+      "2 tablespoons molasses",
+      "1 large egg",
+      "1 large egg yolk (18g)",
+      "3 Gala apples",
+      "White cake sprinkles or coarse sugar"
+    ],
+    "steps": [
+      "Preheat the oven to 180C and line a baking sheet with parchment paper.",
+      "In a medium bowl, sift together the flour, ginger, baking soda, cinnamon, nutmeg, baking powder, cloves, and salt. Set aside.",
+      "In an electric mixer, cream the butter on medium speed until light in colour.",
+      "Add the sugar and brown sugar, then beat for 3 minutes.",
+      "Add the molasses and mix until combined.",
+      "Add the whole egg and egg yolk, then beat on medium speed until fully blended.",
+      "Add the flour mixture to the butter mixture in three parts, mixing carefully on low speed until fully blended.",
+      "Working in batches as needed, roll 2 tablespoons of dough into balls and flatten them by hand on the prepared baking sheet to about 1/4 inch high, spacing them 2 inches apart.",
+      "Slice the apples as thinly as possible crosswise so the star of the core shows in the middle, remove any seeds, and press the slices firmly into the centre of each cookie.",
+      "Sprinkle cake sprinkles and extra cinnamon evenly over the cookies.",
+      "Transfer the baking sheet to the refrigerator or freezer for 5 minutes to chill the dough and prevent the cookies from spreading too much.",
+      "Bake for 12 to 14 minutes, or until the edges are golden and the cookie does not look wet under the apple slice."
+    ],
+    "notes": "The source text looked cut off after the final bake step, so any last garnish or cooling note was not included."
+  },
+  {
+    "id": "best-air-fried-chips",
+    "title": "BEST Air Fried Chips",
+    "category": "Side",
+    "description": "A quick air fryer chip recipe with cornstarch for extra crispiness.",
+    "prepTime": "7 mins",
+    "cookTime": "15 mins",
+    "serves": "",
+    "tags": ["air fryer", "chips", "potato", "easy"],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "250g spud lite potato",
+      "1 egg white",
+      "1 tablespoon cornstarch",
+      "Seasoning of choice"
+    ],
+    "steps": [
+      "Cut the potato into chip-sized pieces.",
+      "Microwave the potato on high for 7 minutes.",
+      "Mix the potato with the seasoning, egg white, and cornstarch until coated.",
+      "Air fry at 200C for 15 minutes, shaking or mixing halfway through."
+    ],
+    "notes": ""
+  },
+  {
+    "id": "greek-sheet-pan-chicken",
+    "title": "Greek Sheet Pan Chicken",
+    "category": "Dinner",
+    "description": "A bright one-pan chicken dinner with lemon, herbs, zucchini, tomatoes, olives, and feta.",
+    "prepTime": "15 mins",
+    "cookTime": "40-45 mins",
+    "serves": "",
+    "tags": ["sheet pan", "chicken", "greek", "easy"],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "1/2 cup olive oil (or reduce to 1/4 cup)",
+      "1 lemon, juiced (about 3 tablespoons)",
+      "4 garlic cloves, minced",
+      "2 teaspoons dried oregano",
+      "1 teaspoon dried thyme",
+      "1 teaspoon Dijon mustard",
+      "1 teaspoon salt",
+      "1/2 teaspoon freshly ground black pepper",
+      "2 chicken breasts (about 600g), sliced in half",
+      "1 zucchini",
+      "1/2 large red onion, thinly sliced into wedges",
+      "1 pack cherry or grape tomatoes (halved if not tiny)",
+      "1/2 cup olives, pitted",
+      "1/4 cup feta cheese",
+      "2 tablespoons finely chopped fresh parsley"
+    ],
+    "steps": [
+      "Preheat the oven to 220C.",
+      "Whisk together the olive oil, lemon juice, garlic, oregano, thyme, Dijon mustard, salt, and black pepper in a small bowl.",
+      "Place the chicken in a large bowl and pour over two-thirds of the marinade. Toss well to coat, then let it sit for 10 to 15 minutes.",
+      "Spread the zucchini, red onion, and tomatoes onto a baking sheet. Drizzle over the remaining marinade and toss to coat.",
+      "Arrange the chicken on the baking sheet with the vegetables.",
+      "Bake for 30 minutes.",
+      "Add the olives and feta, then bake for another 10 to 15 minutes until the chicken is cooked through.",
+      "Garnish with chopped parsley before serving."
+    ],
+    "notes": "If the chicken looks very pale, switch to fan-forced for the last 10 minutes. The method text mentioned chicken thighs, but the ingredient list specified chicken breasts, so this version follows the ingredient list."
+  },
+  {
+    "id": "chicken-crust-pizza",
+    "title": "Chicken Crust Pizza",
+    "category": "Dinner",
+    "description": "A high-protein pizza with a chicken mince crust, simple tomato sauce, and classic sweet-salty toppings.",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "2",
+    "tags": ["high protein", "pizza", "chicken", "low carb"],
+    "nutrition": {
+      "calories": "470 kcal",
+      "protein": "75g",
+      "carbs": "72g",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "1.5 tablespoons nutritional yeast",
+      "1/4 cup low fat cottage cheese",
+      "500g chicken breast mince",
+      "1 teaspoon garlic powder",
+      "1 pack low sodium tomato paste",
+      "1/2 tablespoon olive oil",
+      "2 tablespoons water",
+      "Chilli flakes, Italian herbs, oregano, pepper, and garlic powder, to taste",
+      "20g salami",
+      "40g tinned pineapple",
+      "50g low fat mozzarella"
+    ],
+    "steps": [
+      "Mix the nutritional yeast, cottage cheese, chicken breast mince, and garlic powder to make the pizza crust mixture.",
+      "Press the chicken mixture into a pizza shape.",
+      "Mix the tomato paste, olive oil, water, chilli flakes, Italian herbs, oregano, pepper, and garlic powder to make the sauce.",
+      "Spread the sauce over the crust.",
+      "Top with salami, pineapple, and mozzarella.",
+      "Bake until the chicken crust is cooked through and the cheese is melted and golden."
+    ],
+    "notes": "Total nutrition provided: 940 kcal and about 150g protein. The source also listed two different per-serve calorie values, so this recipe uses 470 kcal per serve with 75g protein and keeps the original discrepancy noted here."
   }
 ]

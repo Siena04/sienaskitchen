@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Measurement Conversion Tools | Sunday Table</title>
+    <meta
+      name="description"
+      content="Translate baking measurements between US, Australian, and metric-friendly recipes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+  </head>
+  <body data-page="conversion">
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand-lockup">
+          <p class="eyebrow">Measurement Conversion Tools</p>
+          <a href="./index.html" class="brand-name">Siena's Kitchen</a>
+          <a
+            class="brand-handle"
+            href="https://instagram.com/sienaskitchen"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="brand-handle-icon" aria-hidden="true">
+              <i data-lucide="instagram"></i>
+            </span>
+            @sienaskitchen
+          </a>
+        </div>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Measurement Conversion Tools
+          </a>
+          <a href="./recipe-library.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe library
+          </a>
+          <a href="./index.html#about">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="conversion-hero">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Measurement Conversion Tools</p>
+              <h1>Measurement Conversion Tools</h1>
+            </div>
+            <p class="section-caption">
+              Translate baking measurements between US, Australian, and metric-friendly recipes.
+            </p>
+          </div>
+          <a class="button button-ghost back-button" href="./index.html">Return to main page</a>
+        </section>
+
+        <section class="converter-section">
+          <div class="converter-card notebook-card">
+            <div class="converter-grid">
+              <label class="converter-field">
+                <span>Ingredient</span>
+                <select id="ingredientSelect">
+                  <option value="">Ingredient (optional)</option>
+                </select>
+              </label>
+              <div class="converter-rows">
+                <div class="converter-panel">
+                  <label class="converter-field">
+                    <span>Convert from</span>
+                    <select id="fromUnit"></select>
+                  </label>
+                  <label class="converter-field">
+                    <span>Amount</span>
+                    <input id="amountInput" type="number" min="0" step="any" value="1" />
+                  </label>
+                </div>
+                <div class="swap-wrap">
+                  <button class="swap-button" id="swapButton" type="button" aria-label="Swap units">
+                    <i data-lucide="arrow-left-right"></i>
+                  </button>
+                </div>
+                <div class="converter-panel">
+                  <label class="converter-field">
+                    <span>Convert to</span>
+                    <select id="toUnit"></select>
+                  </label>
+                  <label class="converter-field">
+                    <span>Result</span>
+                    <input id="resultOutput" type="text" readonly />
+                  </label>
+                </div>
+              </div>
+              <div class="converter-actions">
+                <button class="button" id="convertButton" type="button">Convert</button>
+                <button class="button button-ghost" id="copyButton" type="button">
+                  Copy result
+                </button>
+              </div>
+            </div>
+            <p class="converter-helper" id="converterHelper"></p>
+            <div class="converter-result" id="converterResult" aria-live="polite"></div>
+            <p class="converter-disclaimer">
+              Weight conversions depend on ingredient density. Australian tablespoons are larger than
+              US tablespoons.
+            </p>
+            <div class="converter-popular">
+              <p class="section-kicker">Popular shortcuts</p>
+              <div class="chip-row">
+                <button class="chip" type="button" data-ingredient="all-purpose-flour">Flour</button>
+                <button class="chip" type="button" data-ingredient="butter">Butter</button>
+                <button class="chip" type="button" data-ingredient="caster-sugar">Sugar</button>
+                <button class="chip" type="button" data-ingredient="honey">Honey</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="reference-section">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Quick reference</p>
+              <h2>Conversion cheatsheets</h2>
+            </div>
+            <p class="section-caption">
+              UK recipes usually stick to metric weights, so mL and grams are your safest references.
+            </p>
+          </div>
+          <div class="story-grid">
+            <article class="panel notebook-card reference-card">
+              <p class="section-kicker">Cup differences</p>
+              <h3>Not all cups are equal</h3>
+              <ul class="reference-list">
+                <li>1 US cup = 236.6 mL</li>
+                <li>1 Australian/UK cup = 250 mL</li>
+              </ul>
+            </article>
+            <article class="panel notebook-card reference-card">
+              <p class="section-kicker">Spoon differences</p>
+              <h3>Tablespoons + teaspoons</h3>
+              <ul class="reference-list">
+                <li>1 US tbsp = 14.8 mL</li>
+                <li>1 Australian/UK tbsp = 20 mL</li>
+                <li>1 tsp = 5 mL</li>
+              </ul>
+            </article>
+            <article class="panel notebook-card reference-card">
+              <p class="section-kicker">Popular conversions</p>
+              <h3>US cup to grams</h3>
+              <div id="referenceConversions" class="reference-table"></div>
+              <p class="reference-note">
+                Approximate values; packing and brands can change the exact weight.
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="eyebrow">Sunday Table</p>
+          <strong class="footer-title">Siena's Kitchen</strong>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Explore</p>
+          <a href="./index.html#about">About</a>
+          <a href="./recipe-library.html">A-Z Recipe Library</a>
+          <a href="./conversion.html">Measurement conversion tools</a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Follow</p>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">TikTok</a>
+          <a href="https://pinterest.com/" target="_blank" rel="noreferrer">Pinterest</a>
+          <a href="mailto:hello@sienaskitchen.com">hello@sienaskitchen.com</a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="./conversion.js"></script>
+  </body>
+</html>

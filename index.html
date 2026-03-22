@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sunday Table | Cute Recipe Journal</title>
+    <title>Siena's Kitchen | Recipe Book</title>
     <meta
       name="description"
       content="A kawaii-inspired recipe journal with a clean, practical cooking layout."
@@ -21,13 +21,40 @@
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-lockup">
-          <p class="eyebrow">Kitchen notebook</p>
-          <a href="./index.html" class="brand-name">Sunday Table</a>
+          <p class="eyebrow">The recipes of</p>
+          <div class="brand-title">
+            <img
+              class="brand-logo"
+              src="./assets/kitchen-logo-icon.png"
+              alt="Siena's Kitchen logo"
+            />
+            <a href="./index.html" class="brand-name">Siena's Kitchen</a>
+          </div>
+          <a
+            class="brand-handle"
+            href="https://instagram.com/sienaskitchen"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="brand-handle-icon" aria-hidden="true">
+              <i data-lucide="instagram"></i>
+            </span>
+            @sienaskitchen
+          </a>
         </div>
         <nav class="main-nav" aria-label="Primary">
-          <a href="#recipeView">Featured recipe</a>
-          <a href="#recipeLibrary">Recipe library</a>
-          <a href="#about">About</a>
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Measurement Conversion Tools
+          </a>
+          <a href="./recipe-library.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe library
+          </a>
+          <a href="#about">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
         </nav>
       </header>
 
@@ -38,70 +65,92 @@
             <span></span>
             <span></span>
           </div>
+          <div class="sticker-shelf" aria-hidden="true">
+            <img class="sticker-img" src="./assets/stickers/page1-17.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-07.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-05.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-12.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-07.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-05.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-13.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-18.png" alt="" />
+          </div>
           <div class="hero-grid">
             <div class="hero-copy">
-              <p class="eyebrow">Cute, calm, and practical</p>
-              <h1>Your recipes, but styled like a cozy little kitchen journal.</h1>
+              <h1>Welcome to my kitchen</h1>
               <p class="hero-text">
-                The layout is built for real cooking: big title, clear ingredient
-                list, obvious steps, and related recipes. The look is pastel,
-                soft, and slightly kawaii without becoming busy.
+                Congrats! You've discovered my recipe archive.
               </p>
               <div class="hero-actions">
                 <a class="button" href="#recipeView">Read featured recipe</a>
                 <a class="button button-ghost" href="#recipeLibrary">Browse all recipes</a>
               </div>
               <div class="hero-mini-cards">
-                <div class="mini-card">
-                  <span class="mini-icon" aria-hidden="true">
-                    <i data-lucide="utensils-crossed"></i>
-                  </span>
-                  <strong>Recipe-first layout</strong>
-                  <p>Cookwell-inspired structure for reading while cooking.</p>
-                </div>
-                <div class="mini-card">
-                  <span class="mini-icon" aria-hidden="true">
-                    <i data-lucide="book-open"></i>
-                  </span>
-                  <strong>Kawaii direction</strong>
-                  <p>Notebook panels, rounded shapes, and gentle illustrated accents.</p>
-                </div>
               </div>
             </div>
-            <div class="hero-illustration-card">
-              <div class="sticker-cluster">
-                <span class="sticker">strawberry</span>
-                <span class="sticker">paper scraps</span>
-                <span class="sticker">bunny art</span>
-              </div>
-              <div class="mascot-board">
-                <div class="mascot-polaroid">
-                  <picture class="mascot-frame">
-                    <source srcset="./assets/hero-bunny.png" type="image/png" />
-                    <img
-                      class="mascot-art"
-                      src="./assets/hero-mascot-placeholder.svg"
-                      alt="Bunny placeholder for the recipe website"
-                    />
-                  </picture>
-                </div>
-                <div class="doodle-row">
-                  <span aria-hidden="true"><i data-lucide="sparkles"></i></span>
-                  <span aria-hidden="true"><i data-lucide="star"></i></span>
-                  <span aria-hidden="true"><i data-lucide="heart"></i></span>
-                  <span aria-hidden="true"><i data-lucide="leaf"></i></span>
-                </div>
-              </div>
+          </div>
+          <div class="hero-quick-links-row">
+            <div class="hero-quick-links">
+              <a
+                class="quick-link-card"
+                data-quick-link="healthy"
+                data-series="junk-food-rebuilt"
+                href="./recipe-library.html?series=junk-food-rebuilt"
+              >
+                <img class="quick-link-image" alt="Junk Food Rebuilt recipe preview" loading="lazy" />
+                <span class="quick-link-title">Junk Food Rebuilt</span>
+              </a>
+              <a
+                class="quick-link-card"
+                data-quick-link="meal-prep"
+                data-series="meal-prep"
+                href="./recipe-library.html?series=meal-prep"
+              >
+                <img class="quick-link-image" alt="Meal prep recipe preview" loading="lazy" />
+                <span class="quick-link-title">Meal prep</span>
+              </a>
+              <a
+                class="quick-link-card"
+                data-quick-link="dessert"
+                data-series="baked-favourites"
+                href="./recipe-library.html?series=baked-favourites"
+              >
+                <img class="quick-link-image" alt="Dessert recipe preview" loading="lazy" />
+                <span class="quick-link-title">Baked Favourites</span>
+              </a>
+              <a
+                class="quick-link-card"
+                data-quick-link="breakfast"
+                data-series="breakfast"
+                href="./recipe-library.html?series=breakfast"
+              >
+                <img class="quick-link-image" alt="Breakfast recipe preview" loading="lazy" />
+                <span class="quick-link-title">Breakfasts</span>
+              </a>
+              <a
+                class="quick-link-card"
+                data-quick-link="dinner"
+                data-series="dinner"
+                href="./recipe-library.html?series=dinner"
+              >
+                <img class="quick-link-image" alt="Dinner recipe preview" loading="lazy" />
+                <span class="quick-link-title">Dinners</span>
+              </a>
+              <a
+                class="quick-link-card"
+                data-quick-link="budget"
+                data-series="budget-meals"
+                href="./recipe-library.html?series=budget-meals"
+              >
+                <img class="quick-link-image" alt="Budget meal recipe preview" loading="lazy" />
+                <span class="quick-link-title">Budget meals</span>
+              </a>
             </div>
           </div>
         </section>
 
         <section id="recipeView" class="recipe-view-section">
           <div class="section-heading recipe-heading">
-            <div>
-              <p class="section-kicker">Featured recipe</p>
-              <h2>Recipe page layout</h2>
-            </div>
             <div class="search-controls">
               <label class="search-field">
                 <span class="sr-only">Search recipes</span>
@@ -137,33 +186,85 @@
           <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
         </section>
 
-        <section id="about" class="story-grid">
-          <article class="panel notebook-card">
-            <p class="section-kicker">About the cook</p>
-            <h2>A little intro can live here.</h2>
-            <p>
-              Add your story, your cooking style, what kind of recipes you love
-              sharing, and a note that connects your Instagram audience to your
-              website.
-            </p>
-          </article>
-          <article class="panel notebook-card socials-card">
-            <p class="section-kicker">Social links</p>
-            <h2>Give the site somewhere to send people.</h2>
-            <div class="social-links">
-              <a href="https://instagram.com/" target="_blank" rel="noreferrer"
-                >Instagram</a
-              >
-              <a href="https://tiktok.com/" target="_blank" rel="noreferrer"
-                >TikTok</a
-              >
-              <a href="https://pinterest.com/" target="_blank" rel="noreferrer"
-                >Pinterest</a
-              >
-            </div>
-          </article>
-        </section>
+        <section id="about" class="story-grid"></section>
       </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="eyebrow">Sunday Table</p>
+          <strong class="footer-title">Siena's Kitchen</strong>
+          <div class="footer-stickers" aria-hidden="true">
+            <img class="sticker-img" src="./assets/stickers/page1-01.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-03.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-01.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-08.png" alt="" />
+          </div>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Explore</p>
+          <a href="./index.html#about">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
+          <a href="./recipe-library.html">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe Library
+          </a>
+          <a href="./conversion.html">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Measurement conversion tools
+          </a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Follow</p>
+          <a href="https://instagram.com/" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="instagram"></i></span>
+            Instagram
+          </a>
+          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="video"></i></span>
+            TikTok
+          </a>
+          <a href="https://pinterest.com/" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="pin"></i></span>
+            Pinterest
+          </a>
+          <a href="mailto:hello@sienaskitchen.com">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="mail"></i></span>
+            hello@sienaskitchen.com
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <div id="cookOverlay" class="cook-overlay" aria-hidden="true">
+      <div class="cook-overlay__backdrop" data-action="close-cook"></div>
+      <div class="cook-overlay__panel" role="dialog" aria-modal="true" aria-label="Let's cook">
+        <div class="cook-overlay__bar">
+          <div class="cook-overlay__title">
+            <p class="section-kicker">Let's cook</p>
+            <strong>Step-by-step cooking view</strong>
+          </div>
+          <div class="cook-overlay__nav">
+            <button class="button button-ghost" type="button" data-action="cook-prev" id="cookPrev">
+              Prev
+            </button>
+            <button class="button" type="button" data-action="cook-next" id="cookNext">
+              Next
+            </button>
+            <button
+              class="button button-ghost cook-overlay__close"
+              type="button"
+              data-action="close-cook"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        <div id="cookOverlayContent" class="cook-overlay__content"></div>
+      </div>
     </div>
 
     <template id="recipeCardTemplate">
@@ -172,11 +273,7 @@
           <img class="recipe-image" alt="" loading="lazy" />
         </div>
         <div class="recipe-card-body">
-          <p class="recipe-category"></p>
           <h3 class="recipe-title"></h3>
-          <p class="recipe-description"></p>
-          <div class="recipe-meta"></div>
-          <button class="button button-small" type="button">Open recipe page</button>
         </div>
       </article>
     </template>
