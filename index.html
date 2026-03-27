@@ -42,14 +42,55 @@
             @sienaskitchen
           </a>
         </div>
+        <div class="sticker-shelf header-sticker-shelf" aria-hidden="true">
+          <img class="sticker-img" src="./assets/stickers/page1-17.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-07.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-05.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-12.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page2-07.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page2-05.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page2-13.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-02.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-03.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-08.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-10.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page1-15.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page2-02.png" alt="" />
+          <img class="sticker-img" src="./assets/stickers/page2-09.png" alt="" />
+        </div>
+        <div class="top-search">
+          <label class="search-field top-search-field">
+            <span class="sr-only">Search recipes</span>
+            <input id="topSearchInput" type="search" placeholder="Search Recipes..." autocomplete="off" />
+            <span class="search-field-icon" aria-hidden="true">
+              <i data-lucide="search"></i>
+            </span>
+          </label>
+        </div>
         <nav class="main-nav" aria-label="Primary">
-          <a href="./conversion.html">
-            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
-            Measurement Conversion Tools
-          </a>
           <a href="./recipe-library.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
             A-Z Recipe library
+          </a>
+          <div class="footer-dropdown" data-category-dropdown>
+            <button
+              class="footer-dropdown-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="menu"
+            >
+              <span class="nav-icon" aria-hidden="true"><i data-lucide="layers"></i></span>
+              By category
+            </button>
+            <div
+              class="footer-dropdown-menu"
+              role="menu"
+              aria-label="Browse recipes by category"
+            ></div>
+          </div>
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Cooking Conversion Calculator
           </a>
           <a href="#about">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
@@ -60,115 +101,75 @@
 
       <main>
         <section class="hero-window">
-          <div class="window-chrome">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="sticker-shelf" aria-hidden="true">
-            <img class="sticker-img" src="./assets/stickers/page1-17.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page1-07.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page1-05.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page1-12.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page2-07.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page2-05.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page2-13.png" alt="" />
-            <img class="sticker-img" src="./assets/stickers/page1-18.png" alt="" />
-          </div>
           <div class="hero-grid">
-            <div class="hero-copy">
-              <h1>Welcome to my kitchen</h1>
-              <p class="hero-text">
-                Congrats! You've discovered my recipe archive.
+            <div class="hero-stack">
+              <div class="hero-copy">
+                <h1>
+                  Welcome to my
+                  <span class="hero-title-kitchen">
+                    Kitchen
+                    <span class="hero-title-icons" aria-hidden="true">
+                      <i data-lucide="kettle"></i>
+                      <i data-lucide="utensils"></i>
+                    </span>
+                  </span>
+                </h1>
+                <p class="hero-text">
+                  Congrats! You've discovered my recipe archive.
+                </p>
+                <div class="hero-actions"></div>
+                <div class="hero-mini-cards">
+                </div>
+              </div>
+              <div class="conversion-feature">
+                <div class="conversion-card">
+                  <div class="conversion-illustration">
+                    <img
+                      src="./assets/cooking%20conversion.png"
+                      alt="Cooking conversion calculator illustration"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="conversion-title-row">
+                    <span class="conversion-title">Cooking Conversion</span>
+                  </div>
+                  <div class="conversion-title-row is-subtitle">
+                    <span class="conversion-title">Calculator</span>
+                    <a class="button button-small conversion-button" href="./conversion.html">Try &gt;</a>
+                  </div>
+                  <p class="conversion-description">
+                    Swap between grams, cups, millilitres and spoons without the guesswork. Perfect for
+                    baking, or converting ingredients like flour, butter and sugar properly.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <article class="hero-feature-card" data-featured-recipe="mr-beans-apple-snaps">
+              <div class="feature-tag">recipe of the week</div>
+              <h2 class="feature-title" data-featured-title>Mr Bean's Apple Snaps</h2>
+              <div class="feature-image">
+                <img
+                  data-featured-image
+                  src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+                  alt="Mr Bean's Apple Snaps recipe"
+                  loading="lazy"
+                />
+              </div>
+              <p class="feature-description" data-featured-description>
+                Spiced apple cookies topped with thin apple slices, sprinkles, and warm autumn spices.
               </p>
-              <div class="hero-actions">
-                <a class="button" href="#recipeView">Read featured recipe</a>
-                <a class="button button-ghost" href="#recipeLibrary">Browse all recipes</a>
-              </div>
-              <div class="hero-mini-cards">
-              </div>
-            </div>
-          </div>
-          <div class="hero-quick-links-row">
-            <div class="hero-quick-links">
               <a
-                class="quick-link-card"
-                data-quick-link="healthy"
-                data-series="junk-food-rebuilt"
-                href="./recipe-library.html?series=junk-food-rebuilt"
+                class="button feature-button"
+                data-featured-link
+                href="./recipe-library.html?recipe=mr-beans-apple-snaps"
               >
-                <img class="quick-link-image" alt="Junk Food Rebuilt recipe preview" loading="lazy" />
-                <span class="quick-link-title">Junk Food Rebuilt</span>
+                Get the recipe &gt;
               </a>
-              <a
-                class="quick-link-card"
-                data-quick-link="meal-prep"
-                data-series="meal-prep"
-                href="./recipe-library.html?series=meal-prep"
-              >
-                <img class="quick-link-image" alt="Meal prep recipe preview" loading="lazy" />
-                <span class="quick-link-title">Meal prep</span>
-              </a>
-              <a
-                class="quick-link-card"
-                data-quick-link="dessert"
-                data-series="baked-favourites"
-                href="./recipe-library.html?series=baked-favourites"
-              >
-                <img class="quick-link-image" alt="Dessert recipe preview" loading="lazy" />
-                <span class="quick-link-title">Baked Favourites</span>
-              </a>
-              <a
-                class="quick-link-card"
-                data-quick-link="breakfast"
-                data-series="breakfast"
-                href="./recipe-library.html?series=breakfast"
-              >
-                <img class="quick-link-image" alt="Breakfast recipe preview" loading="lazy" />
-                <span class="quick-link-title">Breakfasts</span>
-              </a>
-              <a
-                class="quick-link-card"
-                data-quick-link="dinner"
-                data-series="dinner"
-                href="./recipe-library.html?series=dinner"
-              >
-                <img class="quick-link-image" alt="Dinner recipe preview" loading="lazy" />
-                <span class="quick-link-title">Dinners</span>
-              </a>
-              <a
-                class="quick-link-card"
-                data-quick-link="budget"
-                data-series="budget-meals"
-                href="./recipe-library.html?series=budget-meals"
-              >
-                <img class="quick-link-image" alt="Budget meal recipe preview" loading="lazy" />
-                <span class="quick-link-title">Budget meals</span>
-              </a>
-            </div>
+            </article>
           </div>
         </section>
 
         <section id="recipeView" class="recipe-view-section">
-          <div class="section-heading recipe-heading">
-            <div class="search-controls">
-              <label class="search-field">
-                <span class="sr-only">Search recipes</span>
-                <input
-                  id="searchInput"
-                  type="search"
-                  placeholder="Search title, ingredient, or tag"
-                />
-              </label>
-              <label class="filter-field">
-                <span class="sr-only">Filter by category</span>
-                <select id="categoryFilter">
-                  <option value="all">All categories</option>
-                </select>
-              </label>
-            </div>
-          </div>
-
           <div id="recipeViewContainer" aria-live="polite"></div>
         </section>
 
@@ -178,10 +179,6 @@
               <p class="section-kicker">Recipe library</p>
               <h2>More to cook next</h2>
             </div>
-            <p class="section-caption">
-              These cards keep the cute art direction, but the selected recipe
-              always opens into the more practical step-by-step layout above.
-            </p>
           </div>
           <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
         </section>
@@ -212,10 +209,6 @@
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="book-open"></i></span>
             A-Z Recipe Library
           </a>
-          <a href="./conversion.html">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="calculator"></i></span>
-            Measurement conversion tools
-          </a>
         </div>
         <div class="footer-links">
           <p class="footer-title">Follow</p>
@@ -238,6 +231,26 @@
         </div>
       </div>
     </footer>
+
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+      <div class="search-overlay__backdrop" data-action="close-search"></div>
+      <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-label="Search recipes">
+        <div class="search-overlay__header">
+          <h2>Search recipes</h2>
+          <button class="button button-ghost button-small" type="button" data-action="close-search">
+            Close
+          </button>
+        </div>
+        <label class="search-field search-overlay-field">
+          <span class="sr-only">Search recipes</span>
+          <input id="overlaySearchInput" type="search" placeholder="Search Recipes..." autocomplete="off" />
+          <span class="search-field-icon" aria-hidden="true">
+            <i data-lucide="search"></i>
+          </span>
+        </label>
+        <div id="overlaySearchResults" class="search-overlay__results" role="list"></div>
+      </div>
+    </div>
 
     <div id="cookOverlay" class="cook-overlay" aria-hidden="true">
       <div class="cook-overlay__backdrop" data-action="close-cook"></div>
@@ -279,5 +292,6 @@
     </template>
 
     <script src="./app.js" defer></script>
+    <script src="./footer.js" defer></script>
   </body>
 </html>

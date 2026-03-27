@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
     <script src="./recipe-library.js" defer></script>
+    <script src="./footer.js" defer></script>
   </head>
   <body data-page="library">
     <div class="page-shell">
@@ -44,13 +45,29 @@
           </a>
         </div>
         <nav class="main-nav" aria-label="Primary">
-          <a href="./conversion.html">
-            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
-            Measurement Conversion Tools
-          </a>
           <a href="./recipe-library.html" aria-current="page">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
             A-Z Recipe library
+          </a>
+          <div class="footer-dropdown" data-category-dropdown>
+            <button
+              class="footer-dropdown-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="menu"
+            >
+              <span class="nav-icon" aria-hidden="true"><i data-lucide="layers"></i></span>
+              By category
+            </button>
+            <div
+              class="footer-dropdown-menu"
+              role="menu"
+              aria-label="Browse recipes by category"
+            ></div>
+          </div>
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Cooking Conversion Calculator
           </a>
           <a href="./index.html#about">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
@@ -66,11 +83,10 @@
               <p class="section-kicker">A-Z recipe library</p>
               <h2>Browse every recipe</h2>
             </div>
-            <p class="section-caption">
-              Scroll the list to explore every recipe, then tap a title to load the full details.
-            </p>
+            <a class="button button-ghost back-button back-button-top" href="./index.html">
+              Return to main page
+            </a>
           </div>
-          <a class="button button-ghost back-button" href="./index.html">Return to main page</a>
 
           <div class="az-layout">
             <div class="az-panel">
@@ -89,7 +105,8 @@
                   <option value="all">All series</option>
                   <option value="junk-food-rebuilt">Junk Food, Rebuilt</option>
                   <option value="meal-prep">Meal prep</option>
-                  <option value="baked-favourites">Baked Favourites</option>
+                  <option value="baked-favourites">Baking</option>
+                  <option value="asian-dishes">Asian dishes</option>
                   <option value="breakfast">Breakfasts</option>
                   <option value="dinner">Dinners</option>
                   <option value="budget-meals">Budget meals</option>
@@ -134,10 +151,6 @@
           <a href="./recipe-library.html">
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="book-open"></i></span>
             A-Z Recipe Library
-          </a>
-          <a href="./conversion.html">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="calculator"></i></span>
-            Measurement conversion tools
           </a>
         </div>
         <div class="footer-links">

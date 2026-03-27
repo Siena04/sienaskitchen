@@ -1,107 +1,5 @@
 [
   {
-    "id": "golden-lemon-pasta",
-    "title": "Golden Lemon Pasta",
-    "category": "Dinner",
-    "description": "A silky, bright pasta with lemon, parmesan, and plenty of black pepper.",
-    "prepTime": "15 mins",
-    "cookTime": "15 mins",
-    "serves": "4",
-    "tags": ["quick", "vegetarian", "weeknight"],
-    "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
-    },
-    "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=1200&q=80",
-    "ingredients": [
-      "350g spaghetti",
-      "3 tablespoons butter",
-      "2 cloves garlic, minced",
-      "1 lemon, zest and juice",
-      "1 cup grated parmesan",
-      "1/2 cup pasta water",
-      "Black pepper and salt"
-    ],
-    "steps": [
-      "Cook the pasta in well-salted water until al dente.",
-      "Melt the butter and briefly cook the garlic in a large pan.",
-      "Add lemon zest, juice, parmesan, and a splash of pasta water to make a glossy sauce.",
-      "Toss through the hot pasta and loosen with more pasta water as needed.",
-      "Finish with extra parmesan and black pepper before serving."
-    ],
-    "notes": "Add grilled chicken or prawns if you want a higher-protein version."
-  },
-  {
-    "id": "sticky-ginger-traybake",
-    "title": "Sticky Ginger Chicken Traybake",
-    "category": "Dinner",
-    "description": "Roast chicken thighs with ginger, soy, honey, and charred greens all on one tray.",
-    "prepTime": "20 mins",
-    "cookTime": "45 mins",
-    "serves": "4",
-    "tags": ["traybake", "family", "easy"],
-    "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
-    },
-    "image": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80",
-    "ingredients": [
-      "8 chicken thighs",
-      "2 tablespoons soy sauce",
-      "2 tablespoons honey",
-      "1 tablespoon grated ginger",
-      "2 teaspoons sesame oil",
-      "1 bunch broccolini",
-      "Cooked rice, to serve"
-    ],
-    "steps": [
-      "Heat the oven to 200C.",
-      "Mix soy, honey, ginger, and sesame oil, then coat the chicken.",
-      "Arrange chicken on a tray and roast for 30 minutes.",
-      "Add broccolini to the tray and continue roasting until the chicken is sticky and cooked through.",
-      "Serve over rice with pan juices spooned over the top."
-    ],
-    "notes": "A squeeze of lime at the table lifts the glaze."
-  },
-  {
-    "id": "raspberry-cloud-cake",
-    "title": "Raspberry Cloud Cake",
-    "category": "Dessert",
-    "description": "A soft vanilla cake layered with cream and raspberries for birthdays or afternoon tea.",
-    "prepTime": "30 mins",
-    "cookTime": "35 mins",
-    "serves": "10",
-    "tags": ["baking", "celebration", "sweet"],
-    "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
-    },
-    "image": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1200&q=80",
-    "ingredients": [
-      "225g butter, softened",
-      "225g caster sugar",
-      "4 eggs",
-      "225g self-raising flour",
-      "1 teaspoon vanilla extract",
-      "300ml thickened cream",
-      "2 cups raspberries"
-    ],
-    "steps": [
-      "Heat the oven to 180C and line two cake tins.",
-      "Beat butter and sugar until pale, then mix in eggs one at a time.",
-      "Fold through flour and vanilla, then divide between tins.",
-      "Bake until golden and springy, then cool completely.",
-      "Fill with whipped cream and raspberries, then dust the top with icing sugar."
-    ],
-    "notes": "Swap in strawberries, peaches, or passionfruit depending on the season."
-  },
-  {
     "id": "mr-beans-apple-snaps",
     "title": "Mr Bean's Apple Snaps",
     "category": "Dessert",
@@ -109,7 +7,12 @@
     "prepTime": "",
     "cookTime": "12-14 mins",
     "serves": "",
-    "tags": ["baking", "cookies", "apple", "spiced"],
+    "tags": [
+      "baking",
+      "cookies",
+      "apple",
+      "spiced"
+    ],
     "nutrition": {
       "calories": "",
       "protein": "",
@@ -118,20 +21,20 @@
     },
     "image": "",
     "ingredients": [
-      "300g all-purpose flour",
-      "1 1/2 tablespoons ground ginger",
-      "2 teaspoons ground cinnamon, plus more for topping if desired",
-      "1 teaspoon baking soda",
-      "1 teaspoon grated nutmeg",
-      "1/2 teaspoon baking powder",
-      "1/8 teaspoon cloves (or allspice)",
-      "1/8 teaspoon salt",
-      "227g butter, softened",
-      "3/4 cup sugar",
-      "3 tablespoons brown sugar",
-      "2 tablespoons molasses",
-      "1 large egg",
-      "1 large egg yolk (18g)",
+      "300 g All-purpose flour",
+      "1.5 Tbsp Ground ginger",
+      "2 tsp Ground cinnamon, plus more for topping if desired",
+      "1 tsp Baking soda",
+      "1 tsp Grated nutmeg",
+      "1/2 tsp Baking powder",
+      "1/8 tsp Cloves (or allspice)",
+      "1/8 tsp Salt",
+      "227 g Butter, softened",
+      "3/4 cup Sugar",
+      "3 Tbsp Brown sugar",
+      "2 Tbsp Molasses",
+      "1 Large egg",
+      "1 Large egg yolk (18g)",
       "3 Gala apples",
       "White cake sprinkles or coarse sugar"
     ],
@@ -148,8 +51,7 @@
       "Sprinkle cake sprinkles and extra cinnamon evenly over the cookies.",
       "Transfer the baking sheet to the refrigerator or freezer for 5 minutes to chill the dough and prevent the cookies from spreading too much.",
       "Bake for 12 to 14 minutes, or until the edges are golden and the cookie does not look wet under the apple slice."
-    ],
-    "notes": "The source text looked cut off after the final bake step, so any last garnish or cooling note was not included."
+    ]
   },
   {
     "id": "best-air-fried-chips",
@@ -159,7 +61,12 @@
     "prepTime": "7 mins",
     "cookTime": "15 mins",
     "serves": "",
-    "tags": ["air fryer", "chips", "potato", "easy"],
+    "tags": [
+      "air fryer",
+      "chips",
+      "potato",
+      "easy"
+    ],
     "nutrition": {
       "calories": "",
       "protein": "",
@@ -168,9 +75,9 @@
     },
     "image": "",
     "ingredients": [
-      "250g spud lite potato",
-      "1 egg white",
-      "1 tablespoon cornstarch",
+      "250 g Spud lite potato",
+      "1 Egg white",
+      "1 Tbsp Cornstarch",
       "Seasoning of choice"
     ],
     "steps": [
@@ -189,7 +96,12 @@
     "prepTime": "15 mins",
     "cookTime": "40-45 mins",
     "serves": "",
-    "tags": ["sheet pan", "chicken", "greek", "easy"],
+    "tags": [
+      "sheet pan",
+      "chicken",
+      "greek",
+      "easy"
+    ],
     "nutrition": {
       "calories": "",
       "protein": "",
@@ -198,21 +110,21 @@
     },
     "image": "",
     "ingredients": [
-      "1/2 cup olive oil (or reduce to 1/4 cup)",
-      "1 lemon, juiced (about 3 tablespoons)",
-      "4 garlic cloves, minced",
-      "2 teaspoons dried oregano",
-      "1 teaspoon dried thyme",
-      "1 teaspoon Dijon mustard",
-      "1 teaspoon salt",
-      "1/2 teaspoon freshly ground black pepper",
-      "2 chicken breasts (about 600g), sliced in half",
-      "1 zucchini",
-      "1/2 large red onion, thinly sliced into wedges",
-      "1 pack cherry or grape tomatoes (halved if not tiny)",
-      "1/2 cup olives, pitted",
-      "1/4 cup feta cheese",
-      "2 tablespoons finely chopped fresh parsley"
+      "1/2 cup Olive oil (or reduce to 1/4 cup)",
+      "1 Lemon, juiced (about 3 tablespoons)",
+      "4 Garlic cloves, minced",
+      "2 tsp Dried oregano",
+      "1 tsp Dried thyme",
+      "1 tsp Dijon mustard",
+      "1 tsp Salt",
+      "1/2 tsp Freshly ground black pepper",
+      "2 Chicken breasts (about 600g), sliced in half",
+      "1 Zucchini",
+      "1/2 Large red onion, thinly sliced into wedges",
+      "1 packet Cherry or grape tomatoes (halved if not tiny)",
+      "1/2 cup Olives, pitted",
+      "1/4 cup Feta cheese",
+      "2 Tbsp Finely chopped fresh parsley"
     ],
     "steps": [
       "Preheat the oven to 220C.",
@@ -234,7 +146,12 @@
     "prepTime": "",
     "cookTime": "",
     "serves": "2",
-    "tags": ["high protein", "pizza", "chicken", "low carb"],
+    "tags": [
+      "high protein",
+      "pizza",
+      "chicken",
+      "low carb"
+    ],
     "nutrition": {
       "calories": "470 kcal",
       "protein": "75g",
@@ -264,5 +181,494 @@
       "Bake until the chicken crust is cooked through and the cheese is melted and golden."
     ],
     "notes": "Total nutrition provided: 940 kcal and about 150g protein. The source also listed two different per-serve calorie values, so this recipe uses 470 kcal per serve with 75g protein and keeps the original discrepancy noted here."
+  },
+  {
+    "id": "deli-style-marinated-chicken-breast",
+    "title": "Deli-style marinated chicken breast",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "18-22 mins",
+    "serves": "1",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "1 chicken breast (large)",
+      "Marinade:",
+      "1 Tbsp olive oil",
+      "1 tsp dijon",
+      "1 garlic clove, minced",
+      "salt and pepper",
+      "thyme and rosemary",
+      "1 tsp honey",
+      "1 tsp butter, cubed (for topping chicken)",
+      "Sauce:",
+      "2 Tbsp kewpie mayo",
+      "1 tsp dijon mustard",
+      "salt and pepper"
+    ],
+    "steps": [
+      "Marinate chicken for 30 minutes to 3 hours.",
+      "Preheat oven to 200C convection.",
+      "Place chicken breast onto a lined baking tray and place the butter cube on top.",
+      "Bake for 18 to 22 minutes until internal temperature reaches 75C.",
+      "Rest for 10 minutes.",
+      "Slice thinly against the grain.",
+      "Toss together with sauce."
+    ]
+  },
+  {
+    "id": "simmered-hijiki-salad",
+    "title": "Simmered hijiki salad",
+    "category": "Side",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "1 bag hijiki (16g)",
+      "1 thin fried tofu",
+      "Seasoning:",
+      "1 Tbsp oil",
+      "200 mL dashi stock",
+      "1 Tbsp sugar",
+      "1 Tbsp soy sauce",
+      "1 Tbsp mirin",
+      "Optional:",
+      "edamame",
+      "chikuwa",
+      "satsumaage"
+    ],
+    "steps": [
+      "Soak the hijiki, rinse with water, and drain.",
+      "Drain the thin fried tofu and cut it into thin strips.",
+      "Heat a pan and quickly cook the hijiki over high heat.",
+      "Stir-fry, then add the thin fried tofu and dashi stock and simmer for about 2 minutes.",
+      "Add the sugar and simmer for about 3 minutes.",
+      "Add the soy sauce and mirin in that order, cover with a drop lid, and simmer until soft.",
+      "Add edamame if using."
+    ]
+  },
+  {
+    "id": "chinese-sauteed-wombok",
+    "title": "Chinese sauteed wombok",
+    "category": "Side",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "450 g wombok (Chinese cabbage), cut",
+      "Sauce:",
+      "2 Tbsp water",
+      "2 Tbsp rice vinegar",
+      "2 Tbsp light soy sauce (or soy sauce)",
+      "1/2 tsp dark soy sauce (or soy sauce)",
+      "2 tsp sugar",
+      "1 tsp cornstarch",
+      "Stir-fry:",
+      "1 1/2 Tbsp oil (canola or peanut)",
+      "1/2 tsp Sichuan peppercorns",
+      "2 to 3 dried chili peppers",
+      "2 cloves garlic, minced",
+      "1/2 tsp sesame oil"
+    ],
+    "steps": [
+      "Combine the sauce ingredients in a small bowl and stir to mix well.",
+      "Cut cabbage into bite-size pieces by halving, then quartering. Slice off the stem. Separate outer leaves and chop the thicker center into smaller pieces.",
+      "Add oil and Sichuan peppercorns into a large skillet and heat over medium heat. Cook until the peppercorns turn dark but not burned. Scoop out and discard.",
+      "Add the chili peppers and garlic. Stir a few times to release fragrance.",
+      "Add cabbage. Stir and cook until the leaves just start to turn tender.",
+      "Stir the sauce again to dissolve the cornstarch, pour into the pan, and cook until cabbage is tender but still crisp and the sauce thickens.",
+      "Turn off heat, taste, and adjust seasoning if needed. Drizzle with sesame oil and stir to mix.",
+      "Serve hot as a side dish."
+    ]
+  },
+  {
+    "id": "chilli-con-carne",
+    "title": "Chilli con carne",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "1 Tbsp olive oil",
+      "3 garlic cloves, minced",
+      "1 onion, diced (brown/white/yellow)",
+      "2 tomatoes",
+      "500 g lean beef mince",
+      "3 Tbsp tomato paste",
+      "chilli (to taste)",
+      "1 can crushed tomato (400g)",
+      "1 can black beans",
+      "1 chicken stock cube",
+      "1/2 to 1 1/2 cups water (125-375 mL)",
+      "Chili spice mix:",
+      "1 tsp pepper",
+      "4 tsp sweet paprika powder",
+      "5 tsp cumin powder",
+      "2 tsp garlic powder",
+      "2 tsp onion powder",
+      "2 tsp oregano",
+      "Optional:",
+      "fresh coriander",
+      "lemon zest"
+    ],
+    "steps": []
+  },
+  {
+    "id": "healthy-chicken-and-leek-pie",
+    "title": "Healthy chicken and leek pie",
+    "category": "Dinner",
+    "description": "Fits in an IKEA container or glass pie dish.",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "1 leek",
+      "1 shallot",
+      "minced garlic",
+      "1 brown onion",
+      "1 chicken breast",
+      "1/4 cup Greek yogurt",
+      "1/2 cup chicken stock",
+      "2/3 sheet puff pastry",
+      "1 tsp extra virgin olive oil",
+      "Seasoning:",
+      "garlic powder",
+      "onion powder",
+      "thyme",
+      "chilli",
+      "salt",
+      "white pepper"
+    ],
+    "steps": []
+  },
+  {
+    "id": "korean-tofu-pancakes",
+    "title": "Korean tofu pancakes",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "4",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "300 g silken tofu",
+      "2 egg whites",
+      "8 Tbsp potato starch",
+      "1 low sodium chicken stock cube, crushed (or half full sodium)",
+      "2 carrots, shredded (not peeled)",
+      "1/3 cabbage, shredded",
+      "1/4 cup kimchi, finely chopped",
+      "red onion, shredded",
+      "1 Tbsp soy sauce",
+      "1 Tbsp gochujang (or fermented bean paste)",
+      "2 Tbsp garlic, chopped",
+      "1/2 tsp MSG",
+      "1 red chilli, finely sliced",
+      "1 pack dashi powder",
+      "Sichuan pepper oil (for frying)"
+    ],
+    "steps": [
+      "Whisk tofu, potato starch, and chicken stock powder.",
+      "Add veggies.",
+      "Add sauce.",
+      "Fry on medium heat with a lid. Do not press down too much.",
+      "Adding a little water helps the top cook so it is easier to flip."
+    ]
+  },
+  {
+    "id": "miso-edamame-risoni",
+    "title": "Miso edamame risoni",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "olive oil",
+      "garlic and shallot or red onion",
+      "risoni",
+      "low sodium vegetable stock (keep topping up)",
+      "1 Tbsp tahini",
+      "1 pack edamame, shelled",
+      "lemon",
+      "Blend:",
+      "blanched kale",
+      "2 Tbsp white miso paste",
+      "splash of water",
+      "Suggested additions:",
+      "finely chopped bacon",
+      "cherry tomato",
+      "pepper"
+    ],
+    "steps": [
+      "Cook garlic and shallot (or red onion) in olive oil.",
+      "Add risoni and toast briefly.",
+      "Add low sodium vegetable stock, topping up as it absorbs.",
+      "Stir in tahini and edamame.",
+      "Blend kale with white miso paste and a splash of water, then stir through.",
+      "Finish with lemon. Add suggested additions if using."
+    ]
+  },
+  {
+    "id": "healthy-banana-bread",
+    "title": "Healthy banana bread",
+    "category": "Baking",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "30 mins",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "2 large bananas",
+      "2 cups oat flour",
+      "1 cup almond milk",
+      "2 eggs",
+      "1 tsp baking powder",
+      "vanilla extract",
+      "cinnamon",
+      "2 Tbsp Greek yogurt",
+      "2 Tbsp sugar free maple syrup",
+      "2 Tbsp sugar free chocolate chips",
+      "2 tsp stevia"
+    ],
+    "steps": [
+      "Bake at 175C for 30 minutes."
+    ]
+  },
+  {
+    "id": "pork-prawn-dumplings",
+    "title": "Pork & prawn dumplings",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "10 mins",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "200 g green prawns (from 500g deshelled)",
+      "200 g pork mince",
+      "1 tsp ginger",
+      "2 garlic cloves",
+      "1 Tbsp soy sauce",
+      "1 tsp sesame oil",
+      "1 Tbsp fish sauce",
+      "1 tsp rice vinegar",
+      "1 tsp mirin",
+      "1 Tbsp corn flour",
+      "1/2 red onion, finely chopped",
+      "coriander, finely chopped",
+      "1 egg",
+      "2 shallots",
+      "1 pack dumpling wrappers (30, will have a little filling leftover)"
+    ],
+    "steps": [
+      "Steam for 10 minutes or until cooked throughout."
+    ]
+  },
+  {
+    "id": "korean-mayak-drug-eggs",
+    "title": "Korean mayak (drug) eggs",
+    "category": "Side",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "7 mins",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "6 boiled eggs (7 mins)",
+      "6 Tbsp soy sauce",
+      "1 Tbsp sesame oil",
+      "5 Tbsp honey",
+      "shallot",
+      "garlic",
+      "1/2 brown onion",
+      "chilli"
+    ],
+    "steps": [
+      "Boil eggs for 7 minutes.",
+      "Combine soy sauce, sesame oil, honey, shallot, garlic, onion, and chilli.",
+      "Add eggs to marinade in a container, cover eggs with paper towel so the marinade touches.",
+      "Leave overnight.",
+      "Serve over rice with the marinade."
+    ]
+  },
+  {
+    "id": "chicken-karaage",
+    "title": "Chicken karaage",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "3",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "8 pieces chicken thigh fillet",
+      "Sauce (per person):",
+      "1 Tbsp soy sauce",
+      "1 Tbsp cooking sake",
+      "ginger, grated (small amount)",
+      "1 garlic clove, grated (2 cloves for 3 people)",
+      "1 tsp chicken stock powder (or cube, crushed)",
+      "1 tsp sesame oil",
+      "salt and pepper",
+      "Coating:",
+      "corn flour",
+      "For frying:",
+      "sunflower oil (about 1 inch in pan)",
+      "To serve:",
+      "mayo",
+      "spring onion"
+    ],
+    "steps": [
+      "Mix the sauce ingredients and marinate chicken in the fridge for a while.",
+      "Coat with corn flour.",
+      "Heat sunflower oil to 170C in a medium saucepan (about 1 inch deep).",
+      "Fry 4 to 5 pieces at a time until golden brown.",
+      "Remove to paper towel, return oil to 170C, and repeat.",
+      "Serve with mayo and spring onion."
+    ]
+  },
+  {
+    "id": "zappakanka",
+    "title": "Zappakanka",
+    "category": "Baking",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "30 mins",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "300 g Greek yogurt",
+      "zest of 1/2 lemon",
+      "1 pinch salt",
+      "3 Tbsp corn starch",
+      "2 eggs"
+    ],
+    "steps": [
+      "Bake at 180C for 30 minutes."
+    ]
+  },
+  {
+    "id": "cinnamon-protein-granola",
+    "title": "Cinnamon protein granola",
+    "category": "Baking",
+    "description": "Makes 4 serves (484 Cal | 24g protein). Lightly sweetened, minimal oil, and cinnamon-forward.",
+    "prepTime": "",
+    "cookTime": "20 mins",
+    "serves": "4",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "",
+    "ingredients": [
+      "195 g rolled oats",
+      "55 g protein powder",
+      "1/4 cup almonds, chopped",
+      "4 Tbsp sunflower seeds",
+      "6 Tbsp nut butter (half almond, half peanut)",
+      "1 1/2 Tbsp chia seeds",
+      "3 Tbsp sugar free maple syrup",
+      "1 tsp cinnamon",
+      "flaky salt"
+    ],
+    "steps": [
+      "Cook at 150C for 20 minutes, mixing halfway."
+    ]
   }
 ]

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Measurement Conversion Tools | Sunday Table</title>
+    <title>Cooking Conversion Calculator | Sunday Table</title>
     <meta
       name="description"
       content="Translate baking measurements between US, Australian, and metric-friendly recipes."
@@ -21,7 +21,7 @@
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-lockup">
-          <p class="eyebrow">Measurement Conversion Tools</p>
+          <p class="eyebrow">Cooking Conversion Calculator</p>
           <a href="./index.html" class="brand-name">Siena's Kitchen</a>
           <a
             class="brand-handle"
@@ -36,13 +36,29 @@
           </a>
         </div>
         <nav class="main-nav" aria-label="Primary">
-          <a href="./conversion.html">
-            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
-            Measurement Conversion Tools
-          </a>
           <a href="./recipe-library.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
             A-Z Recipe library
+          </a>
+          <div class="footer-dropdown" data-category-dropdown>
+            <button
+              class="footer-dropdown-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="menu"
+            >
+              <span class="nav-icon" aria-hidden="true"><i data-lucide="layers"></i></span>
+              By category
+            </button>
+            <div
+              class="footer-dropdown-menu"
+              role="menu"
+              aria-label="Browse recipes by category"
+            ></div>
+          </div>
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Cooking Conversion Calculator
           </a>
           <a href="./index.html#about">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
@@ -55,8 +71,8 @@
         <section class="conversion-hero">
           <div class="section-heading">
             <div>
-              <p class="section-kicker">Measurement Conversion Tools</p>
-              <h1>Measurement Conversion Tools</h1>
+              <p class="section-kicker">Cooking Conversion Calculator</p>
+              <h1>Cooking Conversion Calculator</h1>
             </div>
             <p class="section-caption">
               Translate baking measurements between US, Australian, and metric-friendly recipes.
@@ -177,7 +193,6 @@
           <p class="footer-title">Explore</p>
           <a href="./index.html#about">About</a>
           <a href="./recipe-library.html">A-Z Recipe Library</a>
-          <a href="./conversion.html">Measurement conversion tools</a>
         </div>
         <div class="footer-links">
           <p class="footer-title">Follow</p>
@@ -189,6 +204,7 @@
       </div>
     </footer>
 
+    <script src="./footer.js" defer></script>
     <script type="module" src="./conversion.js"></script>
   </body>
 </html>
