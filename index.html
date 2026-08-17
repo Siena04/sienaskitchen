@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Nunito:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
@@ -25,8 +25,8 @@
           <div class="brand-title">
             <img
               class="brand-logo"
-              src="./assets/kitchen-logo-icon.png"
-              alt="Siena's Kitchen logo"
+              src="./assets/siena-profile.jpg"
+              alt="Siena"
             />
             <a href="./index.html" class="brand-name">Siena's Kitchen</a>
           </div>
@@ -53,10 +53,6 @@
           <img class="sticker-img" src="./assets/stickers/page1-02.png" alt="" />
           <img class="sticker-img" src="./assets/stickers/page1-03.png" alt="" />
           <img class="sticker-img" src="./assets/stickers/page1-08.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-10.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-15.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page2-02.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page2-09.png" alt="" />
         </div>
         <div class="top-search">
           <label class="search-field top-search-field">
@@ -92,7 +88,7 @@
             <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
             Cooking Conversion Calculator
           </a>
-          <a href="#about">
+          <a href="./about.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
             About
           </a>
@@ -104,7 +100,7 @@
           <div class="hero-grid">
             <div class="hero-stack">
               <div class="hero-copy">
-                <h1>
+                <h1 data-site-hero-title>
                   Welcome to my
                   <span class="hero-title-kitchen">
                     Kitchen
@@ -114,57 +110,73 @@
                     </span>
                   </span>
                 </h1>
-                <p class="hero-text">
+                <div class="welcome-kitchen-photo-wrap">
+                  <img
+                    class="welcome-kitchen-photo"
+                    src="./assets/welcome-to-my-kitchen.jpg"
+                    alt="Siena holding homemade food in the kitchen"
+                  />
+                  <a class="button button-ghost welcome-about-link" href="./about.html">About me</a>
+                </div>
+                <p class="hero-text" data-site-hero-text>
                   Congrats! You've discovered my recipe archive.
                 </p>
                 <div class="hero-actions"></div>
-                <div class="hero-mini-cards">
-                </div>
+                <div class="hero-mini-cards"></div>
               </div>
               <div class="conversion-feature">
                 <div class="conversion-card">
-                  <div class="conversion-illustration">
-                    <img
-                      src="./assets/cooking%20conversion.png"
-                      alt="Cooking conversion calculator illustration"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div class="conversion-title-row">
-                    <span class="conversion-title">Cooking Conversion</span>
-                  </div>
-                  <div class="conversion-title-row is-subtitle">
-                    <span class="conversion-title">Calculator</span>
-                    <a class="button button-small conversion-button" href="./conversion.html">Try &gt;</a>
-                  </div>
-                  <p class="conversion-description">
-                    Swap between grams, cups, millilitres and spoons without the guesswork. Perfect for
-                    baking, or converting ingredients like flour, butter and sugar properly.
+                  <h2 class="tool-card-title">Cooking Conversion Calculator</h2>
+                  <p class="tool-card-copy">
+                    Convert grams, cups, millilitres and spoons with ease. Ideal for baking.
                   </p>
+                  <a class="button button-small tool-card-action conversion-button" href="./conversion.html">
+                    Try &gt;
+                  </a>
+                </div>
+                <div class="notion-meal-card">
+                  <h2 class="tool-card-title">Notion Meal Planner</h2>
+                  <p class="tool-card-copy">
+                    Plan meals, organise recipes and keep your week in one place.
+                  </p>
+                  <button class="button button-small tool-card-action notion-meal-button" type="button" disabled>
+                    Coming soon
+                  </button>
                 </div>
               </div>
             </div>
             <article class="hero-feature-card" data-featured-recipe="mr-beans-apple-snaps">
-              <div class="feature-tag">recipe of the week</div>
+              <div class="feature-tag">
+                <span class="feature-tag-icon" aria-hidden="true"><i data-lucide="flame"></i></span>
+                recipe of the week
+              </div>
               <h2 class="feature-title" data-featured-title>Mr Bean's Apple Snaps</h2>
               <div class="feature-image">
-                <img
-                  data-featured-image
-                  src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
-                  alt="Mr Bean's Apple Snaps recipe"
-                  loading="lazy"
-                />
+                <a
+                  class="feature-image-link"
+                  data-featured-image-link
+                  href="./recipe-library.html?recipe=mr-beans-apple-snaps"
+                  aria-label="Open Mr Bean's Apple Snaps recipe"
+                >
+                  <img
+                    data-featured-image
+                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
+                    alt="Mr Bean's Apple Snaps recipe"
+                    loading="lazy"
+                  />
+                </a>
+                <a
+                  class="button feature-button"
+                  data-featured-link
+                  href="./recipe-library.html?recipe=mr-beans-apple-snaps"
+                >
+                  Get the recipe &gt;
+                </a>
               </div>
               <p class="feature-description" data-featured-description>
-                Spiced apple cookies topped with thin apple slices, sprinkles, and warm autumn spices.
+                Boggis, Bunce, and Bean. One fat, one short, one lean. These horrible crooks, so different
+                in looks, were nonetheless equally mean.
               </p>
-              <a
-                class="button feature-button"
-                data-featured-link
-                href="./recipe-library.html?recipe=mr-beans-apple-snaps"
-              >
-                Get the recipe &gt;
-              </a>
             </article>
           </div>
         </section>
@@ -174,16 +186,42 @@
         </section>
 
         <section id="recipeLibrary" class="library-section">
-          <div class="section-heading">
-            <div>
-              <p class="section-kicker">Recipe library</p>
-              <h2>More to cook next</h2>
+          <div class="recipe-showcase" data-recipe-rail>
+            <div class="section-heading recipe-showcase-heading">
+              <div>
+                <p class="section-kicker">From the recipe archive</p>
+                <h2 data-site-library-title>More to cook next</h2>
+                <p class="section-intro">Fresh favourites, weeknight wins and something sweet.</p>
+              </div>
+              <div class="rail-controls" aria-label="More recipes">
+                <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous recipes">
+                  <i data-lucide="chevron-left" aria-hidden="true"></i>
+                </button>
+                <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next recipes">
+                  <i data-lucide="chevron-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <div class="recipe-rail-viewport">
+              <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
+            </div>
+            <div class="rail-progress" role="progressbar" aria-label="Recipe list position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span class="rail-progress-thumb"></span>
             </div>
           </div>
-          <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
+
+          <div class="category-browser">
+            <div class="section-heading category-heading">
+              <div>
+                <p class="section-kicker">Find your mood</p>
+                <h2>Browse by category</h2>
+                <p class="section-intro">Dinner, baking, sides and something sweet.</p>
+              </div>
+            </div>
+            <div id="categoryRows" class="category-rows" aria-live="polite"></div>
+          </div>
         </section>
 
-        <section id="about" class="story-grid"></section>
       </main>
     </div>
 
@@ -191,7 +229,7 @@
       <div class="footer-inner">
         <div class="footer-brand">
           <p class="eyebrow">Sunday Table</p>
-          <strong class="footer-title">Siena's Kitchen</strong>
+          <strong class="footer-title" data-site-footer-title>Siena's Kitchen</strong>
           <div class="footer-stickers" aria-hidden="true">
             <img class="sticker-img" src="./assets/stickers/page1-01.png" alt="" />
             <img class="sticker-img" src="./assets/stickers/page2-03.png" alt="" />
@@ -201,7 +239,7 @@
         </div>
         <div class="footer-links">
           <p class="footer-title">Explore</p>
-          <a href="./index.html#about">
+          <a href="./about.html">
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="sparkles"></i></span>
             About
           </a>
@@ -215,18 +253,6 @@
           <a href="https://instagram.com/" target="_blank" rel="noreferrer">
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="instagram"></i></span>
             Instagram
-          </a>
-          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="video"></i></span>
-            TikTok
-          </a>
-          <a href="https://pinterest.com/" target="_blank" rel="noreferrer">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="pin"></i></span>
-            Pinterest
-          </a>
-          <a href="mailto:hello@sienaskitchen.com">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="mail"></i></span>
-            hello@sienaskitchen.com
           </a>
         </div>
       </div>
@@ -284,9 +310,11 @@
       <article class="recipe-card notebook-card">
         <div class="recipe-image-wrap">
           <img class="recipe-image" alt="" loading="lazy" />
+          <span class="recipe-card-category"></span>
         </div>
         <div class="recipe-card-body">
           <h3 class="recipe-title"></h3>
+          <span class="recipe-card-open" aria-hidden="true">&#8599;</span>
         </div>
       </article>
     </template>

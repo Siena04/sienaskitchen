@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me | Siena's Kitchen</title>
+    <meta
+      name="description"
+      content="Meet Siena, the home cook and recipe collector behind Siena's Kitchen."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+  </head>
+  <body data-page="about">
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="brand-lockup">
+          <p class="eyebrow">The recipes of</p>
+          <div class="brand-title">
+            <img class="brand-logo" src="./assets/siena-profile.jpg" alt="Siena" />
+            <a href="./index.html" class="brand-name">Siena's Kitchen</a>
+          </div>
+          <a
+            class="brand-handle"
+            href="https://instagram.com/sienaskitchen"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="brand-handle-icon" aria-hidden="true">
+              <i data-lucide="instagram"></i>
+            </span>
+            @sienaskitchen
+          </a>
+        </div>
+        <nav class="main-nav" aria-label="Primary">
+          <a href="./recipe-library.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe library
+          </a>
+          <div class="footer-dropdown" data-category-dropdown>
+            <button
+              class="footer-dropdown-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="menu"
+            >
+              <span class="nav-icon" aria-hidden="true"><i data-lucide="layers"></i></span>
+              By category
+            </button>
+            <div
+              class="footer-dropdown-menu"
+              role="menu"
+              aria-label="Browse recipes by category"
+            ></div>
+          </div>
+          <a href="./conversion.html">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
+            Cooking Conversion Calculator
+          </a>
+          <a href="./about.html" aria-current="page">
+            <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
+        </nav>
+      </header>
+
+      <main class="about-main">
+        <section class="about-hero" aria-labelledby="aboutTitle">
+          <div class="about-hero-copy">
+            <p class="section-kicker">Behind the recipes</p>
+            <span class="about-draft-label">A first draft, ready for your story</span>
+            <h1 id="aboutTitle">Hi, I'm Siena.</h1>
+            <p class="about-hero-lead">
+              I'm the cook behind Siena's Kitchen - a growing archive of practical favourites,
+              nostalgic bakes and recipes I genuinely want to make again.
+            </p>
+            <p>
+              This is my cosy corner for keeping good recipes close, sharing the food I love and
+              making everyday cooking feel a little more special.
+            </p>
+            <div class="about-actions">
+              <a class="button" href="./recipe-library.html">
+                Browse my recipes
+                <i data-lucide="arrow-right" aria-hidden="true"></i>
+              </a>
+              <a
+                class="button button-ghost"
+                href="https://instagram.com/sienaskitchen"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <i data-lucide="instagram" aria-hidden="true"></i>
+                Follow along
+              </a>
+            </div>
+          </div>
+          <figure class="about-hero-photo-card">
+            <span class="about-tape" aria-hidden="true"></span>
+            <img
+              class="about-hero-photo"
+              src="./assets/welcome-to-my-kitchen.jpg"
+              alt="Siena holding homemade food in her kitchen"
+            />
+            <figcaption>Welcome to my Kitchen</figcaption>
+            <img
+              class="about-photo-sticker"
+              src="./assets/stickers/page1-07.png"
+              alt=""
+              aria-hidden="true"
+            />
+          </figure>
+        </section>
+
+        <section class="about-story-grid" aria-labelledby="storyTitle">
+          <article class="about-paper-card about-story-card">
+            <p class="section-kicker">The beginning</p>
+            <h2 id="storyTitle">How this Kitchen started</h2>
+            <p>
+              Siena's Kitchen began as a place to gather the recipes I kept coming back to - the
+              dependable dinners, the very specific cravings and the sweet things worth turning
+              the oven on for.
+            </p>
+            <p>
+              Over time, that collection became this recipe archive: part practical cookbook,
+              part scrapbook and part invitation to cook something lovely. This section is ready
+              for the real story of how it all began.
+            </p>
+            <div class="about-handwritten-note">
+              <i data-lucide="pencil" aria-hidden="true"></i>
+              Draft note: tell me your origin story and I'll shape it into this section.
+            </div>
+          </article>
+
+          <aside class="about-paper-card about-quick-notes" aria-labelledby="quickNotesTitle">
+            <p class="section-kicker">Pinned to the fridge</p>
+            <h2 id="quickNotesTitle">Quick Kitchen notes</h2>
+            <dl class="about-note-list">
+              <div class="about-note-row">
+                <dt>Current craving</dt>
+                <dd>Your answer here</dd>
+              </div>
+              <div class="about-note-row">
+                <dt>Ultimate comfort food</dt>
+                <dd>Your answer here</dd>
+              </div>
+              <div class="about-note-row">
+                <dt>Always in my pantry</dt>
+                <dd>Your answer here</dd>
+              </div>
+              <div class="about-note-row">
+                <dt>Kitchen soundtrack</dt>
+                <dd>Your answer here</dd>
+              </div>
+            </dl>
+          </aside>
+        </section>
+
+        <section class="about-values" aria-labelledby="findHereTitle">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">From my table to yours</p>
+              <h2 id="findHereTitle">What you'll find here</h2>
+            </div>
+          </div>
+          <div class="about-values-grid">
+            <article class="about-value-card">
+              <span class="about-value-icon" aria-hidden="true"><i data-lucide="clock"></i></span>
+              <h3>Practical favourites</h3>
+              <p>Recipes made for real weeks, hungry people and the ingredients already nearby.</p>
+            </article>
+            <article class="about-value-card">
+              <span class="about-value-icon" aria-hidden="true"><i data-lucide="heart"></i></span>
+              <h3>Food with a story</h3>
+              <p>Nostalgic ideas, favourite flavours and recipes that deserve a place in the archive.</p>
+            </article>
+            <article class="about-value-card">
+              <span class="about-value-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+              <h3>A little fun</h3>
+              <p>Playful bakes, rebuilt classics and plenty of reasons to make something delicious.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="about-photo-story" aria-labelledby="moreAboutTitle">
+          <div class="about-secondary-photo-wrap">
+            <span class="about-tape is-small" aria-hidden="true"></span>
+            <img
+              class="about-secondary-photo"
+              src="./assets/siena-profile.jpg"
+              alt="Siena, creator of Siena's Kitchen"
+            />
+          </div>
+          <div class="about-photo-story-copy">
+            <p class="section-kicker">Beyond the recipe card</p>
+            <h2 id="moreAboutTitle">A little more about me</h2>
+            <p>
+              This is where we can add the details that make the page unmistakably yours: the
+              people and places that shaped how you cook, your favourite food memory, what you do
+              away from the Kitchen, and what you hope Siena's Kitchen becomes.
+            </p>
+            <blockquote>
+              "Add a short line here that sounds like you - warm, funny, thoughtful or all three."
+            </blockquote>
+          </div>
+        </section>
+
+        <section class="about-prompts" aria-labelledby="promptsTitle">
+          <div class="about-prompts-heading">
+            <div>
+              <p class="section-kicker">Let's make it personal</p>
+              <h2 id="promptsTitle">Help me finish this page</h2>
+              <p>
+                Answer these in rough notes - one sentence is plenty. They are prompts for us,
+                not permanent website copy.
+              </p>
+            </div>
+            <img
+              class="about-prompts-sticker"
+              src="./assets/stickers/page2-03.png"
+              alt=""
+              aria-hidden="true"
+            />
+          </div>
+          <ol class="about-prompt-grid">
+            <li class="about-prompt-card">
+              <span>01</span>
+              <p>How would you introduce yourself in two or three sentences?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>02</span>
+              <p>What made you start collecting recipes or create Siena's Kitchen?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>03</span>
+              <p>What kinds of recipes do you most love making, and why?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>04</span>
+              <p>How do you want people to feel when they cook one of your recipes?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>05</span>
+              <p>What is your earliest or favourite food memory?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>06</span>
+              <p>Which three ingredients or foods are always in your Kitchen?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>07</span>
+              <p>Are there family, cultural, work or travel influences you want mentioned?</p>
+            </li>
+            <li class="about-prompt-card">
+              <span>08</span>
+              <p>What is one fun fact about you, and what is your dream for this site?</p>
+            </li>
+          </ol>
+        </section>
+
+        <section class="about-cta" aria-label="Browse recipes">
+          <div>
+            <p class="section-kicker">Enough about me</p>
+            <h2>Let's find something good to cook.</h2>
+          </div>
+          <a class="button" href="./recipe-library.html">
+            Open the A-Z library
+            <i data-lucide="book-open" aria-hidden="true"></i>
+          </a>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="eyebrow">Sunday Table</p>
+          <strong class="footer-title">Siena's Kitchen</strong>
+          <div class="footer-stickers" aria-hidden="true">
+            <img class="sticker-img" src="./assets/stickers/page1-01.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-03.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page2-01.png" alt="" />
+            <img class="sticker-img" src="./assets/stickers/page1-08.png" alt="" />
+          </div>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Explore</p>
+          <a href="./about.html" aria-current="page">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+            About
+          </a>
+          <a href="./recipe-library.html">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="book-open"></i></span>
+            A-Z Recipe Library
+          </a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Follow</p>
+          <a href="https://instagram.com/sienaskitchen" target="_blank" rel="noreferrer">
+            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="instagram"></i></span>
+            Instagram
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./footer.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "featuredRecipeId": "mr-beans-apple-snaps",
+  "categories": [
+    "Baking",
+    "Dessert",
+    "Dinner",
+    "Sides"
+  ],
+  "siteContent": {
+    "heroTitle": "Welcome to my Kitchen",
+    "heroText": "Congrats! You've discovered my recipe archive.",
+    "libraryTitle": "More to cook next",
+    "footerTitle": "Siena's Kitchen"
+  },
+  "updatedAt": "2026-08-16T22:01:33.440Z"
+}

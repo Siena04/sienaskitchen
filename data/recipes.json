@@ -3,7 +3,7 @@
     "id": "mr-beans-apple-snaps",
     "title": "Mr Bean's Apple Snaps",
     "category": "Dessert",
-    "description": "Spiced apple cookies topped with thin apple slices, sprinkles, and warm autumn spices.",
+    "description": "Boggis, Bunce, and Bean. One fat, one short, one lean. These horrible crooks, so different in looks, were nonetheless equally mean.",
     "prepTime": "",
     "cookTime": "12-14 mins",
     "serves": "",
@@ -19,9 +19,9 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-mr-beans-apple-snaps.jpg",
     "ingredients": [
-      "300 g All-purpose flour",
+      "300 g Plain flour",
       "1.5 Tbsp Ground ginger",
       "2 tsp Ground cinnamon, plus more for topping if desired",
       "1 tsp Baking soda",
@@ -51,12 +51,14 @@
       "Sprinkle cake sprinkles and extra cinnamon evenly over the cookies.",
       "Transfer the baking sheet to the refrigerator or freezer for 5 minutes to chill the dough and prevent the cookies from spreading too much.",
       "Bake for 12 to 14 minutes, or until the edges are golden and the cookie does not look wet under the apple slice."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "best-air-fried-chips",
     "title": "BEST Air Fried Chips",
-    "category": "Side",
+    "category": "Sides",
     "description": "A quick air fryer chip recipe with cornstarch for extra crispiness.",
     "prepTime": "7 mins",
     "cookTime": "15 mins",
@@ -73,7 +75,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-best-air-fried-chips.jpg",
     "ingredients": [
       "250 g Spud lite potato",
       "1 Egg white",
@@ -86,7 +88,9 @@
       "Mix the potato with the seasoning, egg white, and cornstarch until coated.",
       "Air fry at 200C for 15 minutes, shaking or mixing halfway through."
     ],
-    "notes": ""
+    "notes": "",
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "greek-sheet-pan-chicken",
@@ -108,7 +112,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-greek-sheet-pan-chicken.jpg",
     "ingredients": [
       "1/2 cup Olive oil (or reduce to 1/4 cup)",
       "1 Lemon, juiced (about 3 tablespoons)",
@@ -136,7 +140,9 @@
       "Add the olives and feta, then bake for another 10 to 15 minutes until the chicken is cooked through.",
       "Garnish with chopped parsley before serving."
     ],
-    "notes": "If the chicken looks very pale, switch to fan-forced for the last 10 minutes. The method text mentioned chicken thighs, but the ingredient list specified chicken breasts, so this version follows the ingredient list."
+    "notes": "If the chicken looks very pale, switch to fan-forced for the last 10 minutes. The method text mentioned chicken thighs, but the ingredient list specified chicken breasts, so this version follows the ingredient list.",
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "chicken-crust-pizza",
@@ -158,7 +164,7 @@
       "carbs": "72g",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-chicken-crust-pizza.jpg",
     "ingredients": [
       "1.5 tablespoons nutritional yeast",
       "1/4 cup low fat cottage cheese",
@@ -180,7 +186,9 @@
       "Top with salami, pineapple, and mozzarella.",
       "Bake until the chicken crust is cooked through and the cheese is melted and golden."
     ],
-    "notes": "Total nutrition provided: 940 kcal and about 150g protein. The source also listed two different per-serve calorie values, so this recipe uses 470 kcal per serve with 75g protein and keeps the original discrepancy noted here."
+    "notes": "Total nutrition provided: 940 kcal and about 150g protein. The source also listed two different per-serve calorie values, so this recipe uses 470 kcal per serve with 75g protein and keeps the original discrepancy noted here.",
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "deli-style-marinated-chicken-breast",
@@ -197,7 +205,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-deli-style-marinated-chicken-breast.jpg",
     "ingredients": [
       "1 chicken breast (large)",
       "Marinade:",
@@ -221,12 +229,14 @@
       "Rest for 10 minutes.",
       "Slice thinly against the grain.",
       "Toss together with sauce."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "simmered-hijiki-salad",
     "title": "Simmered hijiki salad",
-    "category": "Side",
+    "category": "Sides",
     "description": "",
     "prepTime": "",
     "cookTime": "",
@@ -238,7 +248,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-simmered-hijiki-salad.jpg",
     "ingredients": [
       "1 bag hijiki (16g)",
       "1 thin fried tofu",
@@ -261,12 +271,14 @@
       "Add the sugar and simmer for about 3 minutes.",
       "Add the soy sauce and mirin in that order, cover with a drop lid, and simmer until soft.",
       "Add edamame if using."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "chinese-sauteed-wombok",
     "title": "Chinese sauteed wombok",
-    "category": "Side",
+    "category": "Sides",
     "description": "",
     "prepTime": "",
     "cookTime": "",
@@ -304,7 +316,9 @@
       "Stir the sauce again to dissolve the cornstarch, pour into the pan, and cook until cabbage is tender but still crisp and the sauce thickens.",
       "Turn off heat, taste, and adjust seasoning if needed. Drizzle with sesame oil and stir to mix.",
       "Serve hot as a side dish."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "chilli-con-carne",
@@ -321,7 +335,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-chilli-con-carne.jpg",
     "ingredients": [
       "1 Tbsp olive oil",
       "3 garlic cloves, minced",
@@ -345,7 +359,9 @@
       "fresh coriander",
       "lemon zest"
     ],
-    "steps": []
+    "steps": [],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "healthy-chicken-and-leek-pie",
@@ -362,7 +378,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-healthy-chicken-and-leek-pie.jpg",
     "ingredients": [
       "1 leek",
       "1 shallot",
@@ -381,7 +397,9 @@
       "salt",
       "white pepper"
     ],
-    "steps": []
+    "steps": [],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "korean-tofu-pancakes",
@@ -422,7 +440,9 @@
       "Add sauce.",
       "Fry on medium heat with a lid. Do not press down too much.",
       "Adding a little water helps the top cook so it is easier to flip."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "miso-edamame-risoni",
@@ -439,7 +459,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-miso-edamame-risoni.jpg",
     "ingredients": [
       "olive oil",
       "garlic and shallot or red onion",
@@ -464,7 +484,9 @@
       "Stir in tahini and edamame.",
       "Blend kale with white miso paste and a splash of water, then stir through.",
       "Finish with lemon. Add suggested additions if using."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "healthy-banana-bread",
@@ -497,7 +519,9 @@
     ],
     "steps": [
       "Bake at 175C for 30 minutes."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "pork-prawn-dumplings",
@@ -514,7 +538,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-pork-prawn-dumplings.jpg",
     "ingredients": [
       "200 g green prawns (from 500g deshelled)",
       "200 g pork mince",
@@ -534,12 +558,14 @@
     ],
     "steps": [
       "Steam for 10 minutes or until cooked throughout."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "korean-mayak-drug-eggs",
     "title": "Korean mayak (drug) eggs",
-    "category": "Side",
+    "category": "Sides",
     "description": "",
     "prepTime": "",
     "cookTime": "7 mins",
@@ -551,7 +577,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-korean-mayak-drug-eggs.jpg",
     "ingredients": [
       "6 boiled eggs (7 mins)",
       "6 Tbsp soy sauce",
@@ -568,7 +594,9 @@
       "Add eggs to marinade in a container, cover eggs with paper towel so the marinade touches.",
       "Leave overnight.",
       "Serve over rice with the marinade."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "chicken-karaage",
@@ -611,34 +639,9 @@
       "Fry 4 to 5 pieces at a time until golden brown.",
       "Remove to paper towel, return oil to 170C, and repeat.",
       "Serve with mayo and spring onion."
-    ]
-  },
-  {
-    "id": "zappakanka",
-    "title": "Zappakanka",
-    "category": "Baking",
-    "description": "",
-    "prepTime": "",
-    "cookTime": "30 mins",
-    "serves": "",
-    "tags": [],
-    "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
-    },
-    "image": "",
-    "ingredients": [
-      "300 g Greek yogurt",
-      "zest of 1/2 lemon",
-      "1 pinch salt",
-      "3 Tbsp corn starch",
-      "2 eggs"
     ],
-    "steps": [
-      "Bake at 180C for 30 minutes."
-    ]
+    "measurementSystem": "au",
+    "published": true
   },
   {
     "id": "cinnamon-protein-granola",
@@ -655,7 +658,7 @@
       "carbs": "",
       "fat": ""
     },
-    "image": "",
+    "image": "./uploads/recovered-cinnamon-protein-granola.jpg",
     "ingredients": [
       "195 g rolled oats",
       "55 g protein powder",
@@ -669,6 +672,51 @@
     ],
     "steps": [
       "Cook at 150C for 20 minutes, mixing halfway."
-    ]
+    ],
+    "measurementSystem": "au",
+    "published": true
+  },
+  {
+    "id": "korean-chicken-tteokbokki-stew",
+    "title": "Korean chicken and tteokbokki stew",
+    "category": "Dinner",
+    "description": "Comforting Korean chicken stew with a spicy, savory sauce.",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/recovered-korean-chicken-tteokbokki-stew.webp",
+    "ingredients": [
+      "4 chicken thigh cutlets",
+      "2 potatoes",
+      "1 onion",
+      "1 stalk green onion",
+      "1 chili pepper",
+      "Sauce:",
+      "3 Tbsp soy sauce",
+      "3 Tbsp minced garlic",
+      "300 ml water",
+      "1 Tbsp sugar",
+      "1.5 Tbsp mirim",
+      "2 Tbsp gochugaru",
+      "1 Tbsp oyster sauce",
+      "1.5 Tbsp gochujang",
+      "black pepper, to taste"
+    ],
+    "steps": [
+      "Sear the chicken thigh cutlets skin-side (or fatty side) down first, then cut into bite-sized pieces.",
+      "Add soy sauce and garlic and stir-fry for about 2-3 minutes.",
+      "Pour in the water, then add sugar, mirim, gochugaru, gochujang, oyster sauce, and black pepper. Bring to a boil and skim off any foam.",
+      "Add the potatoes and onion, cover, and simmer over medium-low heat for about 15 minutes.",
+      "If you have rice cakes or ramen noodles, add them in along with the green onion and chili. Once the rice cake or ramen is cooked through, it's ready."
+    ],
+    "measurementSystem": "au",
+    "published": true
   }
 ]

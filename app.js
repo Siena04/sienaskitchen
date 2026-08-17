@@ -1,4 +1,5 @@
 const PREVIEW_STORAGE_KEY = "recipe-site-draft";
+const DELETED_STORAGE_KEY = "recipe-site-draft-deleted";
 
 const recipeGrid = document.getElementById("recipeGrid");
 const recipeCardTemplate = document.getElementById("recipeCardTemplate");
@@ -14,11 +15,17 @@ const cookOverlayContent = document.getElementById("cookOverlayContent");
 const cookPrevButton = document.getElementById("cookPrev");
 const cookNextButton = document.getElementById("cookNext");
 const quickLinkCards = document.querySelectorAll(".quick-link-card");
+const categoryRows = document.getElementById("categoryRows");
 const featuredRecipeCard = document.querySelector("[data-featured-recipe]");
 const featuredRecipeTitle = document.querySelector("[data-featured-title]");
 const featuredRecipeDescription = document.querySelector("[data-featured-description]");
 const featuredRecipeImage = document.querySelector("[data-featured-image]");
+const featuredRecipeImageLink = document.querySelector("[data-featured-image-link]");
 const featuredRecipeLink = document.querySelector("[data-featured-link]");
+const siteHeroTitle = document.querySelector("[data-site-hero-title]");
+const siteHeroText = document.querySelector("[data-site-hero-text]");
+const siteLibraryTitle = document.querySelector("[data-site-library-title]");
+const siteFooterTitle = document.querySelector("[data-site-footer-title]");
 
 let allRecipes = [];
 let filteredRecipes = [];
@@ -26,10 +33,24 @@ let selectedRecipeId = null;
 let cookStepIndex = 0;
 let recipeViewMode = "preview";
 let measurementSystem = "au";
+let deletedRecipeIds = new Set();
+let siteSettings = {};
+let activeHomeCategory = "";
 
 function refreshIcons() {
   if (window.lucide) {
     window.lucide.createIcons();
+  }
+}
+
+function loadDeletedIds() {
+  try {
+    const raw = localStorage.getItem(DELETED_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(parsed) ? parsed : []);
+  } catch (error) {
+    console.error(error);
+    return new Set();
   }
 }
 
@@ -43,15 +64,45 @@ function loadPreviewRecipes() {
   }
 }
 
+async function loadSiteSettings() {
+  try {
+    const response = await fetch("./data/site-settings.json", { cache: "no-store" });
+    return response.ok ? await response.json() : {};
+  } catch (error) {
+    return {};
+  }
+}
+
+function applySiteSettings(settings) {
+  const content = settings?.siteContent || {};
+  if (settings?.featuredRecipeId && featuredRecipeCard) {
+    featuredRecipeCard.dataset.featuredRecipe = settings.featuredRecipeId;
+  }
+  if (content.heroTitle && siteHeroTitle) siteHeroTitle.textContent = content.heroTitle;
+  if (content.heroText && siteHeroText) siteHeroText.textContent = content.heroText;
+  if (content.libraryTitle && siteLibraryTitle) siteLibraryTitle.textContent = content.libraryTitle;
+  if (content.footerTitle && siteFooterTitle) siteFooterTitle.textContent = content.footerTitle;
+}
+
+function isRecipePublished(recipe) {
+  return recipe?.published !== false;
+}
+
 function mergeRecipeSets(published, drafts) {
   const merged = new Map();
   (published || []).forEach((recipe) => {
     if (recipe?.id) {
+      if (deletedRecipeIds.has(recipe.id)) {
+        return;
+      }
       merged.set(recipe.id, recipe);
     }
   });
   (drafts || []).forEach((recipe) => {
     if (!recipe?.id) {
+      return;
+    }
+    if (deletedRecipeIds.has(recipe.id)) {
       return;
     }
     const existing = merged.get(recipe.id) || {};
@@ -66,10 +117,13 @@ function mergeRecipeSets(published, drafts) {
 
 async function loadRecipes() {
   const params = new URLSearchParams(window.location.search);
+  deletedRecipeIds = loadDeletedIds();
   const previewRecipes = loadPreviewRecipes();
   const previewOnly = params.get("preview") === "1";
   if (previewOnly) {
-    return previewRecipes;
+    return previewRecipes.filter(
+      (recipe) => recipe?.id && !deletedRecipeIds.has(recipe.id) && isRecipePublished(recipe)
+    );
   }
 
   try {
@@ -78,13 +132,15 @@ async function loadRecipes() {
       throw new Error("Unable to load recipes.json");
     }
     const publishedRecipes = await response.json();
-    if (!previewRecipes.length) {
-      return publishedRecipes;
-    }
-    return mergeRecipeSets(publishedRecipes, previewRecipes);
+    const filteredPublished = publishedRecipes.filter(
+      (recipe) => recipe?.id && !deletedRecipeIds.has(recipe.id)
+    );
+    return filteredPublished.filter(isRecipePublished);
   } catch (error) {
     console.error(error);
-    return previewRecipes;
+    return previewRecipes.filter(
+      (recipe) => recipe?.id && !deletedRecipeIds.has(recipe.id) && isRecipePublished(recipe)
+    );
   }
 }
 
@@ -92,46 +148,53 @@ function normalizeText(value) {
   return String(value || "").toLowerCase().trim();
 }
 
-const COOKING_KEYWORDS = [
-  "preheat",
-  "bake",
-  "roast",
-  "broil",
-  "grill",
-  "simmer",
-  "boil",
-  "fry",
-  "saute",
-  "sauté",
-  "stir-fry",
-  "air fry",
-  "cook",
-  "oven",
-  "microwave",
-  "skillet",
-  "pan",
-  "heat",
-  "sear",
-  "brown",
-  "golden",
-  "crispy",
+const COOKING_PATTERNS = [
+  /\bpreheat\b/,
+  /\bbake\b/,
+  /\broast\b/,
+  /\bbroil\b/,
+  /\bgrill\b/,
+  /\bsimmer\b/,
+  /\bboil\b/,
+  /\bfry\b/,
+  /\bsaute\b/,
+  /\bsauté\b/,
+  /\bstir[- ]?fry\b/,
+  /\bair\s?fry\b/,
+  /\bsear\b/,
+  /\btoast\b/,
+  /\bbraise\b/,
+  /\bsteam\b/,
+  /\bpoach\b/,
+  /\bblanch\b/,
+  /\bsmoke\b/,
+  /\bcarameliz(e|ing)\b/,
+  /\breduce\b/,
+  /\bglaze\b/,
+  /\bmelt\b/,
 ];
+
+const COOK_CONTEXT_PATTERN = /\bcook(ing)?\s+(for|until|over|on|in|at)\b/;
+const HEAT_CONTEXT_PATTERN = /\b(oven|stove|stovetop|cooktop|heat|heated|microwave)\b/;
+const COOK_ACTION_PATTERN =
+  /\b(cook|bake|roast|simmer|boil|fry|grill|broil|reduce|heat)\b/;
 
 function isCookingInstruction(text) {
   const normalized = normalizeText(text);
   if (!normalized) {
     return false;
   }
-  if (COOKING_KEYWORDS.some((keyword) => normalized.includes(keyword))) {
+  if (COOKING_PATTERNS.some((pattern) => pattern.test(normalized))) {
     return true;
   }
-  if (/\b\d+\s?(mins?|minutes?|hrs?|hours?)\b/.test(normalized)) {
+  if (COOK_CONTEXT_PATTERN.test(normalized)) {
     return true;
   }
-  if (/\b\d{2,3}\s?°\s?[cf]?\b/.test(normalized)) {
-    return true;
-  }
-  if (/\b\d{2,3}\s?(c|f|celsius|fahrenheit)\b/.test(normalized)) {
+  const hasTime = /\b\d+\s?(mins?|minutes?|hrs?|hours?)\b/.test(normalized);
+  const hasTemp =
+    /\b\d{2,3}\s?°\s?[cf]?\b/.test(normalized) ||
+    /\b\d{2,3}\s?(c|f|celsius|fahrenheit)\b/.test(normalized);
+  if ((hasTime || hasTemp) && (HEAT_CONTEXT_PATTERN.test(normalized) || COOK_ACTION_PATTERN.test(normalized))) {
     return true;
   }
   return false;
@@ -212,7 +275,7 @@ function getTagColorClass(tag) {
   return TAG_COLORS[index];
 }
 
-const MEASUREMENT_STORAGE_KEY = "recipe-site-measurement";
+const MEASUREMENT_STORAGE_KEY = "recipe-site-measurement-v2";
 const MEASUREMENT_SYSTEMS = {
   us: { label: "US", cupMl: 236.588, tbspMl: 14.7868, tspMl: 5 },
   au: { label: "AU/UK", cupMl: 250, tbspMl: 20, tspMl: 5 },
@@ -377,9 +440,256 @@ function renderFeaturedRecipe(recipes) {
       featuredRecipeImage.alt = recipe.title ? `${recipe.title} recipe` : "Recipe image";
     }
   }
-  if (featuredRecipeLink) {
-    featuredRecipeLink.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
+  const recipeHref = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
+  if (featuredRecipeImageLink) {
+    featuredRecipeImageLink.href = recipeHref;
+    featuredRecipeImageLink.setAttribute(
+      "aria-label",
+      `Open ${recipe.title || "recipe"}`
+    );
   }
+  if (featuredRecipeLink) {
+    featuredRecipeLink.href = recipeHref;
+  }
+}
+
+function getCategoryOrder(recipes) {
+  const seen = new Set();
+  const order = [];
+  (recipes || []).forEach((recipe) => {
+    const category = recipe?.category?.trim();
+    if (!category || seen.has(category)) {
+      return;
+    }
+    seen.add(category);
+    order.push(category);
+  });
+  const preferredOrder = ["Dinner", "Baking", "Sides", "Dessert"];
+  return order.sort((a, b) => {
+    const aIndex = preferredOrder.findIndex((item) => normalizeText(item) === normalizeText(a));
+    const bIndex = preferredOrder.findIndex((item) => normalizeText(item) === normalizeText(b));
+    if (aIndex !== -1 || bIndex !== -1) {
+      return (aIndex === -1 ? preferredOrder.length : aIndex) -
+        (bIndex === -1 ? preferredOrder.length : bIndex);
+    }
+    return a.localeCompare(b);
+  });
+}
+
+const CATEGORY_PRESENTATION = {
+  dinner: {
+    icon: "utensils",
+    description: "Weeknight favourites and dishes worth gathering around.",
+  },
+  baking: {
+    icon: "wheat",
+    description: "Oven-ready comfort, from breakfast bakes to treats.",
+  },
+  sides: {
+    icon: "salad",
+    description: "Bright extras and small plates that steal the table.",
+  },
+  dessert: {
+    icon: "cake-slice",
+    description: "Sweet finishes, cosy bakes and little rewards.",
+  },
+};
+
+function getCategoryPresentation(category) {
+  return (
+    CATEGORY_PRESENTATION[normalizeText(category)] || {
+      icon: "chef-hat",
+      description: "A collection of Siena's recipes to explore.",
+    }
+  );
+}
+
+function makeRecipeCardInteractive(card, recipe) {
+  if (!card) {
+    return;
+  }
+  const handleOpen = () => {
+    window.location.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
+  };
+  card.setAttribute("role", "link");
+  card.setAttribute("tabindex", "0");
+  card.setAttribute("aria-label", `Open ${recipe.title || "recipe"}`);
+  card.addEventListener("click", handleOpen);
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleOpen();
+    }
+  });
+}
+
+function buildRecipeCard(recipe) {
+  if (!recipeCardTemplate) {
+    return null;
+  }
+  const fragment = recipeCardTemplate.content.cloneNode(true);
+  const card = fragment.querySelector(".recipe-card");
+  const image = fragment.querySelector(".recipe-image");
+  const title = fragment.querySelector(".recipe-title");
+  const category = fragment.querySelector(".recipe-card-category");
+
+  if (image) {
+    image.src = recipe.image || "";
+    image.alt = recipe.title || "Recipe image";
+  }
+  if (title) {
+    title.textContent = recipe.title || "Untitled recipe";
+  }
+  if (category) {
+    category.textContent = recipe.category || "Recipe";
+  }
+
+  makeRecipeCardInteractive(card, recipe);
+
+  return fragment;
+}
+
+function updateRecipeRail(railBlock) {
+  const rail = railBlock?.querySelector(".recipe-grid");
+  if (!rail) {
+    return;
+  }
+  const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+  const position = maxScroll ? Math.min(1, Math.max(0, rail.scrollLeft / maxScroll)) : 0;
+  const buttons = railBlock.querySelectorAll("[data-rail-direction]");
+  buttons.forEach((button) => {
+    const direction = Number(button.dataset.railDirection || 0);
+    button.disabled = direction < 0 ? rail.scrollLeft <= 2 : rail.scrollLeft >= maxScroll - 2;
+  });
+
+  const progress = railBlock.querySelector(".rail-progress");
+  const thumb = progress?.querySelector(".rail-progress-thumb");
+  if (progress && thumb) {
+    const visibleRatio = rail.scrollWidth ? Math.min(1, rail.clientWidth / rail.scrollWidth) : 1;
+    const thumbWidth = Math.max(18, visibleRatio * 100);
+    thumb.style.width = `${thumbWidth}%`;
+    thumb.style.left = `${position * (100 - thumbWidth)}%`;
+    progress.setAttribute("aria-valuenow", String(Math.round(position * 100)));
+    progress.classList.toggle("is-complete", maxScroll === 0);
+  }
+}
+
+function initializeRecipeRails(root = document) {
+  root.querySelectorAll("[data-recipe-rail]").forEach((railBlock) => {
+    const rail = railBlock.querySelector(".recipe-grid");
+    if (!rail) {
+      return;
+    }
+    if (rail.dataset.railReady !== "true") {
+      rail.dataset.railReady = "true";
+      rail.addEventListener("scroll", () => updateRecipeRail(railBlock), { passive: true });
+      railBlock.querySelectorAll("[data-rail-direction]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const direction = Number(button.dataset.railDirection || 0);
+          const firstCard = rail.querySelector(".recipe-card");
+          const cardWidth = firstCard?.getBoundingClientRect().width || 240;
+          const distance = Math.max(cardWidth + 16, rail.clientWidth * 0.72);
+          rail.scrollBy({ left: direction * distance, behavior: "smooth" });
+        });
+      });
+    }
+    updateRecipeRail(railBlock);
+  });
+}
+
+function renderCategoryRows(recipes) {
+  if (!categoryRows) {
+    return;
+  }
+  categoryRows.innerHTML = "";
+  const categories = getCategoryOrder(recipes);
+  if (!categories.length) {
+    return;
+  }
+  if (!categories.some((category) => normalizeText(category) === normalizeText(activeHomeCategory))) {
+    activeHomeCategory = categories[0];
+  }
+
+  const picker = document.createElement("div");
+  picker.className = "category-picker";
+  picker.setAttribute("aria-label", "Recipe categories");
+
+  categories.forEach((category) => {
+    const categoryRecipes = recipes.filter(
+      (recipe) => normalizeText(recipe.category) === normalizeText(category)
+    );
+    const coverRecipe = categoryRecipes.find(recipeHasImage) || categoryRecipes[0];
+    const presentation = getCategoryPresentation(category);
+    const isActive = normalizeText(category) === normalizeText(activeHomeCategory);
+    const button = document.createElement("button");
+    button.className = `category-choice${isActive ? " is-active" : ""}`;
+    button.type = "button";
+    button.setAttribute("aria-pressed", String(isActive));
+    button.innerHTML = `
+      <span class="category-choice-media">
+        ${
+          coverRecipe?.image
+            ? `<img src="${escapeHtml(coverRecipe.image)}" alt="" loading="lazy" />`
+            : '<span class="category-choice-placeholder" aria-hidden="true"></span>'
+        }
+      </span>
+      <span class="category-choice-body">
+        <span class="category-choice-icon" aria-hidden="true"><i data-lucide="${presentation.icon}"></i></span>
+        <span class="category-choice-copy">
+          <strong>${escapeHtml(category)}</strong>
+          <small>${categoryRecipes.length} ${categoryRecipes.length === 1 ? "recipe" : "recipes"}</small>
+        </span>
+        <span class="category-choice-arrow" aria-hidden="true">&#8594;</span>
+      </span>
+    `;
+    button.addEventListener("click", () => {
+      activeHomeCategory = category;
+      renderCategoryRows(recipes);
+      refreshIcons();
+    });
+    picker.append(button);
+  });
+
+  const selectedRecipes = recipes.filter(
+    (recipe) => normalizeText(recipe.category) === normalizeText(activeHomeCategory)
+  );
+  const selectedPresentation = getCategoryPresentation(activeHomeCategory);
+  const selection = document.createElement("section");
+  selection.className = "category-selection";
+  selection.dataset.recipeRail = "";
+  selection.innerHTML = `
+    <div class="category-selection-heading">
+      <div>
+        <p class="section-kicker">Selected collection</p>
+        <h3>${escapeHtml(activeHomeCategory)}</h3>
+        <p>${escapeHtml(selectedPresentation.description)}</p>
+      </div>
+      <div class="rail-controls" aria-label="More ${escapeHtml(activeHomeCategory)} recipes">
+        <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous ${escapeHtml(activeHomeCategory)} recipes">
+          <i data-lucide="chevron-left" aria-hidden="true"></i>
+        </button>
+        <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next ${escapeHtml(activeHomeCategory)} recipes">
+          <i data-lucide="chevron-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="recipe-rail-viewport">
+      <div class="recipe-grid category-recipe-grid"></div>
+    </div>
+    <div class="rail-progress" role="progressbar" aria-label="${escapeHtml(activeHomeCategory)} recipe list position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="rail-progress-thumb"></span>
+    </div>
+  `;
+  const grid = selection.querySelector(".category-recipe-grid");
+  selectedRecipes.forEach((recipe) => {
+    const card = buildRecipeCard(recipe);
+    if (card) {
+      grid.append(card);
+    }
+  });
+
+  categoryRows.append(picker, selection);
+  requestAnimationFrame(() => initializeRecipeRails(categoryRows));
 }
 
 const UNIT_ALIASES = new Map(
@@ -1064,6 +1374,15 @@ function formatWeight(grams) {
   return `${formatNumber(grams, grams >= 10 ? 0 : 1)} g`;
 }
 
+function formatWeightForSystem(grams, system) {
+  if (system === "us") {
+    const unit = grams >= WEIGHT_GRAMS.lb ? "lb" : "oz";
+    const value = grams / WEIGHT_GRAMS[unit];
+    return `${formatNumber(value, value >= 10 ? 1 : 2)} ${unit}`;
+  }
+  return formatWeight(grams);
+}
+
 function formatVolume(ml, name, preferMetric) {
   const useMetric = preferMetric || isLiquidIngredient(name);
   if (useMetric) {
@@ -1088,6 +1407,25 @@ function formatVolume(ml, name, preferMetric) {
   if (tsp >= 3) {
     return `${formatNumber(tsp / 3, 2)} tbsp`;
   }
+  return `${formatNumber(tsp, 2)} tsp`;
+}
+
+function formatVolumeFromMl(ml, system) {
+  if (system !== "us") {
+    if (ml >= 1000) {
+      return `${formatNumber(ml / 1000, 2)} l`;
+    }
+    return `${formatNumber(ml, ml >= 100 ? 0 : 1)} ml`;
+  }
+  const cups = ml / MEASUREMENT_SYSTEMS.us.cupMl;
+  if (cups >= 1) {
+    return `${formatNumber(cups, 2)} ${Math.abs(cups - 1) < 0.01 ? "cup" : "cups"}`;
+  }
+  const tbsp = ml / MEASUREMENT_SYSTEMS.us.tbspMl;
+  if (tbsp >= 1) {
+    return `${formatNumber(tbsp, 2)} tbsp`;
+  }
+  const tsp = ml / MEASUREMENT_SYSTEMS.us.tspMl;
   return `${formatNumber(tsp, 2)} tsp`;
 }
 
@@ -1116,7 +1454,8 @@ function formatCount(count) {
   return Number.isInteger(count) ? String(count) : formatNumber(count, 1);
 }
 
-function buildShoppingItems(groups) {
+function buildShoppingItems(groups, options = {}) {
+  const system = options.system || measurementSystem || MEASUREMENT_BASE;
   const items = new Map();
 
   groups.forEach((group) => {
@@ -1137,6 +1476,7 @@ function buildShoppingItems(groups) {
           name: parsed.name,
           weightG: 0,
           volumeMl: 0,
+          metricMl: 0,
           volumeUnits: {},
           count: 0,
           hasWeight: false,
@@ -1188,6 +1528,7 @@ function buildShoppingItems(groups) {
           entry.volumeUnits[parsed.unit].raw.push(parsed.amountText);
         }
         if (unitMeta.metric) {
+          entry.metricMl += parsed.amount * unitMeta.toMl;
           entry.preferMetricVolume = true;
         }
         return;
@@ -1215,13 +1556,35 @@ function buildShoppingItems(groups) {
       return;
     }
     if (entry.hasWeight && entry.weightG > 0) {
-      output.push(`${formatWeight(entry.weightG)} ${name}`);
+      output.push(`${formatWeightForSystem(entry.weightG, system)} ${name}`);
       return;
     }
     if (entry.hasVolume && Object.keys(entry.volumeUnits).length) {
       const units = Object.keys(entry.volumeUnits).sort(
         (a, b) => volumeOrder.indexOf(a) - volumeOrder.indexOf(b)
       );
+      if (system === "us") {
+        units
+          .filter((unit) => ["cup", "tbsp", "tsp"].includes(unit))
+          .forEach((unit) => {
+            const unitData = entry.volumeUnits[unit];
+            if (unitData.raw.length) {
+              const pieces = unitData.raw.map((raw) => {
+                const amount = parseInlineQuantity(raw);
+                const label =
+                  unit === "cup" && amount > 1.01 ? "cups" : unit === "cup" ? "cup" : unit;
+                return `${raw} ${label}`;
+              });
+              output.push(`${pieces.join(" + ")} ${name}`);
+              return;
+            }
+            output.push(`${formatVolumeUnit(unitData.total, unit)} ${name}`);
+          });
+        if (entry.metricMl > 0) {
+          output.push(`${formatVolumeFromMl(entry.metricMl, system)} ${name}`);
+        }
+        return;
+      }
       units.forEach((unit) => {
         const unitData = entry.volumeUnits[unit];
         if (["cup", "tbsp", "tsp"].includes(unit) && unitData.raw.length) {
@@ -1275,7 +1638,7 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
         .join("")
     : '<div class="empty-state">No ingredients yet.</div>';
 
-  const shoppingItems = buildShoppingItems(groups);
+  const shoppingItems = buildShoppingItems(groups, { system: measureSystem });
   const shoppingMarkup = shoppingItems.length
     ? shoppingItems
         .map(
@@ -1301,8 +1664,8 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
           data-measure="${nextMeasureSystem}"
           aria-label="Switch to ${escapeHtml(nextMeasureLabel)} measurements"
         >
-          <span class="measure-label">US</span>
           <span class="measure-label">AU/UK</span>
+          <span class="measure-label">US</span>
           <span class="measure-knob" aria-hidden="true"></span>
         </button>
       </div>
@@ -1357,16 +1720,11 @@ function normalizeIngredientForMatch(item) {
 }
 
 function ingredientMatchesStep(item, stepEntry) {
-  const cleaned = normalizeIngredientForMatch(item);
-  if (!cleaned) {
-    return false;
-  }
   const step = normalizeText(getStepText(stepEntry));
-  if (!step) {
-    return false;
-  }
-  const tokens = cleaned.split(" ").filter((token) => token.length > 2);
-  return tokens.some((token) => step.includes(token));
+  return buildIngredientMatchTerms([item]).some((term) => {
+    const pattern = term.split(" ").map(escapeRegExp).join("\\s+");
+    return new RegExp(`(^|[^A-Za-z0-9_])${pattern}(?=$|[^A-Za-z0-9_])`, "i").test(step);
+  });
 }
 
 function buildCookIngredients(ingredients, stepEntry) {
@@ -1386,7 +1744,7 @@ function buildCookIngredients(ingredients, stepEntry) {
     return matchedGroups;
   }
 
-  return groups;
+  return [];
 }
 
 function buildCookModeMarkup(recipe, stepIndex) {
@@ -1398,6 +1756,7 @@ function buildCookModeMarkup(recipe, stepIndex) {
   const safeIndex = totalSteps ? Math.min(Math.max(stepIndex, 0), totalSteps - 1) : 0;
   const stepEntry = steps[safeIndex];
   const stepText = getStepText(stepEntry) || "No steps added yet.";
+  const stepMarkup = highlightIngredientMentions(stepText, recipe.ingredients || []);
   const stepIsCook = isCookStep(stepEntry);
   const ingredientGroups = buildCookIngredients(recipe.ingredients || [], stepEntry);
   const showGroupTitles =
@@ -1420,7 +1779,7 @@ function buildCookModeMarkup(recipe, stepIndex) {
           `;
         })
         .join("")
-    : '<div class="empty-state">No ingredients yet.</div>';
+    : '<div class="empty-state">No listed ingredients for this step.</div>';
 
   return `
     <section class="cook-mode">
@@ -1441,7 +1800,7 @@ function buildCookModeMarkup(recipe, stepIndex) {
                 : ""
             }
           </div>
-          <p>${escapeHtml(stepText)}</p>
+          <p>${stepMarkup}</p>
         </article>
         <aside class="cook-ingredients-card notebook-card">
           <div class="subsection-heading compact">
@@ -1461,6 +1820,189 @@ function escapeHtml(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+const INGREDIENT_MATCH_STOP_WORDS = new Set([
+  "about",
+  "approximately",
+  "and",
+  "as",
+  "at",
+  "before",
+  "each",
+  "extra",
+  "for",
+  "from",
+  "if",
+  "in",
+  "into",
+  "more",
+  "of",
+  "on",
+  "or",
+  "over",
+  "plus",
+  "remove",
+  "the",
+  "then",
+  "thinly",
+  "to",
+  "top",
+  "under",
+  "until",
+  "with",
+  "desired",
+  "needed",
+  "taste",
+  "halved",
+  "pitted",
+  "sliced",
+  "juiced",
+  "minced",
+  "diced",
+  "chopped",
+  "cubed",
+  "softened",
+  "melted",
+  "packed",
+  "room",
+  "temperature",
+  "freshly",
+  "finely",
+  "crosswise",
+  "shows",
+  "middle",
+  "centre",
+  "center",
+  "seeds",
+  "press",
+  "pressed",
+  "firmly",
+  "topping",
+  "toppings",
+  "wedge",
+  "wedges",
+  "baking",
+  "plain",
+  "white",
+  "brown",
+  "red",
+  "yellow",
+  "low",
+  "fat",
+  "dried",
+  "whole",
+  "light",
+  "lite",
+  "cake",
+  "coarse",
+  "gala",
+  "cherry",
+  "grape",
+  "tinned",
+  "sodium",
+  "italian",
+]);
+
+const INGREDIENT_SYNONYMS = [
+  { source: ["spud", "spud lite"], aliases: ["potato", "potatoes"] },
+  { source: ["courgette"], aliases: ["zucchini"] },
+  { source: ["aubergine"], aliases: ["eggplant"] },
+  { source: ["capsicum"], aliases: ["bell pepper"] },
+  { source: ["coriander"], aliases: ["cilantro"] },
+  { source: ["rocket"], aliases: ["arugula"] },
+  { source: ["prawns"], aliases: ["shrimp"] },
+  { source: ["beetroot"], aliases: ["beet", "beets"] },
+  { source: ["spring onion", "spring onions"], aliases: ["green onion", "scallion"] },
+  { source: ["icing sugar"], aliases: ["powdered sugar", "confectioners sugar"] },
+  { source: ["caster sugar"], aliases: ["superfine sugar"] },
+];
+
+function addIngredientSynonymTerms(terms, normalized) {
+  const sourceText = ` ${normalized} `;
+
+  INGREDIENT_SYNONYMS.forEach(({ source, aliases }) => {
+    if (!source.some((term) => sourceText.includes(` ${term} `))) {
+      return;
+    }
+    aliases.forEach((alias) => terms.add(alias));
+  });
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function addIngredientMatchWord(terms, word) {
+  if (word.length < 3 || INGREDIENT_MATCH_STOP_WORDS.has(word)) {
+    return;
+  }
+
+  terms.add(word);
+  if (word.endsWith("ies") && word.length > 4) {
+    terms.add(`${word.slice(0, -3)}y`);
+  }
+}
+
+function buildIngredientMatchTerms(ingredients) {
+  const terms = new Set();
+
+  (ingredients || []).forEach((item) => {
+    const components = String(item || "")
+      .replace(/\([^)]*\)/g, " ")
+      .split(",");
+
+    components.forEach((component) => {
+      component
+        .split(/\s+(?:and|or)\s+/i)
+        .map((part) => normalizeIngredientForMatch(part))
+        .forEach((normalized) => {
+          const rawWords = normalized.split(" ").filter(Boolean);
+          addIngredientSynonymTerms(terms, normalized);
+          const words = normalized
+            .split(" ")
+            .filter((word) => word && !INGREDIENT_MATCH_STOP_WORDS.has(word));
+
+          if (!rawWords.length || !words.length) {
+            return;
+          }
+
+          if (rawWords.length > 1) {
+            terms.add(rawWords.join(" "));
+          }
+          const ingredientName = words.join(" ");
+          terms.add(ingredientName);
+          words.forEach((word) => addIngredientMatchWord(terms, word));
+        });
+    });
+  });
+
+  return [...terms].sort((a, b) => b.length - a.length);
+}
+
+function highlightIngredientMentions(stepText, ingredients) {
+  const text = String(stepText || "");
+  const terms = buildIngredientMatchTerms(ingredients);
+  if (!text || !terms.length) {
+    return escapeHtml(text);
+  }
+
+  const pattern = terms
+    .map((term) => term.split(" ").map(escapeRegExp).join("\\s+"))
+    .join("|");
+  const matcher = new RegExp(`(^|[^A-Za-z0-9_])(${pattern})(?=$|[^A-Za-z0-9_])`, "gi");
+  let markup = "";
+  let lastIndex = 0;
+
+  text.replace(matcher, (match, prefix, ingredient, offset) => {
+    const ingredientStart = offset + prefix.length;
+    markup += escapeHtml(text.slice(lastIndex, ingredientStart));
+    markup += `<strong class="ingredient-mention">${escapeHtml(ingredient)}</strong>`;
+    lastIndex = ingredientStart + ingredient.length;
+    return match;
+  });
+
+  return `${markup}${escapeHtml(text.slice(lastIndex))}`;
 }
 
 function buildFilters(recipes) {
@@ -1527,6 +2069,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
   const methodItems = (recipe.steps || [])
     .map((item, index) => {
       const stepText = getStepText(item);
+      const stepMarkup = highlightIngredientMentions(stepText, recipe.ingredients || []);
       const stepIsCook = isCookStep(item);
       return `
         <article class="step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
@@ -1538,7 +2081,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
                 : ""
             }
           </div>
-          <p>${escapeHtml(stepText)}</p>
+          <p>${stepMarkup}</p>
         </article>
       `;
     })
@@ -1550,17 +2093,16 @@ function buildRecipeViewMarkup(recipe, options = {}) {
     .join("");
 
   const metaItems = [
-    recipe.prepTime && ["Prep", recipe.prepTime],
-    recipe.cookTime && ["Cook", recipe.cookTime],
-    recipe.serves && [yieldLabel, recipe.serves],
+    recipe.prepTime && { key: "prep", label: "Prep time", value: recipe.prepTime },
+    recipe.serves && { key: "serves", label: yieldLabel, value: recipe.serves },
   ].filter(Boolean);
 
   const metaMarkup = metaItems.length
     ? metaItems
         .map(
-          ([label, value]) => `
+          ({ label, value }) => `
             <div class="recipe-meta-item">
-              <span>${escapeHtml(label)}</span>
+              <span>${escapeHtml(label)}:</span>
               <strong>${escapeHtml(value)}</strong>
             </div>
           `
@@ -1594,7 +2136,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
       `
     : "";
 
-  const cookButtonMarkup = showCookButton
+  const cookButtonMarkup = showCookButton && recipe.cookTime
     ? `
         <button class="button button-ghost lets-cook-button" type="button" data-action="lets-cook">
           Let's cook
@@ -1613,39 +2155,34 @@ function buildRecipeViewMarkup(recipe, options = {}) {
             Return to main page
           </a>
         </div>
-        <div class="recipe-hero-grid">
+        <div class="recipe-hero-stack">
+          <div class="recipe-title-row">
+            <h1 class="recipe-page-title">${escapeHtml(recipe.title)}</h1>
+          </div>
           <div class="recipe-hero-media">
             <img
               class="recipe-hero-image"
               src="${escapeHtml(recipe.image || "")}"
               alt="${escapeHtml(recipe.title)}"
             />
+            ${cookButtonMarkup}
+            ${
+              recipe.cookTime
+                ? `<span class="recipe-hero-cook-time">Cook time: ${escapeHtml(recipe.cookTime)}</span>`
+                : ""
+            }
           </div>
-          <div class="recipe-hero-copy">
+          <div class="recipe-hero-details">
             <p class="recipe-category">${escapeHtml(recipe.category || "Recipe")}</p>
-            <h1 class="recipe-page-title">${escapeHtml(recipe.title)}</h1>
             <p class="recipe-page-description">${escapeHtml(recipe.description || "")}</p>
             ${metaMarkup ? `<div class="recipe-meta-grid">${metaMarkup}</div>` : ""}
             ${tagItems ? `<div class="tag-row">${tagItems}</div>` : ""}
-            <div class="recipe-cta-row">${cookButtonMarkup}</div>
           </div>
         </div>
 
-        ${
-          recipe.notes
-            ? `
-              <section class="recipe-note-box">
-                <h3>Little note</h3>
-                <p>${escapeHtml(recipe.notes)}</p>
-              </section>
-            `
-            : ""
-        }
-
         <section class="method-section">
           <div class="subsection-heading">
-            <p class="section-kicker">Method</p>
-            <h2>Cook step by step</h2>
+            <h2>Method</h2>
           </div>
           <div class="step-grid">${methodItems}</div>
         </section>
@@ -1793,7 +2330,7 @@ function renderRecipes(recipes) {
     const fragment = recipeCardTemplate.content.cloneNode(true);
     const card = fragment.querySelector(".recipe-card");
     const image = fragment.querySelector(".recipe-image");
-    const category = fragment.querySelector(".recipe-category");
+    const category = fragment.querySelector(".recipe-card-category");
     const title = fragment.querySelector(".recipe-title");
     const description = fragment.querySelector(".recipe-description");
     const meta = fragment.querySelector(".recipe-meta");
@@ -1829,21 +2366,11 @@ function renderRecipes(recipes) {
       card.classList.add("is-active");
     }
 
-    const handleOpen = () => {
-      window.location.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
-    };
-
-    if (button) {
-      button.addEventListener("click", handleOpen);
-    }
-    card.addEventListener("click", (event) => {
-      if (event.target.tagName !== "BUTTON") {
-        handleOpen();
-      }
-    });
+    makeRecipeCardInteractive(card, recipe);
 
     recipeGrid.append(fragment);
   });
+  requestAnimationFrame(() => initializeRecipeRails(document));
 }
 
 function getRecipeIndex(recipes, recipeId) {
@@ -2042,11 +2569,12 @@ function renderSearchOverlayResults() {
 
   const searchTerm = normalizeText(overlaySearchInput.value);
   overlaySearchResults.innerHTML = "";
+  overlaySearchResults.classList.remove("is-latest", "is-matches");
 
   const buildResultCard = (recipe, onClick) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "search-overlay__result recipe-card";
+    button.className = "search-overlay__result recipe-card notebook-card";
 
     const imageWrap = document.createElement("div");
     imageWrap.className = "recipe-image-wrap";
@@ -2072,6 +2600,7 @@ function renderSearchOverlayResults() {
   };
 
   if (!searchTerm) {
+    overlaySearchResults.classList.add("is-latest");
     const latestHeader = document.createElement("div");
     latestHeader.className = "search-overlay__section-title";
     latestHeader.textContent = "Latest";
@@ -2092,6 +2621,8 @@ function renderSearchOverlayResults() {
     });
     return;
   }
+
+  overlaySearchResults.classList.add("is-matches");
 
   const matches = allRecipes
     .filter((recipe) => recipeMatches(recipe, searchTerm, "all"))
@@ -2174,6 +2705,8 @@ function applyFilters() {
 }
 
 async function init() {
+  siteSettings = await loadSiteSettings();
+  applySiteSettings(siteSettings);
   measurementSystem = loadMeasurementSystem();
   allRecipes = await loadRecipes();
   buildFilters(allRecipes);
@@ -2209,6 +2742,7 @@ async function init() {
 
   applyFilters();
   renderFeaturedRecipe(allRecipes);
+  renderCategoryRows(allRecipes);
   refreshIcons();
 
   const handleInlineSearchInput = () => {
@@ -2237,6 +2771,7 @@ async function init() {
   document.addEventListener("click", handleCookActions);
   document.addEventListener("keydown", handleOverlayKeydown);
   window.addEventListener("storage", handleStorageUpdate);
+  window.addEventListener("resize", () => initializeRecipeRails(document));
 
   if (searchOverlay) {
     searchOverlay.addEventListener("click", handleSearchOverlayClick);
@@ -2256,13 +2791,10 @@ async function handleStorageUpdate(event) {
   const currentSearch = searchInput?.value || "";
   const currentCategory = categoryFilter?.value || "all";
   const previewRecipes = loadPreviewRecipes();
-  if (previewRecipes.length) {
-    allRecipes = previewRecipes;
-  } else {
-    allRecipes = await loadRecipes();
-  }
+  allRecipes = await loadRecipes();
   buildFilters(allRecipes);
   renderFeaturedRecipe(allRecipes);
+  renderCategoryRows(allRecipes);
   if (searchInput) {
     searchInput.value = currentSearch;
   }
