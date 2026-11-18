@@ -117,6 +117,7 @@ function initNavigationDrawer() {
   drawer.innerHTML = `
     <div class="drawer-top"><h2 id="drawerTitle">Siena's Kitchen</h2><button type="button" class="drawer-close" aria-label="Close menu">×</button></div>
     <nav class="drawer-links" aria-label="Primary">
+      <a class="drawer-home" href="./index.html">Home <span aria-hidden="true">→</span></a>
       <a href="./recipe-library.html">A-Z Recipe library <span aria-hidden="true">→</span></a>
       <details><summary>By category</summary><div class="drawer-categories"><p>Loading categories…</p></div></details>
       <a href="./conversion.html">Cooking Conversion Calculator <span aria-hidden="true">→</span></a>

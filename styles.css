@@ -7194,3 +7194,51 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-feature-jar {
   background: #e8eee2;
   border-color: #819576;
 }
+
+.drawer-links > .drawer-home {
+  margin-bottom: 0.8rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #73846b;
+  border-radius: 10px;
+  background: #e5ecdf;
+  color: #2f4935;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.header-search-dialog { width: min(680px, calc(100% - 2rem)); max-height: 85dvh; padding: 1.5rem; border: 1px solid #b9aea2; border-radius: 18px; background: #fffdf7; color: #493d32; font-family: Aptos, Arial, sans-serif; }
+.header-search-dialog::backdrop { background: rgba(22,31,25,.45); }
+.header-search-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.header-search-top h2 { font: 700 1.5rem/1.2 Aptos, Arial, sans-serif; margin: 0; }
+.header-search-top button { background: #fff; border: 1px solid #b9aea2; border-radius: 8px; width: 44px; height: 44px; font-size: 1.6rem; cursor: pointer; }
+.header-search-dialog label { display: grid; gap: .4rem; }
+.header-search-dialog input { padding: .75rem; border: 1px solid #b9aea2; border-radius: 8px; font: inherit; }
+.header-search-results { display: grid; gap: .6rem; margin-top: 1rem; }
+.header-search-results a { display: flex; align-items: center; gap: .8rem; padding: .5rem; color: inherit; text-decoration: none; border: 1px solid #ded6c9; border-radius: 8px; }
+.header-search-results img { width: 66px; height: 56px; object-fit: cover; border-radius: 5px; }
+.header-search-dialog :is(a,button,input):focus-visible { outline: 3px solid #b57646; outline-offset: 3px; }
+
+/* A journal button matching About me, below the pantry introduction. */
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button {
+  grid-column: 1 / -1;
+  justify-self: start;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+  padding: 0.55rem 1.2rem;
+  border: 2px solid #31474d;
+  border-radius: 11px 14px 10px 13px;
+  background: #fffdf7;
+  color: #243a40;
+  box-shadow: 2px 3px 0 #31474d;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: normal;
+  text-align: left;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+body[data-page="home"] .pantry-open-button:active { transform: translate(2px, 3px); box-shadow: none; }
+.pantry-preview { width: min(90vw, 420px); padding: 1.8rem; border: 1px solid #d8cfc1; border-radius: 14px; background: #fffdf7; color: #51483e; }
+.pantry-preview::backdrop { background: rgb(20 30 25 / 40%); }
+.pantry-preview h2 { margin-top: 0; }
+.pantry-preview p { margin-block: 1rem 1.5rem; }
+@media (prefers-reduced-motion: reduce) { body[data-page="home"] .pantry-open-button { transition: none; } }

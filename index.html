@@ -139,8 +139,9 @@
                 <div class="pantry-card">
                   <h2 class="tool-card-title">My Pantry</h2>
                   <p class="tool-card-copy">
-                    A well-stocked kitchen is my secret to cooking anything, whenever. Here's what I keep on hand
+                    A well-stocked kitchen is my secret to cooking anything, whenever.
                   </p>
+                  <button class="button pantry-open-button" type="button" aria-haspopup="dialog" aria-controls="pantryPreview">Here's what I keep on hand <span aria-hidden="true">→</span></button>
                   <svg class="pantry-feature-jar" viewBox="0 0 80 110" fill="none" stroke="#8b7359" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                     <rect x="20" y="7" width="40" height="12" rx="3" fill="#afb49b" />
                     <path d="M26 10v6m7-6v6m7-6v6m7-6v6m7-6v6" />
@@ -370,5 +371,12 @@
     <script src="./app.js" defer></script>
     <script src="./footer.js" defer></script>
     <script src="./siena-mailing.js" defer></script>
+
+    <dialog id="pantryPreview" class="pantry-preview" aria-labelledby="pantryPreviewTitle">
+      <h2 id="pantryPreviewTitle">My Pantry</h2>
+      <p>My pantry list is coming soon.</p>
+      <form method="dialog"><button class="button" type="submit">Close</button></form>
+    </dialog>
+    <script src="./pantry-preview.js" defer></script>
   </body>
 </html>
