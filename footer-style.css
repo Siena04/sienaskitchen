@@ -419,3 +419,35 @@ body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon {
 body[data-page="home"] a.home-tool-app--calculator:hover .home-tool-app-icon {
   background: #536b55;
 }
+
+
+/* A green calculator on patterned sage stationery. */
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon {
+  --calculator-grid: linear-gradient(rgb(92 119 86 / 12%) 1px, transparent 1px), linear-gradient(90deg, rgb(92 119 86 / 12%) 1px, transparent 1px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--calculator-grid) center / 13px 13px #e2e9d9;
+}
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon::before {
+  content: "";
+  position: absolute;
+  width: 125%;
+  height: 125%;
+  left: -48%;
+  top: 8%;
+  border-radius: 46% 54% 42% 58%;
+  background: #738b6b;
+  transform: rotate(-22deg);
+}
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 67%;
+  height: 80%;
+  object-fit: contain;
+}
+body[data-page="home"] a.home-tool-app--calculator:hover .home-tool-app-icon {
+  background: var(--calculator-grid) center / 13px 13px #d8e3cf;
+}
