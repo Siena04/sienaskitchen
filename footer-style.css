@@ -320,3 +320,6 @@ body[data-page="home"] .home-shortcut--explore .home-instagram-handle {
   line-height: 0;
 }
 .site-header .brand-handle-icon svg { display: block; }
+
+.home-tools-caption { font-weight: 400; }
+.home-tools-caption strong { font-weight: 700; }
