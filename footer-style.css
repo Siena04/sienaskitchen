@@ -275,3 +275,48 @@ body[data-page="home"] .home-welcome-column .welcome-about-link {
   body[data-page="home"] .mailing-preview .mailing-preview-submit,
   .mailing-dialog .mailing-submit { transition: none; }
 }
+
+
+/* Align the social link and give its handle a soft, compact pill. */
+body[data-page="home"] .home-welcome-column .welcome-about-link {
+  top: 0.65rem;
+  left: 0.65rem;
+  right: auto;
+  bottom: auto;
+}
+body[data-page="home"] .home-shortcut--explore {
+  align-items: center;
+}
+body[data-page="home"] .home-shortcut--explore > span {
+  align-self: center;
+  margin-block: 0;
+}
+body[data-page="home"] .home-shortcut--explore .home-instagram-handle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid rgb(113 130 112 / 18%);
+  border-radius: 999px;
+  background: rgb(113 130 112 / 5%);
+  line-height: 1.2;
+}
+.home-instagram-handle svg {
+  display: block;
+  flex: 0 0 0.85rem;
+  width: 0.85rem;
+  height: 0.85rem;
+}
+.home-tools-caption {
+  font-size: 1rem;
+  line-height: 1.28;
+}
+.site-header .brand-handle { align-items: center; }
+.site-header .brand-handle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  line-height: 0;
+}
+.site-header .brand-handle-icon svg { display: block; }
