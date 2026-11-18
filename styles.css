@@ -6514,3 +6514,139 @@ body[data-page="home"] :is(.hero-feature-card, .hero-copy, .home-inspiration-car
 body[data-page="home"] :is(.hero-feature-card:hover, .hero-feature-card:focus-within, .hero-copy:hover, .hero-copy:focus-within, .home-inspiration-card:hover, .home-inspiration-card:focus-visible, .home-explore-card:hover, .home-explore-card:focus-visible) {
   box-shadow: none;
 }
+
+/* Preserve the desktop card arrangement when the window is narrowed. */
+body[data-page="home"] .hero-window.home-fixed-layout {
+  width: 1440px;
+  max-width: none;
+  zoom: var(--home-layout-scale, 1);
+  margin-inline: auto;
+}
+body[data-page="home"] .home-fixed-layout .hero-grid { padding: 0; gap: 1.6rem; }
+body[data-page="home"] .home-fixed-layout .hero-stack {
+  grid-template-columns: minmax(0, 390px) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  padding: 0;
+  gap: 1.25rem;
+}
+body[data-page="home"] .home-fixed-layout .home-welcome-column { gap: 1.25rem; }
+body[data-page="home"] .home-fixed-layout .home-inspiration { gap: 1.1rem; }
+body[data-page="home"] .home-fixed-layout .conversion-feature { gap: 1rem; }
+body[data-page="home"] .home-fixed-layout .home-welcome-column { grid-row: 1 / 3; width: 100%; justify-self: stretch; }
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy { padding: 0.65rem; }
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy h1 { font-size: 1.35rem; }
+body[data-page="home"] .home-fixed-layout .welcome-kitchen-photo { aspect-ratio: 16 / 11; border-radius: 18px; }
+body[data-page="home"] .home-fixed-layout .hero-feature-card { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+body[data-page="home"] .home-fixed-layout .hero-feature-card .feature-image { min-height: 360px; aspect-ratio: auto; }
+body[data-page="home"] .home-fixed-layout .feature-info { padding: 3.6rem; }
+body[data-page="home"] .home-fixed-layout .feature-title { font-size: 2.7rem; }
+body[data-page="home"] .home-fixed-layout .home-inspiration,
+body[data-page="home"] .home-fixed-layout .conversion-feature { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+body[data-page="home"] .home-fixed-layout .home-inspiration-content strong { font-size: 1.3rem; }
+body[data-page="home"] .home-fixed-layout .tool-card-title { font-size: 1.35rem; }
+body[data-page="home"] .home-fixed-layout :is(.conversion-card, .notion-meal-card) { min-height: 170px; }
+
+body[data-page="home"] .conversion-card,
+body[data-page="home"] .notion-meal-card { padding-left: 1.7rem; }
+body[data-page="home"] .home-explore-card { padding-left: 1.7rem; }
+body[data-page="home"] .home-tools-heading { margin-left: 0.5rem; }
+body[data-page="home"] .home-fixed-layout .feature-info { padding-left: 4rem; }
+
+/* Header menu and animated navigation drawer. */
+body[data-page] .site-header {
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "menu brand";
+  align-items: center;
+  column-gap: 1rem;
+}
+body[data-page="home"] .site-header {
+  grid-template-columns: auto auto minmax(0, 1fr) minmax(180px, 300px);
+  grid-template-areas: "menu brand stickers search";
+}
+.header-menu-toggle {
+  grid-area: menu;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: #fffdf7;
+  color: #28312c;
+  border: 2px solid #28312c;
+  border-radius: 11px 14px 10px 13px;
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+.header-menu-toggle svg { width: 22px; height: 22px; }
+.header-menu-toggle:active { transform: scale(0.92); }
+.header-menu-toggle:focus-visible, .drawer-close:focus-visible, .drawer-links :is(a, summary):focus-visible { outline: 3px solid #b57646; outline-offset: 4px; }
+.navigation-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  margin: 0;
+  width: min(380px, 90vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  padding: 1.5rem;
+  border: 0;
+  border-right: 1px solid #d8c6be;
+  color: #4d3b32;
+  background-color: #fffaf1;
+  background-image: linear-gradient(rgba(170,145,124,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(170,145,124,.09) 1px, transparent 1px);
+  background-size: 24px 24px;
+  font-family: Aptos, Arial, sans-serif;
+  overflow-y: auto;
+}
+.navigation-drawer[open] { animation: drawer-in 240ms ease-out both; }
+.navigation-drawer.is-closing { animation: drawer-out 180ms ease-in both; }
+.navigation-drawer::backdrop { background: rgba(22, 31, 25, .4); }
+.drawer-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.drawer-top h2 { margin: 0; font-family: inherit; font-size: 1.5rem; line-height: 1.2; }
+.drawer-close { flex: 0 0 44px; height: 44px; border: 1px solid #6f5a53; border-radius: 10px; background: #fffdf7; color: inherit; font: 28px/1 Aptos, Arial, sans-serif; cursor: pointer; }
+.drawer-links { display: grid; }
+.drawer-links > a, .drawer-links summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem .4rem; border-bottom: 1px solid #d8c6be; font-size: 1.05rem; font-weight: 700; line-height: 1.4; cursor: pointer; }
+.drawer-links a { color: inherit; text-decoration: none; }
+.drawer-links summary { list-style: none; }
+.drawer-links summary::-webkit-details-marker { display: none; }
+.drawer-links summary::after { content: "+"; }
+.drawer-links details[open] summary::after { content: "−"; }
+.drawer-links :is(a, summary):hover { color: #8b5a34; background: rgba(239,225,210,.5); }
+.drawer-categories { display: grid; padding: .5rem 0 .5rem 1rem; }
+.drawer-categories a { padding: .65rem .4rem; }
+@keyframes drawer-in { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes drawer-out { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@media (max-width: 1100px) {
+  body[data-page="home"] .site-header { grid-template-columns: auto minmax(0, 1fr) minmax(180px, 300px); grid-template-areas: "menu brand search"; }
+  body[data-page="home"] .site-header .header-sticker-shelf { display: none; }
+}
+@media (max-width: 760px) {
+  body[data-page="home"] .site-header { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "menu brand" "search search"; row-gap: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .navigation-drawer[open], .navigation-drawer.is-closing { animation: none; }
+  .header-menu-toggle { transition: none; }
+}
+
+/* Restore inset caption bars and use the paper itself as the welcome card. */
+body[data-page="home"] .home-inspiration-content { padding-left: 1.8rem; }
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.7rem 0.65rem 0.85rem;
+}
+body[data-page="home"] .home-welcome-column .hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, #fffdf4, #f8f3e4);
+  clip-path: polygon(0 1%, 5% 0.3%, 10% 1%, 16% 0, 23% 0.7%, 30% 0.2%, 38% 1%, 45% 0, 52% 0.6%, 60% 0.1%, 68% 0.8%, 76% 0, 84% 0.6%, 92% 0.2%, 100% 1%, 100% 98.8%, 94% 99.6%, 87% 98.7%, 80% 100%, 73% 99%, 66% 99.7%, 59% 98.7%, 52% 99.8%, 45% 99%, 38% 100%, 31% 98.9%, 24% 99.6%, 17% 98.8%, 10% 99.8%, 4% 99%, 0 99.5%);
+}
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
+  filter: drop-shadow(0 3px 2px rgba(88, 73, 57, 0.17));
+}

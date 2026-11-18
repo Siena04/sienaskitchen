@@ -106,3 +106,64 @@ async function initFooterCategories() {
 }
 
 initFooterCategories();
+
+function initNavigationDrawer() {
+  const toggle = document.querySelector('[data-menu-toggle]');
+  if (!toggle) return;
+  const drawer = document.createElement('dialog');
+  drawer.className = 'navigation-drawer';
+  drawer.id = 'navigationDrawer';
+  drawer.setAttribute('aria-labelledby', 'drawerTitle');
+  drawer.innerHTML = `
+    <div class="drawer-top"><h2 id="drawerTitle">Siena's Kitchen</h2><button type="button" class="drawer-close" aria-label="Close menu">×</button></div>
+    <nav class="drawer-links" aria-label="Primary">
+      <a href="./recipe-library.html">A-Z Recipe library <span aria-hidden="true">→</span></a>
+      <details><summary>By category</summary><div class="drawer-categories"><p>Loading categories…</p></div></details>
+      <a href="./conversion.html">Cooking Conversion Calculator <span aria-hidden="true">→</span></a>
+      <a href="./about.html">About <span aria-hidden="true">→</span></a>
+    </nav>`;
+  document.body.append(drawer);
+  let closing = false;
+  let previousOverflow = '';
+  const finishClose = () => {
+    drawer.close();
+    drawer.classList.remove('is-closing');
+    closing = false;
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = previousOverflow;
+    toggle.focus();
+  };
+  const close = () => {
+    if (!drawer.open || closing) return;
+    closing = true;
+    drawer.classList.add('is-closing');
+    window.setTimeout(finishClose, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180);
+  };
+  toggle.addEventListener('click', () => {
+    previousOverflow = document.body.style.overflow;
+    drawer.showModal();
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    drawer.querySelector('.drawer-close').focus();
+  });
+  drawer.querySelector('.drawer-close').addEventListener('click', close);
+  drawer.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
+  drawer.addEventListener('click', (event) => {
+    if (event.target !== drawer) return;
+    const bounds = drawer.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) close();
+  });
+  loadRecipesForCategories().then((recipes) => {
+    const categories = [...new Set(recipes.map((recipe) => recipe.category).filter(Boolean))].sort();
+    const container = drawer.querySelector('.drawer-categories');
+    container.replaceChildren();
+    categories.forEach((category) => {
+      const link = document.createElement('a');
+      link.href = `./recipe-library.html?category=${encodeURIComponent(category)}`;
+      link.textContent = category;
+      container.append(link);
+    });
+    if (!categories.length) container.textContent = 'No categories yet.';
+  });
+}
+initNavigationDrawer();
