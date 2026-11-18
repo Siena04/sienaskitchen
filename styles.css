@@ -6494,3 +6494,17 @@ body[data-page="home"] .feature-info .feature-tag::after {
   opacity: 0.65;
   transform: rotate(1.2deg);
 }
+
+/* More visible journal-paper edges. */
+body[data-page="home"] .hero-feature-card {
+  border: 2px solid #425e65;
+  box-shadow: 5px 5px 0 #fffaf1, 8px 8px 0 #78949a;
+}
+body[data-page="home"] .hero-feature-card:hover,
+body[data-page="home"] .hero-feature-card:focus-within {
+  box-shadow: 5px 5px 0 #fffaf1, 8px 8px 0 #78949a, 0 14px 24px rgba(50, 66, 68, 0.14);
+}
+body[data-page="home"] :is(.home-inspiration-card, .conversion-feature, .home-explore-card) {
+  border: 2px solid #a98e7d;
+  box-shadow: 3px 4px 0 rgba(129, 101, 83, 0.24);
+}
