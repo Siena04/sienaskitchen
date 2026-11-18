@@ -2318,6 +2318,7 @@ function selectRecipe(recipeId, options = {}) {
 }
 
 function renderRecipes(recipes) {
+  recipes = recipes.filter((recipe) => /dinner/i.test(recipe.category || ""));
   recipeGrid.innerHTML = "";
 
   if (!recipes.length) {
@@ -2704,6 +2705,54 @@ function applyFilters() {
   renderRecipes(filteredRecipes);
 }
 
+function renderHomeCollections(recipes) {
+  const searchable = (recipe) => [recipe.title, recipe.category, ...(recipe.tags || [])].join(" ").toLowerCase();
+  const pick = (pattern) => recipes.filter((recipe) => pattern.test(searchable(recipe)));
+  const collections = {
+    hungry: recipes.filter((recipe) => !/dinner/i.test(recipe.category || "")),
+    festive: pick(/christmas|festive|holiday|spiced|cinnamon|ginger/),
+    wellness: pick(/healthy|protein|chicken|salad/).slice(0, 3),
+    baking: pick(/baking|dessert|bake|cookies/),
+  };
+
+  Object.entries(collections).forEach(([name, entries]) => {
+    const container = document.querySelector(`[data-home-collection="${name}"]`);
+    if (!container) return;
+    container.replaceChildren();
+    const shown = name === "festive" ? entries.slice(0, 4) : entries;
+    if (!shown.length) {
+      const message = document.createElement("p");
+      message.className = "collection-empty";
+      message.textContent = "More recipes coming soon.";
+      container.append(message);
+      return;
+    }
+    shown.forEach((recipe) => {
+      if (name === "hungry" || name === "baking") {
+        const card = buildRecipeCard(recipe);
+        if (card) container.append(card);
+        return;
+      }
+      const link = document.createElement("a");
+      link.className = name === "festive" ? "festive-recipe" : "wellness-option";
+      link.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
+      if (recipe.image) {
+        const image = document.createElement("img");
+        image.src = recipe.image;
+        image.alt = "";
+        image.loading = "lazy";
+        link.append(image);
+      }
+      const title = document.createElement("strong");
+      title.textContent = recipe.title || "Recipe";
+      link.append(title);
+      container.append(link);
+    });
+  });
+  requestAnimationFrame(() => initializeRecipeRails(document));
+}
+
+
 async function init() {
   siteSettings = await loadSiteSettings();
   applySiteSettings(siteSettings);
@@ -2743,6 +2792,7 @@ async function init() {
   applyFilters();
   renderFeaturedRecipe(allRecipes);
   renderCategoryRows(allRecipes);
+  renderHomeCollections(allRecipes);
   refreshIcons();
 
   const handleInlineSearchInput = () => {
@@ -2795,6 +2845,7 @@ async function handleStorageUpdate(event) {
   buildFilters(allRecipes);
   renderFeaturedRecipe(allRecipes);
   renderCategoryRows(allRecipes);
+  renderHomeCollections(allRecipes);
   if (searchInput) {
     searchInput.value = currentSearch;
   }
@@ -2812,3 +2863,17 @@ async function handleStorageUpdate(event) {
   applyFilters();
   refreshIcons();
 }
+
+// Scale the homepage feature/cards together without changing their arrangement.
+(() => {
+  const hero = document.querySelector('body[data-page="home"] .hero-window');
+  if (!hero) return;
+  const designWidth = 1440;
+  const resizeHero = () => {
+    const availableWidth = hero.parentElement.clientWidth;
+    hero.style.setProperty('--home-layout-scale', Math.min(1, availableWidth / designWidth));
+  };
+  hero.classList.add('home-fixed-layout');
+  resizeHero();
+  new ResizeObserver(resizeHero).observe(hero.parentElement);
+})();

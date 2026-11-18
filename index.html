@@ -168,8 +168,8 @@
             <div class="section-heading recipe-showcase-heading">
               <div>
                 <p class="section-kicker">From the recipe archive</p>
-                <h2 data-site-library-title>More to cook next</h2>
-                <p class="section-intro">Fresh favourites, weeknight wins and something sweet.</p>
+                <h2>Dinner ideas</h2>
+                <p class="section-intro">Find your next favourite dinner.</p>
               </div>
               <div class="rail-controls" aria-label="More recipes">
                 <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous recipes">
@@ -187,6 +187,37 @@
               <span class="rail-progress-thumb"></span>
             </div>
           </div>
+          <div class="recipe-showcase" data-recipe-rail>
+            <div class="section-heading recipe-showcase-heading">
+              <div><p class="section-kicker">More from the kitchen</p><h2>Still hungry?</h2></div>
+              <div class="rail-controls" aria-label="More recipes">
+                <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous recipes">←</button>
+                <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next recipes">→</button>
+              </div>
+            </div>
+            <div class="recipe-rail-viewport"><div class="recipe-grid" data-home-collection="hungry" aria-live="polite"></div></div>
+            <div class="rail-progress" role="progressbar" aria-label="More recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
+          </div>
+
+          <section class="festive-feature" aria-labelledby="festiveHeading">
+            <div class="festive-feature-heading">
+              <div><p class="section-kicker">A little seasonal inspiration</p><h2 id="festiveHeading">Festive bites <span aria-hidden="true">✦</span></h2><p>Cosy flavours and treats for the festive table.</p></div>
+              <a class="festive-all-link" href="./recipe-library.html">Explore the archive <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="festive-recipes" data-home-collection="festive"></div>
+          </section>
+
+          <section class="wellness-feature" aria-labelledby="wellnessHeading">
+            <div class="wellness-feature-copy">
+              <p class="section-kicker">A note from Siena</p>
+              <h2 id="wellnessHeading">Good food, made for real life.</h2>
+              <p>A little space for the wholesome recipes I love. More to come as this collection grows.</p>
+              <a class="button wellness-feature-link" href="./recipe-library.html">Explore the recipes <span aria-hidden="true">→</span></a>
+            </div>
+            <img class="wellness-feature-photo" src="./assets/welcome-to-my-kitchen.jpg" alt="Siena in the kitchen" loading="lazy" />
+            <div class="wellness-feature-options" data-home-collection="wellness" aria-label="Recipe ideas"></div>
+          </section>
+
 
           <div class="category-browser">
             <div class="section-heading category-heading">
@@ -197,6 +228,18 @@
             </div>
             <div id="categoryRows" class="category-rows" aria-live="polite"></div>
           </div>
+          <div class="recipe-showcase baking-showcase" data-recipe-rail>
+            <div class="section-heading recipe-showcase-heading">
+              <div><p class="section-kicker">Something from the oven</p><h2>Baking</h2></div>
+              <div class="rail-controls" aria-label="Baking recipes">
+                <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous baking recipes">←</button>
+                <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next baking recipes">→</button>
+              </div>
+            </div>
+            <div class="recipe-rail-viewport"><div class="recipe-grid" data-home-collection="baking" aria-live="polite"></div></div>
+            <div class="rail-progress" role="progressbar" aria-label="Baking recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
+          </div>
+
         </section>
 
       </main>
