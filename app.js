@@ -2670,7 +2670,7 @@ function renderHomeCollections(recipes) {
   const collections = {
     hungry: recipes.filter((recipe) => !/dinner/i.test(recipe.category || "")),
     festive: pick(/christmas|festive|holiday|spiced|cinnamon|ginger/),
-    wellness: pick(/healthy|protein|chicken|salad/).slice(0, 3),
+    wellness: pick(/baking|dessert|bake|cookies|sweet/).slice(0, 3),
     baking: pick(/baking|dessert|bake|cookies/),
   };
 

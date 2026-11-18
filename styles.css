@@ -6777,3 +6777,29 @@ body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy h1 {
   color: #604532;
   margin-bottom: 0.65rem;
 }
+
+/* Big Treat Energy feature */
+body[data-page="home"] .wellness-feature {
+  grid-template-columns: minmax(0, 1fr) minmax(170px, 0.7fr) minmax(260px, 1.1fr);
+}
+body[data-page="home"] .wellness-feature-copy p:not(.section-kicker) { max-width: 48ch; }
+body[data-page="home"] .treat-image-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  border: 1px dashed #bdaea0;
+  border-radius: 16px;
+  background: #f7f1e9;
+  color: #796b60;
+  font-size: 0.9rem;
+}
+@media (max-width: 980px) {
+  body[data-page="home"] .wellness-feature { grid-template-columns: 1fr 1fr; }
+  body[data-page="home"] .wellness-feature-options { grid-column: 1 / -1; grid-row: 2; }
+  body[data-page="home"] .treat-image-placeholder { grid-column: 2; grid-row: 1; }
+}
+@media (max-width: 600px) {
+  body[data-page="home"] .wellness-feature { grid-template-columns: 1fr; }
+  body[data-page="home"] .wellness-feature-options, body[data-page="home"] .treat-image-placeholder { grid-column: auto; grid-row: auto; }
+  body[data-page="home"] .treat-image-placeholder { min-height: 190px; }
+}
