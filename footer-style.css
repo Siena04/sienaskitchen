@@ -121,3 +121,20 @@ body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-conte
 body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-kicker,
 body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content::after { color: #fff7e8; }
 body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content strong::before { content: "❄"; color: #ffe6b8; margin-right: 0.5rem; }
+
+/* White welcome card with a fine, gently wavering pencil outline. */
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
+  position: relative;
+  background: #fff;
+  border-color: transparent;
+  box-shadow: none;
+}
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  clip-path: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 320' preserveAspectRatio='none'%3E%3Cpath d='M16 2 C65 0 100 4 145 2 S230 1 275 2 S345 0 384 2 Q398 2 398 16 C396 60 400 85 398 125 S396 205 398 250 S399 282 398 304 Q398 318 384 318 C340 320 300 316 255 318 S170 319 125 318 S60 320 16 318 Q2 318 2 304 C0 265 4 230 2 190 S1 110 2 75 S0 35 2 16 Q2 2 16 2 Z' fill='none' stroke='%23d8d3c9' stroke-width='0.8' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
