@@ -6508,3 +6508,9 @@ body[data-page="home"] :is(.home-inspiration-card, .conversion-feature, .home-ex
   border: 2px solid #a98e7d;
   box-shadow: 3px 4px 0 rgba(129, 101, 83, 0.24);
 }
+
+/* Clean borders without the offset paper shadow. */
+body[data-page="home"] :is(.hero-feature-card, .hero-copy, .home-inspiration-card, .conversion-feature, .home-explore-card),
+body[data-page="home"] :is(.hero-feature-card:hover, .hero-feature-card:focus-within, .hero-copy:hover, .hero-copy:focus-within, .home-inspiration-card:hover, .home-inspiration-card:focus-visible, .home-explore-card:hover, .home-explore-card:focus-visible) {
+  box-shadow: none;
+}
