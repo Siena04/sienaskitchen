@@ -6860,3 +6860,5 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 11px 50%);
 }
 body[data-page="home"] .recipe-showcase .recipe-card-category::after { display: none; }
+
+body[data-page="home"] .recipe-showcase .recipe-card-category::before { background: #f4e6cc; }
