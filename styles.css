@@ -7261,3 +7261,22 @@ body[data-page="home"] .wellness-feature-copy .section-kicker::before,
 body[data-page="home"] .wellness-feature-copy .section-kicker::after {
   background: #d8b66f;
 }
+
+/* Keep the portrait's About me link small and understated. */
+body[data-page="home"] .home-welcome-column .welcome-about-link {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgb(90 105 102 / 40%);
+  border-radius: 10px 12px 9px 11px;
+  background: rgb(255 253 247 / 83%);
+  color: #5b6966;
+  box-shadow: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+body[data-page="home"] .home-welcome-column .welcome-about-link:hover,
+body[data-page="home"] .home-welcome-column .welcome-about-link:focus-visible {
+  background: #fffdf7;
+  color: #243a40;
+  box-shadow: none;
+}
