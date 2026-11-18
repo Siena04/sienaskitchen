@@ -191,7 +191,6 @@
             <div class="section-heading recipe-showcase-heading">
               <div>
                 <h2>What's for dinner?</h2>
-                <p class="section-intro dinner-caption">Good food, even on your busiest days</p>
               </div>
               <div class="rail-controls" aria-label="More recipes">
                 <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous recipes">
@@ -208,6 +207,24 @@
             <div class="rail-progress" role="progressbar" aria-label="Recipe list position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
               <span class="rail-progress-thumb"></span>
             </div>
+          </div>
+          <div class="recipe-showcase" data-recipe-rail aria-labelledby="onePotHeading">
+            <div class="section-heading recipe-showcase-heading">
+              <div>
+                <h2 id="onePotHeading">
+                  ONE POT
+                  <svg width="0.85em" height="0.85em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M3 11h13v5a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-5Zm13 2 5-2M2 11h15M7 7h5m-2.5 0v4" />
+                  </svg>
+                </h2>
+              </div>
+              <div class="rail-controls" aria-label="One pot recipes">
+                <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous one pot recipes">←</button>
+                <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next one pot recipes">→</button>
+              </div>
+            </div>
+            <div class="recipe-rail-viewport"><div class="recipe-grid" data-home-collection="one-pot" aria-live="polite"></div></div>
+            <div class="rail-progress" role="progressbar" aria-label="One pot recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
           </div>
           <div class="recipe-showcase" data-recipe-rail>
             <div class="section-heading recipe-showcase-heading">

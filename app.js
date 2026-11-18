@@ -2729,6 +2729,7 @@ function renderHomeCollections(recipes) {
     festive: pick(/christmas|festive|holiday|spiced|cinnamon|ginger/),
     wellness: pick(/baking|dessert|bake|cookies|sweet/).slice(0, 3),
     baking: pick(/baking|dessert|bake|cookies/),
+    "one-pot": pick(/one[ -]pot|stew|chilli|chili|risoni|risotto/),
   };
 
   Object.entries(collections).forEach(([name, entries]) => {
@@ -2744,7 +2745,7 @@ function renderHomeCollections(recipes) {
       return;
     }
     shown.forEach((recipe) => {
-      if (name === "hungry" || name === "baking") {
+      if (name === "hungry" || name === "baking" || name === "one-pot") {
         const card = buildRecipeCard(recipe);
         if (card) container.append(card);
         return;
