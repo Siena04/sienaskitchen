@@ -212,7 +212,7 @@ body[data-page="home"] .home-fixed-layout .home-welcome-column:has(> .home-short
 body[data-page="home"] .home-shortcut--explore .home-instagram-handle {
   margin-left: auto;
   color: #8b958b;
-  font: 400 1.19rem/1.2 "Aptos", Arial, sans-serif;
+  font: 400 0.78rem/1.2 "Aptos", Arial, sans-serif;
   white-space: nowrap;
 }
 body[data-page="home"] .home-shortcut--explore .home-shortcut-arrow { margin-left: 0; }
@@ -229,7 +229,7 @@ body[data-page="home"] .home-shortcuts {
   padding: 0 0 0.45rem;
   border-bottom: 1px solid rgb(116 123 112 / 18%);
   color: #85887e;
-  font: 400 1.52rem/1.25 "Aptos", Arial, sans-serif;
+  font: 500 0.92rem/1.35 "Aptos", Arial, sans-serif;
   text-align: left;
   text-wrap: pretty;
 }
@@ -243,5 +243,7 @@ body[data-page="home"] .home-shortcut.home-tool-app {
 body[data-page="home"] .home-tool-app-icon { width: min(6.3rem, 68%); max-width: none; }
 body[data-page="home"] .home-tool-app > span:last-child { font-size: 0.95rem; line-height: 1.15; }
 
-body[data-page="home"] .home-shortcut--explore { column-gap: 0.35rem; padding-inline: 0.75rem; }
+body[data-page="home"] .home-shortcut--explore { min-height: 2.85rem; column-gap: 0.6rem; padding: 0.55rem 0.85rem; }
 body[data-page="home"] .home-shortcut--explore > span:first-child { min-width: 0; }
+
+body[data-page="home"] .hero-stack .home-shortcut--explore > span:first-child { font-size: 1.1rem; }
