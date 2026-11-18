@@ -212,15 +212,7 @@ body.ads-enabled .ad-rail--right {
 }
 
 .page-shell::after {
-  width: 224px;
-  height: 286px;
-  right: 0.5rem;
-  top: 30rem;
-  border: 2px solid rgba(111, 90, 83, 0.14);
-  border-radius: 28px;
-  background: rgba(255, 253, 247, 0.95);
-  box-shadow: 0 12px 30px rgba(146, 109, 93, 0.08);
-  transform: rotate(5deg);
+  display: none;
 }
 
 .site-header {
@@ -6462,4 +6454,43 @@ body[data-page="home"] .home-tool-calculator {
 @media (prefers-reduced-motion: reduce) {
   body[data-page="home"] .button.conversion-button,
   body[data-page="home"] .feature-info .feature-button { transition: none; }
+}
+
+/* Keep the return arrow inside the page at every zoom level. */
+body:is([data-page="library"], [data-page="conversion"]) .journal-back { left: 0; }
+body[data-page="library"] .az-library > .section-heading,
+body[data-page="conversion"] .conversion-hero-top { padding-left: 3.8rem; }
+
+/* A soft, sketchbook-like edge for the homepage cards. */
+body[data-page="home"] .hero-feature-card {
+  border: 2px solid #69838a;
+  box-shadow: 5px 6px 0 rgba(81, 108, 112, 0.24);
+}
+body[data-page="home"] :is(.hero-copy, .home-inspiration-card, .conversion-feature, .home-explore-card) {
+  border: 1.5px solid rgba(111, 90, 83, 0.36);
+  box-shadow: 3px 4px 0 rgba(111, 90, 83, 0.13);
+}
+body[data-page="home"] .feature-info .feature-tag {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.65rem;
+}
+body[data-page="home"] .feature-info .feature-tag::before,
+body[data-page="home"] .feature-info .feature-tag::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0.22rem;
+  width: 100%;
+  height: 1px;
+  border-radius: 50%;
+  background: rgba(54, 78, 83, 0.7);
+  transform: rotate(-1.4deg);
+}
+body[data-page="home"] .feature-info .feature-tag::after {
+  left: 4%;
+  bottom: 0.06rem;
+  width: 92%;
+  opacity: 0.65;
+  transform: rotate(1.2deg);
 }
