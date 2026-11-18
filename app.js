@@ -1771,7 +1771,7 @@ function buildCookModeMarkup(recipe, stepIndex) {
   const safeIndex = totalSteps ? Math.min(Math.max(stepIndex, 0), totalSteps - 1) : 0;
   const stepEntry = steps[safeIndex];
   const stepText = getStepText(stepEntry) || "No steps added yet.";
-  const stepMarkup = highlightIngredientMentions(stepText, recipe.ingredients || []);
+  const stepMarkup = buildMethodRenderer(recipe)(stepText, safeIndex);
   const stepIsCook = isCookStep(stepEntry);
   const ingredientGroups = buildCookIngredients(recipe.ingredients || [], stepEntry);
   const showGroupTitles =
@@ -1995,34 +1995,13 @@ function buildIngredientMatchTerms(ingredients) {
   return [...terms].sort((a, b) => b.length - a.length);
 }
 
-function highlightIngredientMentions(stepText, ingredients) {
-  const text = String(stepText || "");
-  const terms = buildIngredientMatchTerms(ingredients);
-  if (!text || !terms.length) {
-    return escapeHtml(text);
-  }
-
-  const findAmount = window.methodQuantities.createLookup(ingredients, buildIngredientMatchTerms);
-  const pattern = terms
-    .map((term) => term.split(" ").map(escapeRegExp).join("\\s+"))
-    .join("|");
-  const matcher = new RegExp(`(^|[^A-Za-z0-9_])(${pattern})(?=$|[^A-Za-z0-9_])`, "gi");
-  let markup = "";
-  let lastIndex = 0;
-
-  text.replace(matcher, (match, prefix, ingredient, offset) => {
-    const ingredientStart = offset + prefix.length;
-    markup += escapeHtml(text.slice(lastIndex, ingredientStart));
-    markup += `<strong class="ingredient-mention">${escapeHtml(ingredient)}</strong>`;
-    const amount = findAmount(text, ingredientStart, ingredient);
-    if (amount) {
-      markup += `<span class="method-ingredient-amount"> (${escapeHtml(amount)})</span>`;
-    }
-    lastIndex = ingredientStart + ingredient.length;
-    return match;
-  });
-
-  return `${markup}${escapeHtml(text.slice(lastIndex))}`;
+function buildMethodRenderer(recipe) {
+  return window.methodQuantities.makeRenderer(
+    buildIngredientGroups(recipe.ingredients),
+    (recipe.steps || []).map(getStepText),
+    normalizeIngredientForMatch,
+    escapeHtml
+  );
 }
 
 function buildFilters(recipes) {
@@ -2086,10 +2065,11 @@ function buildRecipeViewMarkup(recipe, options = {}) {
     measureSystem: measurementSystem,
   });
 
+  const renderMethodStep = buildMethodRenderer(recipe);
   const methodItems = (recipe.steps || [])
     .map((item, index) => {
       const stepText = getStepText(item);
-      const stepMarkup = highlightIngredientMentions(stepText, recipe.ingredients || []);
+      const stepMarkup = renderMethodStep(stepText, index);
       const stepIsCook = isCookStep(item);
       return `
         <article class="step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">

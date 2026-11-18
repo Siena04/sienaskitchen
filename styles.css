@@ -7179,20 +7179,22 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-feature-jar {
   pointer-events: none;
 }
 
-.method-ingredient-amount { display: none; }
-.show-method-quantities .method-ingredient-amount { display: inline; font-weight: 700; color: #53654e; }
+.method-ingredient-replacement,
+.show-method-quantities .method-ingredient-original { display: none; }
+.show-method-quantities .method-ingredient-replacement { display: inline; }
 
-.method-quantity-toggle {
+.button.method-quantity-toggle {
   margin-top: 0.5rem;
   min-height: 44px;
   font-size: 0.85rem;
   text-align: left;
+  color: #3d3934;
+  background: #fff;
 }
 
-.method-quantity-toggle[aria-pressed="true"] {
-  color: #36513a;
-  background: #e8eee2;
-  border-color: #819576;
+.button.method-quantity-toggle[aria-pressed="true"] {
+  background: #e3e3e3;
+  border-color: #77736d;
 }
 
 .drawer-links > .drawer-home {
