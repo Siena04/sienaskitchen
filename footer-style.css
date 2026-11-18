@@ -247,3 +247,31 @@ body[data-page="home"] .home-shortcut--explore { min-height: 2.85rem; column-gap
 body[data-page="home"] .home-shortcut--explore > span:first-child { min-width: 0; }
 
 body[data-page="home"] .hero-stack .home-shortcut--explore > span:first-child { font-size: 1.1rem; }
+
+
+/* Match the recipe button's white journal style and keep arrows legible. */
+body[data-page="home"] .mailing-preview .mailing-preview-submit,
+.mailing-dialog .mailing-submit {
+  border: 1px solid #31474d;
+  border-radius: 11px 14px 10px 13px;
+  background: #fff;
+  color: #243a40;
+  box-shadow: 2px 3px 0 #31474d;
+  padding: 0.55rem 1.1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+body[data-page="home"] .mailing-preview .mailing-preview-submit:active,
+.mailing-dialog .mailing-submit:active {
+  transform: translate(2px, 3px);
+  box-shadow: none;
+}
+body[data-page="home"] .feature-info .feature-button,
+body[data-page="home"] .home-welcome-column .welcome-about-link {
+  column-gap: 0.4em;
+}
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="home"] .mailing-preview .mailing-preview-submit,
+  .mailing-dialog .mailing-submit { transition: none; }
+}
