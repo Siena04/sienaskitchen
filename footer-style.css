@@ -54,3 +54,11 @@ body[data-page="home"] .site-header .brand-lockup {
   body[data-page="home"] .site-header { column-gap: 0.8rem; }
   body[data-page="home"] .site-header .brand-lockup { margin-left: 0.1rem; }
 }
+
+/* A light warm-paper tone for the welcome card. */
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
+  background: linear-gradient(120deg, #f6ecdc, #f0e2cd);
+}
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy::before {
+  background: linear-gradient(120deg, #f6ecdc, #f0e2cd);
+}
