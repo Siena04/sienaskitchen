@@ -1,0 +1,26 @@
+.mailing-card { padding: 1.15rem 1.3rem; border: 1px solid #d8cfc1; border-radius: 15px; background: #fffdf8; color: #493d32; }
+.mailing-card h2 { margin: 0 0 .5rem; font-family: inherit; font-size: 1.25rem; line-height: 1.2; }
+.mailing-card p { color: #78695d; font-size: .85rem; }
+.mailing-card small { display: block; margin-top: .6rem; color: #78695d; font-size: .72rem; }
+.mailing-preview { display: flex; gap: .4rem; margin-top: .8rem; }
+.mailing-preview button { border: 1px solid #b9aea2; border-radius: 8px; padding: .6rem .7rem; font: inherit; cursor: pointer; }
+.mailing-preview-field { flex: 1; min-width: 0; text-align: left; color: #756b61; background: #fff; }
+.mailing-preview-submit, .mailing-submit { background: #dce9dc; color: #334a37; font-weight: 700; }
+.mailing-dialog { width: min(540px, calc(100% - 2rem)); max-height: min(85dvh, 800px); padding: 1.5rem; border: 1px solid #b9aea2; border-radius: 18px; color: #493d32; background: #fffdf8; font-family: Aptos, Arial, sans-serif; }
+.mailing-dialog::backdrop { background: rgba(22,31,25,.5); }
+.mailing-dialog-top { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.mailing-dialog-top h2 { margin: 0; font: 700 1.5rem/1.2 Aptos, Arial, sans-serif; }
+.mailing-close { width: 40px; height: 40px; border: 1px solid #b9aea2; border-radius: 10px; background: #fff; font-size: 1.6rem; cursor: pointer; }
+.mailing-notice { margin: .8rem 0 1rem; font-size: .84rem; color: #795d4c; }
+.mailing-form[hidden], .mailing-thanks[hidden] { display: none; }
+.mailing-form { display: grid; gap: .9rem; }
+.mailing-form > label, .mailing-form fieldset > label:last-child { display: grid; gap: .35rem; font-weight: 700; }
+.mailing-form input:not([type="checkbox"]) { width: 100%; border: 1px solid #b9aea2; border-radius: 8px; padding: .65rem; font: inherit; }
+.mailing-form fieldset { display: flex; flex-wrap: wrap; gap: .6rem 1rem; border: 1px solid #ded6c9; border-radius: 10px; padding: .8rem; }
+.mailing-form fieldset label { font-size: .9rem; }
+.mailing-form fieldset > label:last-child { flex: 1 0 100%; }
+.mailing-form legend { font-weight: 700; }
+.mailing-form legend small { font-weight: 400; }
+.mailing-submit { justify-self: start; padding: .7rem 1rem; border: 1px solid #91a691; border-radius: 9px; cursor: pointer; font: inherit; font-weight: 700; }
+.mailing-card button:focus-visible, .mailing-dialog :is(button,input):focus-visible { outline: 3px solid #b57646; outline-offset: 2px; }
+.mailing-thanks h3 { margin: 1.2rem 0 .5rem; }
