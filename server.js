@@ -66,6 +66,39 @@ function sendJson(response, status, payload) {
   response.end(JSON.stringify(payload));
 }
 
+// Expose a hash of public-site file timestamps to the local preview only.
+function getPreviewRevision() {
+  const extensions = new Set([".html", ".css", ".js", ".json"]);
+  const files = fs.readdirSync(ROOT, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && extensions.has(path.extname(entry.name).toLowerCase()))
+    .map((entry) => path.join(ROOT, entry.name));
+  files.push(PUBLIC_RECIPES_PATH, SITE_SETTINGS_PATH);
+  const imageExtensions = new Set([".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp"]);
+  function addImages(directory) {
+    try {
+      for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+        const file = path.join(directory, entry.name);
+        if (entry.isDirectory()) addImages(file);
+        else if (entry.isFile() && imageExtensions.has(path.extname(entry.name).toLowerCase())) files.push(file);
+      }
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+  }
+  addImages(path.join(ROOT, "assets"));
+  addImages(UPLOADS_DIR);
+  const revision = files.sort().map((file) => {
+    try {
+      const stat = fs.statSync(file);
+      return `${path.relative(ROOT, file)}:${stat.mtimeMs}:${stat.size}`;
+    } catch (error) {
+      if (error.code === "ENOENT") return `${path.relative(ROOT, file)}:missing`;
+      throw error;
+    }
+  }).join("|");
+  return crypto.createHash("sha256").update(revision).digest("hex");
+}
+
 function sendFile(filePath, response) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || "application/octet-stream";
@@ -83,8 +116,12 @@ function sendFile(filePath, response) {
       return;
     }
 
-    response.writeHead(200, { "Content-Type": contentType });
-    response.end(data);
+    response.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-store" });
+    const publicPage = ext === ".html" && !path.basename(filePath).startsWith("admin");
+    const output = publicPage
+      ? data.toString("utf8").replace(/<\/body>/i, '<script src="./dev-reload.js" defer></script></body>')
+      : data;
+    response.end(output);
   });
 }
 
@@ -465,6 +502,15 @@ async function handleAdminApi(request, response, urlPath) {
 
 const server = http.createServer(async (request, response) => {
   const urlPath = (request.url || "/").split("?")[0];
+  if (urlPath === "/__preview_revision") {
+    response.setHeader("Cache-Control", "no-store");
+    try {
+      sendJson(response, 200, { revision: getPreviewRevision() });
+    } catch (error) {
+      sendJson(response, 503, { error: "Preview temporarily unavailable" });
+    }
+    return;
+  }
   const filePath = resolveRequestPath(request.url || "/");
 
   if (urlPath.startsWith("/api/admin/") && urlPath !== "/api/admin/upload") {
