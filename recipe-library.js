@@ -394,6 +394,10 @@ function recipeMatchesSeries(recipe, series) {
   if (!series || series === "all") {
     return true;
   }
+  if (series.startsWith("cuisine-")) {
+    const cuisine = recipeCuisines.find(({ id }) => series === `cuisine-${id}`);
+    return Boolean(cuisine && recipeMatchesCuisine(recipe, cuisine));
+  }
   const title = normalizeText(recipe.title);
   const category = normalizeText(recipe.category);
   const tags = (recipe.tags || []).map(normalizeText);
@@ -2180,6 +2184,14 @@ async function initLibrary() {
   const seriesParam = params.get("series");
   const categoryParam = params.get("category");
   const recipeParam = params.get("recipe");
+  if (seriesFilter) {
+    const cuisineOptions = document.createElement("optgroup");
+    cuisineOptions.label = "Cuisines";
+    recipeCuisines.forEach((cuisine) => {
+      cuisineOptions.append(new Option(cuisine.label, `cuisine-${cuisine.id}`));
+    });
+    seriesFilter.append(cuisineOptions);
+  }
   if (categoryParam) {
     activeCategory = categoryParam;
   }

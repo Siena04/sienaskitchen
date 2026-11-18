@@ -248,6 +248,10 @@
               </div>
             </div>
             <div id="categoryRows" class="category-rows" aria-live="polite"></div>
+            <nav class="cuisine-browser" aria-labelledby="cuisineHeading" hidden>
+              <h3 id="cuisineHeading">Browse by cuisine</h3>
+              <ul id="cuisineRows" class="cuisine-list" tabindex="0" aria-labelledby="cuisineHeading"></ul>
+            </nav>
           </div>
           <div class="recipe-showcase baking-showcase" data-recipe-rail>
             <div class="section-heading recipe-showcase-heading">
@@ -353,6 +357,7 @@
         </div>
       </article>
     </template>
+    <script src="./recipe-cuisines.js" defer></script>
 
     <script src="./ads.js" defer></script>
     <script src="./app.js" defer></script>

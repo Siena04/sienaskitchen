@@ -16,6 +16,7 @@ const cookPrevButton = document.getElementById("cookPrev");
 const cookNextButton = document.getElementById("cookNext");
 const quickLinkCards = document.querySelectorAll(".quick-link-card");
 const categoryRows = document.getElementById("categoryRows");
+const cuisineRows = document.getElementById("cuisineRows");
 const featuredRecipeCard = document.querySelector("[data-featured-recipe]");
 const featuredRecipeTitle = document.querySelector("[data-featured-title]");
 const featuredRecipeDescription = document.querySelector("[data-featured-description]");
@@ -677,6 +678,32 @@ function renderCategoryRows(recipes) {
   });
 
   categoryRows.append(picker);
+}
+
+function renderCuisineRows(recipes) {
+  if (!cuisineRows) return;
+  const items = document.createDocumentFragment();
+
+  recipeCuisines.forEach((cuisine) => {
+    const count = recipes.filter((recipe) => recipeMatchesCuisine(recipe, cuisine)).length;
+
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    const name = document.createElement("strong");
+    const detail = document.createElement("small");
+    const arrow = document.createElement("span");
+    link.href = `./recipe-library.html?series=cuisine-${cuisine.id}`;
+    name.textContent = cuisine.label;
+    detail.textContent = count ? `${count} ${count === 1 ? "recipe" : "recipes"}` : "Recipes coming soon";
+    arrow.textContent = "↗";
+    arrow.setAttribute("aria-hidden", "true");
+    link.append(name, detail, arrow);
+    item.append(link);
+    items.append(item);
+  });
+
+  cuisineRows.closest(".cuisine-browser").hidden = !items.childElementCount;
+  cuisineRows.replaceChildren(items);
 }
 
 const UNIT_ALIASES = new Map(
@@ -2781,6 +2808,7 @@ async function init() {
   applyFilters();
   renderFeaturedRecipe(allRecipes);
   renderCategoryRows(allRecipes);
+  renderCuisineRows(allRecipes);
   renderHomeCollections(allRecipes);
   refreshIcons();
 
@@ -2834,6 +2862,7 @@ async function handleStorageUpdate(event) {
   buildFilters(allRecipes);
   renderFeaturedRecipe(allRecipes);
   renderCategoryRows(allRecipes);
+  renderCuisineRows(allRecipes);
   renderHomeCollections(allRecipes);
   if (searchInput) {
     searchInput.value = currentSearch;

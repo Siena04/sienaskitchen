@@ -6965,3 +6965,67 @@ body[data-page="home"] .pantry-card .tool-card-copy {
   --jar-fill: #efd499;
   --jar-lid: #b5bfac;
 }
+
+.cuisine-browser {
+  min-width: 0;
+  padding: clamp(0.8rem, 2vw, 1.4rem);
+  border: 1px solid #ced7cb;
+  border-radius: 16px;
+  background: #eaf0e7;
+  color: #283b32;
+}
+
+.cuisine-browser h3 {
+  margin: 0 0 0.7rem;
+  padding: 0.35rem 0.4rem 0.75rem;
+  border-bottom: 1px solid #c7d1c4;
+  font-family: var(--home-heading-font);
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.2;
+}
+
+.cuisine-list {
+  max-block-size: 15rem;
+  margin: 0;
+  padding: 0 0.45rem 0 0;
+  overflow-y: auto;
+  list-style: none;
+  scrollbar-color: #879b88 #dce5d9;
+  scrollbar-width: thin;
+}
+
+.cuisine-list li + li {
+  border-top: 1px solid #ced7cb;
+}
+
+.cuisine-list a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.2rem 0.75rem;
+  padding: 0.65rem 0.5rem;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.cuisine-list a:hover,
+.cuisine-list a:focus-visible {
+  background: #f8fbf5;
+}
+
+.cuisine-list a:focus-visible,
+.cuisine-list:focus-visible {
+  outline: 2px solid #506b54;
+  outline-offset: -2px;
+}
+
+.cuisine-list small {
+  color: #4f6554;
+  font-size: 0.8rem;
+}
+
+.cuisine-list a > span {
+  grid-area: 1 / 2 / 3 / 3;
+  align-self: center;
+}
