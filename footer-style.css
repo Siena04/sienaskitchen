@@ -323,3 +323,9 @@ body[data-page="home"] .home-shortcut--explore .home-instagram-handle {
 
 .home-tools-caption { font-weight: 400; }
 .home-tools-caption strong { font-weight: 700; }
+
+/* A little more presence, with an inset underline. */
+.home-tools-caption {
+  font-size: 1.04rem;
+  margin-inline: 0.65rem 1.15rem;
+}
