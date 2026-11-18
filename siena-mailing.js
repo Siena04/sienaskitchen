@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const explore = document.querySelector('.home-explore-card');
-  if (!explore) return;
+  const slot = document.querySelector('[data-mailing-slot]');
+  if (!slot) return;
   const card = document.createElement('section');
   card.className = 'mailing-card';
   card.innerHTML = `<h2>Sign up for my mailing list</h2><p>Recipes and kitchen inspiration, straight to your inbox.</p><div class="mailing-preview"><button type="button" class="mailing-preview-field">Your email address</button><button type="button" class="mailing-preview-submit">Sign up →</button></div><small>Coming soon · Preview only</small>`;
-  explore.insertAdjacentElement('afterend', card);
+  slot.append(card);
   const dialog = document.createElement('dialog');
   dialog.className = 'mailing-dialog';
   dialog.setAttribute('aria-labelledby', 'mailing-title');
