@@ -6828,3 +6828,35 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::after {
 body[data-page="home"] .recipe-showcase .recipe-card-category::before { display: none; }
 
 body[data-page="home"] .dinner-caption { font-size: 1.1rem; line-height: 1.5; }
+
+/* Refined cookbook category flags */
+body[data-page="home"] .recipe-showcase .recipe-card-category {
+  top: 0.85rem;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  z-index: 1;
+  isolation: isolate;
+  padding: 0.62rem 1rem 0.62rem 1.4rem;
+  border: 0;
+  border-radius: 0;
+  background: #66765e;
+  color: #344433;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.09em;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 11px 50%);
+  box-shadow: none;
+  filter: none;
+}
+body[data-page="home"] .recipe-showcase .recipe-card-category::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: #fff9ec;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 11px 50%);
+}
+body[data-page="home"] .recipe-showcase .recipe-card-category::after { display: none; }
