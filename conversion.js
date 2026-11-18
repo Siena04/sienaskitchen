@@ -1,6 +1,5 @@
 import { UNITS, INGREDIENTS, POPULAR_INGREDIENTS } from "./conversion-data.js";
 import {
-  getUnit,
   getIngredient,
   requiresIngredient,
   convertValue,
@@ -18,6 +17,9 @@ const copyButton = document.getElementById("copyButton");
 const helperText = document.getElementById("converterHelper");
 const resultBox = document.getElementById("converterResult");
 const resultOutput = document.getElementById("resultOutput");
+const amountField = document.getElementById("amountField");
+const resultField = document.getElementById("resultField");
+const converterActions = document.getElementById("converterActions");
 const referenceConversions = document.getElementById("referenceConversions");
 
 const UNIT_LABELS = {
@@ -31,9 +33,9 @@ const UNIT_LABELS = {
 };
 
 const DEFAULTS = {
-  amount: "1",
-  fromUnit: "au_cup",
-  toUnit: "g",
+  amount: "",
+  fromUnit: "",
+  toUnit: "",
   ingredient: "",
 };
 
@@ -54,6 +56,13 @@ function formatValueForUnit(value, unitId) {
 }
 
 function populateUnits() {
+  const fromPlaceholder = document.createElement("option");
+  fromPlaceholder.value = "";
+  fromPlaceholder.textContent = "Choose unit";
+  const toPlaceholder = fromPlaceholder.cloneNode(true);
+  fromUnitSelect.append(fromPlaceholder);
+  toUnitSelect.append(toPlaceholder);
+
   UNITS.forEach((unit) => {
     const option = document.createElement("option");
     option.value = unit.id;
@@ -74,6 +83,26 @@ function populateIngredients() {
 
 function updateHelper(message) {
   helperText.textContent = message || "";
+}
+
+function isSetupComplete() {
+  return Boolean(ingredientSelect.value && fromUnitSelect.value && toUnitSelect.value);
+}
+
+function setConversionFieldsVisible(isVisible) {
+  amountField.hidden = !isVisible;
+  resultField.hidden = !isVisible;
+  converterActions.hidden = !isVisible;
+  swapButton.disabled = !(fromUnitSelect.value && toUnitSelect.value);
+
+  if (!isVisible) {
+    resultBox.hidden = true;
+    resultBox.textContent = "";
+    resultOutput.value = "";
+    resultOutput.placeholder = "";
+    convertButton.disabled = true;
+    copyButton.disabled = true;
+  }
 }
 
 function buildResultLine({
@@ -99,41 +128,38 @@ function updateResult() {
   const fromUnit = fromUnitSelect.value;
   const toUnit = toUnitSelect.value;
   const ingredientId = ingredientSelect.value;
+  const setupComplete = isSetupComplete();
+
+  setConversionFieldsVisible(setupComplete);
+
+  if (!setupComplete) {
+    updateHelper("Choose an ingredient, convert from unit, and to unit.");
+    return;
+  }
 
   if (!amountInput.value || Number.isNaN(amount) || amount <= 0) {
-    updateHelper("Enter a number to convert.");
+    updateHelper("Enter an amount to convert.");
+    resultBox.hidden = true;
     resultBox.textContent = "";
-    if (resultOutput) {
-      resultOutput.value = "";
-      resultOutput.placeholder = "";
-    }
+    resultOutput.value = "";
+    resultOutput.placeholder = "";
     convertButton.disabled = true;
+    copyButton.disabled = true;
     return;
   }
 
   const needsIngredient = requiresIngredient(fromUnit, toUnit);
 
-  if (needsIngredient && !ingredientId) {
-    updateHelper("Pick an ingredient to convert between grams and cups accurately.");
-    resultBox.textContent = "";
-    if (resultOutput) {
-      resultOutput.value = "";
-      resultOutput.placeholder = "Pick ingredient";
-    }
-    convertButton.disabled = true;
-    return;
-  }
-
   convertButton.disabled = false;
 
   const conversion = convertValue(amount, fromUnit, toUnit, ingredientId);
   if (conversion.error) {
-    updateHelper("Pick an ingredient to convert between grams and cups accurately.");
+    updateHelper("Choose a different unit combination.");
+    resultBox.hidden = true;
     resultBox.textContent = "";
-    if (resultOutput) {
-      resultOutput.value = "";
-      resultOutput.placeholder = "Pick ingredient";
-    }
+    resultOutput.value = "";
+    resultOutput.placeholder = "";
+    copyButton.disabled = true;
     return;
   }
 
@@ -147,15 +173,13 @@ function updateResult() {
     approx: conversion.approx,
   });
 
-  if (resultOutput) {
-    resultOutput.value = formatValueForUnit(conversion.value, toUnit);
-    resultOutput.placeholder = "";
-  }
+  resultOutput.value = formatValueForUnit(conversion.value, toUnit);
+  resultOutput.placeholder = "";
 
-  updateHelper(
-    needsIngredient ? "Weight conversions depend on ingredient." : "Ingredient optional for this conversion."
-  );
+  updateHelper("Ready to convert.");
 
+  resultBox.hidden = false;
+  copyButton.disabled = false;
   resultBox.innerHTML = `
     <div class="result-line">${line}</div>
     <div class="result-sub">${conversion.approx ? "Approximate result" : "Exact volume conversion"}</div>
@@ -179,23 +203,14 @@ async function copyResult() {
 }
 
 function swapUnits() {
+  if (!fromUnitSelect.value || !toUnitSelect.value) {
+    return;
+  }
   const fromValue = fromUnitSelect.value;
   const toValue = toUnitSelect.value;
   fromUnitSelect.value = toValue;
   toUnitSelect.value = fromValue;
   updateResult();
-}
-
-function handlePopularIngredient(event) {
-  const target = event.target.closest(".chip");
-  if (!target) {
-    return;
-  }
-  const ingredientId = target.dataset.ingredient;
-  if (ingredientId) {
-    ingredientSelect.value = ingredientId;
-    updateResult();
-  }
 }
 
 function buildReferenceTable() {
@@ -249,7 +264,6 @@ function init() {
   convertButton.addEventListener("click", updateResult);
   swapButton.addEventListener("click", swapUnits);
   copyButton.addEventListener("click", copyResult);
-  document.addEventListener("click", handlePopularIngredient);
 
   if (window.lucide) {
     window.lucide.createIcons();

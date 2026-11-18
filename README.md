@@ -30,6 +30,19 @@ GitHub Pages is static hosting. That means the admin page cannot securely save c
 
 If you later want online logins, direct image uploads, scheduled posts, subscriber emails, or paid content, the natural next step is moving the same design onto a CMS-backed platform such as Astro + Sanity, Next.js + Supabase, or a hosted website builder.
 
+## Advertising setup (Google AdSense)
+
+The desktop advertising rails are prepared but turned **off** by default. They only appear on wide desktop screens, so they never squeeze the recipe content on tablets or phones.
+
+1. Publish the site at a real public domain and make sure the recipes, About page and new Privacy & Cookies / Advertising Disclosure pages are complete.
+2. Create an AdSense account in your own name. Enter banking, tax and identity details only in Google's secure AdSense payment screens — never in this project or by sending them to anyone working on the site.
+3. Add the site in AdSense. In `ads.js`, add the supplied `ca-pub-...` publisher ID and set `connectSiteForReview` to `true`; then wait for the site status to become **Ready**. If AdSense specifically gives you a different verification instruction, follow that instruction instead.
+4. In AdSense, use **Privacy & messaging** to configure Google's consent message before switching ads on. This is especially important for visitors in the EEA, UK and Switzerland.
+5. Create two responsive display ad units. In `ads.js`, set `enabled` to `true` and add the two numeric ad-unit IDs. Copy the exact authorised-seller line AdSense gives you into `ads.txt`.
+6. Replace the placeholder public contact email in `privacy.html` and `advertising.html`. Review these pages with a qualified Australian privacy/tax adviser for your circumstances before enabling ads.
+
+Do not click your own ads or ask others to click them. Ad networks treat invalid traffic as a serious policy breach.
+
 ## GitHub Pages setup
 
 1. Create a new GitHub repository.

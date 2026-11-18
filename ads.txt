@@ -1,0 +1,2 @@
+# Replace this comment with the exact authorised-seller line supplied in AdSense
+# after your account is approved. Do not publish an invented publisher ID.

@@ -18,10 +18,15 @@
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
   </head>
   <body data-page="home">
+    <aside class="ad-rail ad-rail--left" data-ad-rail="leftRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
+    <aside class="ad-rail ad-rail--right" data-ad-rail="rightRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-lockup">
-          <p class="eyebrow">The recipes of</p>
           <div class="brand-title">
             <img
               class="brand-logo"
@@ -66,7 +71,8 @@
         <nav class="main-nav" aria-label="Primary">
           <a href="./recipe-library.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="book-open"></i></span>
-            A-Z Recipe library
+            <span class="nav-label nav-label-desktop">A-Z Recipe library</span>
+            <span class="nav-label nav-label-mobile">A-Z</span>
           </a>
           <div class="footer-dropdown" data-category-dropdown>
             <button
@@ -76,7 +82,8 @@
               aria-haspopup="menu"
             >
               <span class="nav-icon" aria-hidden="true"><i data-lucide="layers"></i></span>
-              By category
+              <span class="nav-label nav-label-desktop">By category</span>
+              <span class="nav-label nav-label-mobile">Category</span>
             </button>
             <div
               class="footer-dropdown-menu"
@@ -86,11 +93,13 @@
           </div>
           <a href="./conversion.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
-            Cooking Conversion Calculator
+            <span class="nav-label nav-label-desktop">Cooking Conversion Calculator</span>
+            <span class="nav-label nav-label-mobile">Convert</span>
           </a>
           <a href="./about.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
-            About
+            <span class="nav-label nav-label-desktop">About</span>
+            <span class="nav-label nav-label-mobile">About</span>
           </a>
         </nav>
       </header>
@@ -99,6 +108,7 @@
         <section class="hero-window">
           <div class="hero-grid">
             <div class="hero-stack">
+              <div class="home-welcome-column">
               <div class="hero-copy">
                 <h1 data-site-hero-title>
                   Welcome to my
@@ -118,14 +128,34 @@
                   />
                   <a class="button button-ghost welcome-about-link" href="./about.html">About me</a>
                 </div>
-                <p class="hero-text" data-site-hero-text>
-                  Congrats! You've discovered my recipe archive.
-                </p>
                 <div class="hero-actions"></div>
                 <div class="hero-mini-cards"></div>
               </div>
-              <div class="conversion-feature">
+              <a class="home-explore-card" href="./recipe-library.html"><span><strong>Explore</strong></span><span aria-hidden="true">→</span></a>
+              </div>
+              <div class="home-inspiration" aria-label="Explore more">
+                <a class="home-inspiration-card home-inspiration-card--pics" href="./recipe-library.html?recipe=greek-sheet-pan-chicken">
+                  <img src="./uploads/recovered-greek-sheet-pan-chicken.jpg" alt="" loading="lazy" />
+                  <span class="home-inspiration-content">
+                    <span class="home-inspiration-kicker">From my kitchen</span>
+                    <strong>My picks</strong>
+                    <span>Try Greek sheet pan chicken <span aria-hidden="true">→</span></span>
+                  </span>
+                </a>
+                <a class="home-inspiration-card home-inspiration-card--christmas" href="./recipe-library.html?recipe=mr-beans-apple-snaps">
+                  <img src="./uploads/recovered-mr-beans-apple-snaps.jpg" alt="" loading="lazy" />
+                  <span class="home-inspiration-content">
+                    <span class="home-inspiration-kicker">A little festive baking</span>
+                    <strong>Christmas inspiration</strong>
+                    <span>Try spiced apple snaps <span aria-hidden="true">→</span></span>
+                  </span>
+                </a>
+              </div>
+
+              <div class="conversion-feature" aria-labelledby="homeToolsHeading">
+                <h2 id="homeToolsHeading" class="home-tools-heading">Tools</h2>
                 <div class="conversion-card">
+                  <i class="home-tool-art home-tool-calculator" data-lucide="calculator" aria-hidden="true"></i>
                   <h2 class="tool-card-title">Cooking Conversion Calculator</h2>
                   <p class="tool-card-copy">
                     Convert grams, cups, millilitres and spoons with ease. Ideal for baking.
@@ -146,38 +176,19 @@
               </div>
             </div>
             <article class="hero-feature-card" data-featured-recipe="mr-beans-apple-snaps">
-              <div class="feature-tag">
-                <span class="feature-tag-icon" aria-hidden="true"><i data-lucide="flame"></i></span>
-                recipe of the week
-              </div>
-              <h2 class="feature-title" data-featured-title>Mr Bean's Apple Snaps</h2>
               <div class="feature-image">
-                <a
-                  class="feature-image-link"
-                  data-featured-image-link
-                  href="./recipe-library.html?recipe=mr-beans-apple-snaps"
-                  aria-label="Open Mr Bean's Apple Snaps recipe"
-                >
-                  <img
-                    data-featured-image
-                    src="data:image/gif;base64,R0lGODlhAQABAAAAACw="
-                    alt="Mr Bean's Apple Snaps recipe"
-                    loading="lazy"
-                  />
-                </a>
-                <a
-                  class="button feature-button"
-                  data-featured-link
-                  href="./recipe-library.html?recipe=mr-beans-apple-snaps"
-                >
-                  Get the recipe &gt;
+                <a class="feature-image-link" data-featured-image-link href="./recipe-library.html?recipe=mr-beans-apple-snaps" aria-label="Open Mr Bean's Apple Snaps recipe">
+                  <img data-featured-image src="./uploads/recovered-mr-beans-apple-snaps.jpg" alt="Mr Bean's Apple Snaps recipe" />
                 </a>
               </div>
-              <p class="feature-description" data-featured-description>
-                Boggis, Bunce, and Bean. One fat, one short, one lean. These horrible crooks, so different
-                in looks, were nonetheless equally mean.
-              </p>
+              <div class="feature-info">
+                <p class="feature-tag">Recipe of the day</p>
+                <h2 class="feature-title" data-featured-title>Mr Bean's Apple Snaps</h2>
+                <p class="feature-description" data-featured-description>Boggis, Bunce, and Bean. One fat, one short, one lean.</p>
+                <a class="button feature-button" data-featured-link href="./recipe-library.html?recipe=mr-beans-apple-snaps">Get the recipe <span aria-hidden="true">→</span></a>
+              </div>
             </article>
+
           </div>
         </section>
 
@@ -215,7 +226,6 @@
               <div>
                 <p class="section-kicker">Find your mood</p>
                 <h2>Browse by category</h2>
-                <p class="section-intro">Dinner, baking, sides and something sweet.</p>
               </div>
             </div>
             <div id="categoryRows" class="category-rows" aria-live="polite"></div>
@@ -254,6 +264,11 @@
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="instagram"></i></span>
             Instagram
           </a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Legal</p>
+          <a href="./privacy.html">Privacy &amp; Cookies</a>
+          <a href="./advertising.html">Advertising disclosure</a>
         </div>
       </div>
     </footer>
@@ -319,6 +334,7 @@
       </article>
     </template>
 
+    <script src="./ads.js" defer></script>
     <script src="./app.js" defer></script>
     <script src="./footer.js" defer></script>
   </body>

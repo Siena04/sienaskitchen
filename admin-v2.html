@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Siena's Kitchen | Studio</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
+    <link rel="stylesheet" href="./admin-v2.css" />
+  </head>
+  <body>
+    <section id="authScreen" class="auth-screen" aria-labelledby="authTitle">
+      <div class="auth-art" aria-hidden="true">
+        <span class="auth-orbit auth-orbit-one"></span>
+        <span class="auth-orbit auth-orbit-two"></span>
+        <img src="./assets/kitchen-logo-icon.png" alt="" />
+      </div>
+      <div class="auth-card">
+        <div class="studio-mark">
+          <img src="./assets/siena-profile.jpg" alt="Siena" />
+          <span>Siena's Kitchen</span>
+        </div>
+        <p class="overline" id="authEyebrow">Private studio</p>
+        <h1 id="authTitle">Welcome back, Siena.</h1>
+        <p id="authCopy" class="auth-copy">Sign in to manage your recipes and homepage.</p>
+        <form id="authForm" class="auth-form">
+          <label>
+            <span id="passwordLabel">Password</span>
+            <div class="password-field">
+              <input id="passwordInput" type="password" autocomplete="current-password" required />
+              <button id="togglePassword" type="button" aria-label="Show password">
+                <i data-lucide="eye"></i>
+              </button>
+            </div>
+          </label>
+          <label id="confirmPasswordField" hidden>
+            <span>Confirm password</span>
+            <input id="confirmPasswordInput" type="password" autocomplete="new-password" />
+          </label>
+          <p id="authMessage" class="form-message" role="alert"></p>
+          <button id="authSubmit" class="primary-button wide-button" type="submit">Sign in</button>
+        </form>
+        <p class="auth-footnote">This area is private and is not linked from your public website.</p>
+      </div>
+    </section>
+
+    <div id="studioApp" class="studio-app" hidden>
+      <aside class="studio-sidebar">
+        <a class="studio-brand" href="./admin-v2.html">
+          <img src="./assets/siena-profile.jpg" alt="Siena" />
+          <span>
+            <strong>Siena's Kitchen</strong>
+            <small>Recipe studio</small>
+          </span>
+        </a>
+
+        <nav class="studio-nav" aria-label="Studio navigation">
+          <button class="studio-nav-item is-active" type="button" data-view="recipes">
+            <i data-lucide="utensils"></i>
+            <span>Recipes</span>
+          </button>
+          <button class="studio-nav-item" type="button" data-view="weekly">
+            <i data-lucide="star"></i>
+            <span>Recipe of the week</span>
+          </button>
+          <button class="studio-nav-item" type="button" data-view="site">
+            <i data-lucide="layout-template"></i>
+            <span>Site content</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="live-dot"></span>
+          <div>
+            <strong>Public site</strong>
+            <a href="./index.html" target="_blank" rel="noreferrer">Open in a new tab</a>
+          </div>
+        </div>
+        <button id="logoutButton" class="logout-button" type="button">
+          <i data-lucide="log-out"></i>
+          Sign out
+        </button>
+      </aside>
+
+      <main class="studio-main">
+        <header class="studio-topbar">
+          <div>
+            <p class="overline">Private workspace</p>
+            <h1 id="viewTitle">Your recipes</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="global-search" id="globalSearchWrap">
+              <i data-lucide="search"></i>
+              <input id="recipeSearch" type="search" placeholder="Search recipes or ingredients" />
+            </label>
+            <button id="newRecipeButtonV2" class="primary-button" type="button">
+              <i data-lucide="plus"></i>
+              New recipe
+            </button>
+          </div>
+        </header>
+
+        <section id="recipesView" class="studio-view is-active">
+          <div class="recipe-summary" aria-label="Recipe summary">
+            <article>
+              <span>All recipes</span>
+              <strong id="allRecipeCount">0</strong>
+            </article>
+            <article>
+              <span>Published</span>
+              <strong id="publishedRecipeCount">0</strong>
+            </article>
+            <article>
+              <span>Drafts</span>
+              <strong id="draftRecipeCount">0</strong>
+            </article>
+            <div class="summary-filter">
+              <label>
+                <span class="sr-only">Filter recipe status</span>
+                <select id="statusFilter">
+                  <option value="all">All statuses</option>
+                  <option value="published">Published</option>
+                  <option value="draft">Drafts only</option>
+                </select>
+              </label>
+              <label>
+                <span class="sr-only">Filter category</span>
+                <select id="categoryFilterV2">
+                  <option value="all">All categories</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="recipe-workspace">
+            <section class="recipe-database" aria-labelledby="databaseTitle">
+              <div class="panel-heading">
+                <div>
+                  <p class="overline">Database</p>
+                  <h2 id="databaseTitle">Recipes</h2>
+                </div>
+                <span id="visibleRecipeCount" class="count-pill">0 shown</span>
+              </div>
+              <div id="recipeListV2" class="recipe-list-v2"></div>
+            </section>
+
+            <section id="editorEmpty" class="editor-empty">
+              <div class="empty-illustration">
+                <i data-lucide="chef-hat"></i>
+              </div>
+              <p class="overline">Ready when you are</p>
+              <h2>Choose a recipe to edit</h2>
+              <p>Or start something new. Nothing reaches your public site until you press Publish.</p>
+              <button class="secondary-button" type="button" data-action="new-recipe">
+                Create a recipe
+              </button>
+            </section>
+
+            <form id="recipeEditorV2" class="recipe-editor-v2" hidden novalidate>
+              <input id="editorRecipeId" type="hidden" />
+              <div class="editor-command-bar">
+                <div class="editor-status-block">
+                  <span id="editorStatusBadge" class="status-badge is-draft">Draft</span>
+                  <span id="editorSaveMessage" class="save-message" aria-live="polite">No unsaved changes</span>
+                </div>
+                <div class="editor-command-actions">
+                  <button id="deleteRecipeV2" class="danger-text-button" type="button">Delete</button>
+                  <button id="unpublishRecipeButton" class="secondary-button" type="button" hidden>Unpublish</button>
+                  <button id="saveDraftButton" class="secondary-button" type="submit">Save draft</button>
+                  <button id="publishRecipeButton" class="primary-button" type="button">
+                    <i data-lucide="send"></i>
+                    Publish
+                  </button>
+                </div>
+              </div>
+
+              <div class="editor-scroll">
+                <section class="editor-hero-section">
+                  <div class="editor-primary-fields">
+                    <label class="title-editor-field">
+                      <span class="sr-only">Recipe title</span>
+                      <textarea id="editorTitle" rows="1" placeholder="Untitled recipe" required></textarea>
+                    </label>
+                    <label class="description-editor-field">
+                      <span>Description</span>
+                      <textarea id="editorDescription" rows="3" placeholder="What makes this recipe worth cooking?"></textarea>
+                    </label>
+                    <div class="compact-fields">
+                      <label>
+                        Category
+                        <select id="editorCategory"></select>
+                      </label>
+                      <label>
+                        Complexity
+                        <select id="editorComplexity">
+                          <option value="Easy">Easy</option>
+                          <option value="Moderate">Moderate</option>
+                          <option value="A project">A project</option>
+                        </select>
+                      </label>
+                      <label>
+                        Prep time
+                        <input id="editorPrepTime" placeholder="20 mins" />
+                      </label>
+                      <label>
+                        Cook time
+                        <input id="editorCookTime" placeholder="35 mins" />
+                      </label>
+                      <label>
+                        Yield
+                        <span class="yield-control">
+                          <select id="editorYieldLabel">
+                            <option value="serves">Serves</option>
+                            <option value="makes">Makes</option>
+                          </select>
+                          <input id="editorYield" inputmode="numeric" placeholder="4" />
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="cover-uploader" id="coverUploader">
+                    <input id="coverImageInputV2" type="file" accept="image/*" hidden />
+                    <button id="coverUploadButton" class="cover-upload-button" type="button">
+                      <img id="coverPreviewV2" alt="Recipe cover preview" hidden />
+                      <span id="coverPlaceholderV2">
+                        <i data-lucide="image-plus"></i>
+                        <strong>Add cover image</strong>
+                        <small>Drop an image or click to browse</small>
+                      </span>
+                    </button>
+                    <div class="cover-status-row">
+                      <span id="coverStatusV2">No image selected</span>
+                      <button id="removeCoverV2" type="button" hidden>Remove</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="editor-card ingredients-editor-card">
+                  <div class="editor-card-heading">
+                    <div>
+                      <p class="overline">Build the recipe</p>
+                      <h2>Ingredients</h2>
+                    </div>
+                    <div class="measurement-toggle" role="group" aria-label="Cup measurement system">
+                      <button type="button" class="is-active" data-measurement="au">AU/UK cups</button>
+                      <button type="button" data-measurement="us">US cups</button>
+                    </div>
+                  </div>
+                  <p class="measurement-note" id="measurementNote">1 AU/UK cup = 250 mL · 1 Tbsp = 20 mL</p>
+                  <div class="ingredient-column-headings" aria-hidden="true">
+                    <span>Quantity</span><span>Unit</span><span>Ingredient</span><span>Brand (if relevant)</span><span></span>
+                  </div>
+                  <div id="ingredientRowsV2" class="ingredient-rows-v2"></div>
+                  <div class="inline-actions">
+                    <button id="addIngredientV2" class="quiet-button" type="button">
+                      <i data-lucide="plus"></i> Add ingredient
+                    </button>
+                    <button id="addIngredientSectionV2" class="quiet-button" type="button">
+                      <i data-lucide="heading-3"></i> Add section
+                    </button>
+                  </div>
+                </section>
+
+                <section class="editor-card method-editor-card">
+                  <div class="editor-card-heading">
+                    <div>
+                      <p class="overline">Make it easy to follow</p>
+                      <h2>Method</h2>
+                    </div>
+                  </div>
+                  <div id="methodRowsV2" class="method-rows-v2"></div>
+                  <button id="addMethodStepV2" class="quiet-button" type="button">
+                    <i data-lucide="plus"></i> Add step
+                  </button>
+                </section>
+
+                <section class="editor-card nutrition-editor-card">
+                  <div class="editor-card-heading">
+                    <div>
+                      <p class="overline">Per serving</p>
+                      <h2>Macros</h2>
+                    </div>
+                    <button id="openMacroAssistant" class="assistant-button" type="button">
+                      <i data-lucide="sparkles"></i>
+                      Calculate with assistant
+                    </button>
+                  </div>
+                  <div class="macro-fields-v2">
+                    <label>Calories <input id="editorCalories" inputmode="decimal" placeholder="0" /></label>
+                    <label>Protein <span><input id="editorProtein" inputmode="decimal" placeholder="0" /> g</span></label>
+                    <label>Carbs <span><input id="editorCarbs" inputmode="decimal" placeholder="0" /> g</span></label>
+                    <label>Fat <span><input id="editorFat" inputmode="decimal" placeholder="0" /> g</span></label>
+                  </div>
+                </section>
+
+                <section class="editor-card finishing-card">
+                  <h2>Finishing details</h2>
+                  <div class="finishing-grid">
+                    <label>
+                      Tags
+                      <input id="editorTags" placeholder="quick, baking, high protein" />
+                      <small>Separate tags with commas.</small>
+                    </label>
+                    <label>
+                      Notes
+                      <textarea id="editorNotes" rows="4" placeholder="Storage, substitutions, serving notes..."></textarea>
+                    </label>
+                  </div>
+                </section>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="weeklyView" class="studio-view">
+          <div class="feature-layout">
+            <section class="feature-intro">
+              <p class="overline">Homepage spotlight</p>
+              <h2>Choose this week's recipe</h2>
+              <p>Only published recipes can be featured. Your choice updates the large recipe card on the homepage immediately.</p>
+              <div id="currentFeatureCard" class="current-feature-card"></div>
+            </section>
+            <section class="feature-picker-panel">
+              <label class="feature-search">
+                <i data-lucide="search"></i>
+                <input id="featureSearch" type="search" placeholder="Find a published recipe" />
+              </label>
+              <div id="featureRecipeList" class="feature-recipe-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="siteView" class="studio-view">
+          <form id="siteContentForm" class="site-content-layout">
+            <section class="site-content-card">
+              <p class="overline">Homepage wording</p>
+              <h2>Site content</h2>
+              <p class="section-copy">Edit the key text on your homepage without touching code.</p>
+              <label>Welcome heading <input id="siteHeroTitle" /></label>
+              <label>Welcome message <textarea id="siteHeroText" rows="3"></textarea></label>
+              <label>Recipe library heading <input id="siteLibraryTitle" /></label>
+              <label>Footer title <input id="siteFooterTitle" /></label>
+              <button class="primary-button" type="submit">Save site content</button>
+            </section>
+            <section class="site-content-card">
+              <div class="editor-card-heading">
+                <div>
+                  <p class="overline">Organise recipes</p>
+                  <h2>Categories</h2>
+                </div>
+                <button id="addCategoryV2" class="quiet-button" type="button">
+                  <i data-lucide="plus"></i> Add
+                </button>
+              </div>
+              <p class="section-copy">Rename categories here. Existing recipes will follow the new name.</p>
+              <div id="categoryManagerV2" class="category-manager-v2"></div>
+            </section>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <aside id="macroAssistant" class="macro-assistant" aria-hidden="true">
+      <div class="macro-assistant-backdrop" data-action="close-macro"></div>
+      <section class="macro-assistant-panel" role="dialog" aria-modal="true" aria-labelledby="macroAssistantTitle">
+        <header>
+          <div>
+            <p class="overline">Brand-aware calculation</p>
+            <h2 id="macroAssistantTitle">Macro assistant</h2>
+          </div>
+          <button class="icon-button" type="button" data-action="close-macro" aria-label="Close macro assistant">
+            <i data-lucide="x"></i>
+          </button>
+        </header>
+        <div class="macro-assistant-copy">
+          <p>Natural ingredients are estimated from standard values. Packaged foods need their label details so the result reflects the brand you actually use.</p>
+          <div class="assistant-legend">
+            <span><i class="legend-dot is-ready"></i> Ready</span>
+            <span><i class="legend-dot is-needed"></i> Brand or label needed</span>
+            <span><i class="legend-dot is-skipped"></i> Negligible</span>
+          </div>
+        </div>
+        <div id="macroIngredientList" class="macro-ingredient-list"></div>
+        <footer>
+          <div>
+            <strong id="macroReadiness">Review ingredients to continue</strong>
+            <span id="macroAssistantMessage"></span>
+          </div>
+          <button id="calculateMacrosV2" class="primary-button" type="button">
+            Calculate recipe macros
+          </button>
+        </footer>
+      </section>
+    </aside>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <template id="ingredientRowTemplate">
+      <div class="ingredient-row-v2" data-row-type="ingredient">
+        <input class="ingredient-amount" inputmode="decimal" placeholder="1" aria-label="Quantity" />
+        <select class="ingredient-unit" aria-label="Unit"></select>
+        <input class="ingredient-name" placeholder="Ingredient" aria-label="Ingredient" />
+        <input class="ingredient-brand" placeholder="Optional" aria-label="Brand" />
+        <button class="row-remove-button" type="button" aria-label="Remove ingredient"><i data-lucide="x"></i></button>
+      </div>
+    </template>
+
+    <template id="methodRowTemplate">
+      <div class="method-row-v2" draggable="true">
+        <span class="method-number">1</span>
+        <textarea rows="1" placeholder="Describe this step clearly..."></textarea>
+        <button class="drag-handle-v2" type="button" aria-label="Drag to reorder"><i data-lucide="grip-vertical"></i></button>
+        <button class="row-remove-button" type="button" aria-label="Remove step"><i data-lucide="x"></i></button>
+      </div>
+    </template>
+
+    <script src="./admin-v2-data.js" defer></script>
+    <script src="./admin-v2.js" defer></script>
+  </body>
+</html>

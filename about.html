@@ -18,10 +18,15 @@
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
   </head>
   <body data-page="about">
+    <aside class="ad-rail ad-rail--left" data-ad-rail="leftRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
+    <aside class="ad-rail ad-rail--right" data-ad-rail="rightRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-lockup">
-          <p class="eyebrow">The recipes of</p>
           <div class="brand-title">
             <img class="brand-logo" src="./assets/siena-profile.jpg" alt="Siena" />
             <a href="./index.html" class="brand-name">Siena's Kitchen</a>
@@ -306,9 +311,15 @@
             Instagram
           </a>
         </div>
+        <div class="footer-links">
+          <p class="footer-title">Legal</p>
+          <a href="./privacy.html">Privacy &amp; Cookies</a>
+          <a href="./advertising.html">Advertising disclosure</a>
+        </div>
       </div>
     </footer>
 
+    <script src="./ads.js" defer></script>
     <script src="./footer.js" defer></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {

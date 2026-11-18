@@ -8,16 +8,16 @@
       name="description"
       content="Translate baking measurements between US, Australian, and metric-friendly recipes."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Nunito:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
   </head>
   <body data-page="conversion">
+    <aside class="ad-rail ad-rail--left" data-ad-rail="leftRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
+    <aside class="ad-rail ad-rail--right" data-ad-rail="rightRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-lockup">
@@ -60,7 +60,7 @@
             <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
             Cooking Conversion Calculator
           </a>
-          <a href="./index.html#about">
+          <a href="./about.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
             About
           </a>
@@ -68,17 +68,16 @@
       </header>
 
       <main>
-        <section class="conversion-hero">
-          <div class="section-heading">
-            <div>
-              <p class="section-kicker">Cooking Conversion Calculator</p>
-              <h1>Cooking Conversion Calculator</h1>
+        <a class="journal-back" href="./index.html" aria-label="Back to main page">&larr;</a>
+<section class="conversion-hero">
+          <div class="conversion-hero-top">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Cooking Conversion Calculator</p>
+                <h1>Cooking Conversion Calculator</h1>
+              </div>
             </div>
-            <p class="section-caption">
-              Translate baking measurements between US, Australian, and metric-friendly recipes.
-            </p>
           </div>
-          <a class="button button-ghost back-button" href="./index.html">Return to main page</a>
         </section>
 
         <section class="converter-section">
@@ -87,7 +86,7 @@
               <label class="converter-field">
                 <span>Ingredient</span>
                 <select id="ingredientSelect">
-                  <option value="">Ingredient (optional)</option>
+                  <option value="">Choose ingredient</option>
                 </select>
               </label>
               <div class="converter-rows">
@@ -96,9 +95,9 @@
                     <span>Convert from</span>
                     <select id="fromUnit"></select>
                   </label>
-                  <label class="converter-field">
+                  <label class="converter-field" id="amountField" hidden>
                     <span>Amount</span>
-                    <input id="amountInput" type="number" min="0" step="any" value="1" />
+                    <input id="amountInput" type="number" min="0" step="any" />
                   </label>
                 </div>
                 <div class="swap-wrap">
@@ -108,16 +107,16 @@
                 </div>
                 <div class="converter-panel">
                   <label class="converter-field">
-                    <span>Convert to</span>
+                    <span>to</span>
                     <select id="toUnit"></select>
                   </label>
-                  <label class="converter-field">
+                  <label class="converter-field" id="resultField" hidden>
                     <span>Result</span>
                     <input id="resultOutput" type="text" readonly />
                   </label>
                 </div>
               </div>
-              <div class="converter-actions">
+              <div class="converter-actions" id="converterActions" hidden>
                 <button class="button" id="convertButton" type="button">Convert</button>
                 <button class="button button-ghost" id="copyButton" type="button">
                   Copy result
@@ -125,20 +124,7 @@
               </div>
             </div>
             <p class="converter-helper" id="converterHelper"></p>
-            <div class="converter-result" id="converterResult" aria-live="polite"></div>
-            <p class="converter-disclaimer">
-              Weight conversions depend on ingredient density. Australian tablespoons are larger than
-              US tablespoons.
-            </p>
-            <div class="converter-popular">
-              <p class="section-kicker">Popular shortcuts</p>
-              <div class="chip-row">
-                <button class="chip" type="button" data-ingredient="all-purpose-flour">Flour</button>
-                <button class="chip" type="button" data-ingredient="butter">Butter</button>
-                <button class="chip" type="button" data-ingredient="caster-sugar">Sugar</button>
-                <button class="chip" type="button" data-ingredient="honey">Honey</button>
-              </div>
-            </div>
+            <div class="converter-result" id="converterResult" aria-live="polite" hidden></div>
           </div>
         </section>
 
@@ -191,19 +177,22 @@
         </div>
         <div class="footer-links">
           <p class="footer-title">Explore</p>
-          <a href="./index.html#about">About</a>
+          <a href="./about.html">About</a>
           <a href="./recipe-library.html">A-Z Recipe Library</a>
         </div>
         <div class="footer-links">
           <p class="footer-title">Follow</p>
           <a href="https://instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
-          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">TikTok</a>
-          <a href="https://pinterest.com/" target="_blank" rel="noreferrer">Pinterest</a>
-          <a href="mailto:hello@sienaskitchen.com">hello@sienaskitchen.com</a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Legal</p>
+          <a href="./privacy.html">Privacy &amp; Cookies</a>
+          <a href="./advertising.html">Advertising disclosure</a>
         </div>
       </div>
     </footer>
 
+    <script src="./ads.js" defer></script>
     <script src="./footer.js" defer></script>
     <script type="module" src="./conversion.js"></script>
   </body>

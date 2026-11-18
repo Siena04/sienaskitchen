@@ -9,7 +9,7 @@ export const UNITS = [
 ];
 
 export const INGREDIENTS = [
-  { id: "all-purpose-flour", label: "All-purpose flour / plain flour", gramsPerUsCup: 120 },
+  { id: "all-purpose-flour", label: "Plain flour", gramsPerUsCup: 120 },
   { id: "self-raising-flour", label: "Self-raising flour", gramsPerUsCup: 120 },
   { id: "bread-flour", label: "Bread flour", gramsPerUsCup: 127 },
   { id: "caster-sugar", label: "Caster sugar", gramsPerUsCup: 200 },

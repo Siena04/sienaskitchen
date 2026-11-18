@@ -6,7 +6,13 @@ const viewContainer = document.getElementById("azRecipeView");
 const searchInput = document.getElementById("azSearchInput");
 const seriesFilter = document.getElementById("azSeriesFilter");
 const suggestions = document.getElementById("azSuggestions");
-const scrollBubble = document.getElementById("azScrollBubble");
+const scrollBar = document.getElementById("azScrollbar");
+const scrollThumb = document.getElementById("azScrollThumb");
+const scrollLetter = document.getElementById("azScrollLetter");
+const cookOverlay = document.getElementById("cookOverlay");
+const cookOverlayContent = document.getElementById("cookOverlayContent");
+const cookPrevButton = document.getElementById("cookPrev");
+const cookNextButton = document.getElementById("cookNext");
 
 let allRecipes = [];
 let filteredRecipes = [];
@@ -14,8 +20,12 @@ let selectedRecipeId = null;
 let activeCategory = "";
 let standaloneRecipeView = false;
 let letterMarkers = [];
-let bubbleTimer = null;
 let measurementSystem = "au";
+let cookStepIndex = 0;
+
+function isRecipePublished(recipe) {
+  return recipe?.published !== false;
+}
 
 function refreshIcons() {
   if (window.lucide) {
@@ -24,9 +34,10 @@ function refreshIcons() {
 }
 
 async function loadRecipes() {
+  const params = new URLSearchParams(window.location.search);
   const previewRecipes = loadPreviewRecipes();
-  if (previewRecipes.length) {
-    return previewRecipes;
+  if (params.get("preview") === "1" && previewRecipes.length) {
+    return previewRecipes.filter(isRecipePublished);
   }
 
   try {
@@ -34,7 +45,7 @@ async function loadRecipes() {
     if (!response.ok) {
       throw new Error("Unable to load recipes.json");
     }
-    return await response.json();
+    return (await response.json()).filter(isRecipePublished);
   } catch (error) {
     console.error(error);
     return [];
@@ -55,46 +66,53 @@ function normalizeText(value) {
   return String(value || "").toLowerCase().trim();
 }
 
-const COOKING_KEYWORDS = [
-  "preheat",
-  "bake",
-  "roast",
-  "broil",
-  "grill",
-  "simmer",
-  "boil",
-  "fry",
-  "saute",
-  "sauté",
-  "stir-fry",
-  "air fry",
-  "cook",
-  "oven",
-  "microwave",
-  "skillet",
-  "pan",
-  "heat",
-  "sear",
-  "brown",
-  "golden",
-  "crispy",
+const COOKING_PATTERNS = [
+  /\bpreheat\b/,
+  /\bbake\b/,
+  /\broast\b/,
+  /\bbroil\b/,
+  /\bgrill\b/,
+  /\bsimmer\b/,
+  /\bboil\b/,
+  /\bfry\b/,
+  /\bsaute\b/,
+  /\bsauté\b/,
+  /\bstir[- ]?fry\b/,
+  /\bair\s?fry\b/,
+  /\bsear\b/,
+  /\btoast\b/,
+  /\bbraise\b/,
+  /\bsteam\b/,
+  /\bpoach\b/,
+  /\bblanch\b/,
+  /\bsmoke\b/,
+  /\bcarameliz(e|ing)\b/,
+  /\breduce\b/,
+  /\bglaze\b/,
+  /\bmelt\b/,
 ];
+
+const COOK_CONTEXT_PATTERN = /\bcook(ing)?\s+(for|until|over|on|in|at)\b/;
+const HEAT_CONTEXT_PATTERN = /\b(oven|stove|stovetop|cooktop|heat|heated|microwave)\b/;
+const COOK_ACTION_PATTERN =
+  /\b(cook|bake|roast|simmer|boil|fry|grill|broil|reduce|heat)\b/;
 
 function isCookingInstruction(text) {
   const normalized = normalizeText(text);
   if (!normalized) {
     return false;
   }
-  if (COOKING_KEYWORDS.some((keyword) => normalized.includes(keyword))) {
+  if (COOKING_PATTERNS.some((pattern) => pattern.test(normalized))) {
     return true;
   }
-  if (/\b\d+\s?(mins?|minutes?|hrs?|hours?)\b/.test(normalized)) {
+  if (COOK_CONTEXT_PATTERN.test(normalized)) {
     return true;
   }
-  if (/\b\d{2,3}\s?°\s?[cf]?\b/.test(normalized)) {
-    return true;
-  }
-  if (/\b\d{2,3}\s?(c|f|celsius|fahrenheit)\b/.test(normalized)) {
+  const hasTime = /\b\d+\s?(mins?|minutes?|hrs?|hours?)\b/.test(normalized);
+  const hasTemp =
+    /\b\d{2,3}\s?°\s?[cf]?\b/.test(normalized) ||
+    /\b\d{2,3}\s?(c|f|celsius|fahrenheit)\b/.test(normalized);
+  if ((hasTime || hasTemp) && (HEAT_CONTEXT_PATTERN.test(normalized) || COOK_ACTION_PATTERN.test(normalized))) {
     return true;
   }
   return false;
@@ -120,6 +138,189 @@ function escapeHtml(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+const INGREDIENT_MATCH_STOP_WORDS = new Set([
+  "about",
+  "approximately",
+  "and",
+  "as",
+  "at",
+  "before",
+  "each",
+  "extra",
+  "for",
+  "from",
+  "if",
+  "in",
+  "into",
+  "more",
+  "of",
+  "on",
+  "or",
+  "over",
+  "plus",
+  "remove",
+  "the",
+  "then",
+  "thinly",
+  "to",
+  "top",
+  "under",
+  "until",
+  "with",
+  "desired",
+  "needed",
+  "taste",
+  "halved",
+  "pitted",
+  "sliced",
+  "juiced",
+  "minced",
+  "diced",
+  "chopped",
+  "cubed",
+  "softened",
+  "melted",
+  "packed",
+  "room",
+  "temperature",
+  "freshly",
+  "finely",
+  "crosswise",
+  "shows",
+  "middle",
+  "centre",
+  "center",
+  "seeds",
+  "press",
+  "pressed",
+  "firmly",
+  "topping",
+  "toppings",
+  "wedge",
+  "wedges",
+  "baking",
+  "plain",
+  "white",
+  "brown",
+  "red",
+  "yellow",
+  "low",
+  "fat",
+  "dried",
+  "whole",
+  "light",
+  "lite",
+  "cake",
+  "coarse",
+  "gala",
+  "cherry",
+  "grape",
+  "tinned",
+  "sodium",
+  "italian",
+]);
+
+const INGREDIENT_SYNONYMS = [
+  { source: ["spud", "spud lite"], aliases: ["potato", "potatoes"] },
+  { source: ["courgette"], aliases: ["zucchini"] },
+  { source: ["aubergine"], aliases: ["eggplant"] },
+  { source: ["capsicum"], aliases: ["bell pepper"] },
+  { source: ["coriander"], aliases: ["cilantro"] },
+  { source: ["rocket"], aliases: ["arugula"] },
+  { source: ["prawns"], aliases: ["shrimp"] },
+  { source: ["beetroot"], aliases: ["beet", "beets"] },
+  { source: ["spring onion", "spring onions"], aliases: ["green onion", "scallion"] },
+  { source: ["icing sugar"], aliases: ["powdered sugar", "confectioners sugar"] },
+  { source: ["caster sugar"], aliases: ["superfine sugar"] },
+];
+
+function addIngredientSynonymTerms(terms, normalized) {
+  const sourceText = ` ${normalized} `;
+
+  INGREDIENT_SYNONYMS.forEach(({ source, aliases }) => {
+    if (!source.some((term) => sourceText.includes(` ${term} `))) {
+      return;
+    }
+    aliases.forEach((alias) => terms.add(alias));
+  });
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function addIngredientMatchWord(terms, word) {
+  if (word.length < 3 || INGREDIENT_MATCH_STOP_WORDS.has(word)) {
+    return;
+  }
+
+  terms.add(word);
+  if (word.endsWith("ies") && word.length > 4) {
+    terms.add(`${word.slice(0, -3)}y`);
+  }
+}
+
+function buildIngredientMatchTerms(ingredients) {
+  const terms = new Set();
+
+  (ingredients || []).forEach((item) => {
+    const components = String(item || "")
+      .replace(/\([^)]*\)/g, " ")
+      .split(",");
+
+    components.forEach((component) => {
+      component
+        .split(/\s+(?:and|or)\s+/i)
+        .map((part) => normalizeIngredientForMatch(part))
+        .forEach((normalized) => {
+          const rawWords = normalized.split(" ").filter(Boolean);
+          addIngredientSynonymTerms(terms, normalized);
+          const words = normalized
+            .split(" ")
+            .filter((word) => word && !INGREDIENT_MATCH_STOP_WORDS.has(word));
+
+          if (!rawWords.length || !words.length) {
+            return;
+          }
+
+          if (rawWords.length > 1) {
+            terms.add(rawWords.join(" "));
+          }
+          const ingredientName = words.join(" ");
+          terms.add(ingredientName);
+          words.forEach((word) => addIngredientMatchWord(terms, word));
+        });
+    });
+  });
+
+  return [...terms].sort((a, b) => b.length - a.length);
+}
+
+function highlightIngredientMentions(stepText, ingredients) {
+  const text = String(stepText || "");
+  const terms = buildIngredientMatchTerms(ingredients);
+  if (!text || !terms.length) {
+    return escapeHtml(text);
+  }
+
+  const pattern = terms
+    .map((term) => term.split(" ").map(escapeRegExp).join("\\s+"))
+    .join("|");
+  const matcher = new RegExp(`(^|[^A-Za-z0-9_])(${pattern})(?=$|[^A-Za-z0-9_])`, "gi");
+  let markup = "";
+  let lastIndex = 0;
+
+  text.replace(matcher, (match, prefix, ingredient, offset) => {
+    const ingredientStart = offset + prefix.length;
+    markup += escapeHtml(text.slice(lastIndex, ingredientStart));
+    markup += `<strong class="ingredient-mention">${escapeHtml(ingredient)}</strong>`;
+    lastIndex = ingredientStart + ingredient.length;
+    return match;
+  });
+
+  return `${markup}${escapeHtml(text.slice(lastIndex))}`;
 }
 
 function getRecipeLetter(recipe) {
@@ -164,7 +365,7 @@ function getTagColorClass(tag) {
   return TAG_COLORS[index];
 }
 
-const MEASUREMENT_STORAGE_KEY = "recipe-site-measurement";
+const MEASUREMENT_STORAGE_KEY = "recipe-site-measurement-v2";
 const MEASUREMENT_SYSTEMS = {
   us: { label: "US", cupMl: 236.588, tbspMl: 14.7868, tspMl: 5 },
   au: { label: "AU/UK", cupMl: 250, tbspMl: 20, tspMl: 5 },
@@ -933,6 +1134,15 @@ function formatWeight(grams) {
   return `${formatNumber(grams, grams >= 10 ? 0 : 1)} g`;
 }
 
+function formatWeightForSystem(grams, system) {
+  if (system === "us") {
+    const unit = grams >= WEIGHT_GRAMS.lb ? "lb" : "oz";
+    const value = grams / WEIGHT_GRAMS[unit];
+    return `${formatNumber(value, value >= 10 ? 1 : 2)} ${unit}`;
+  }
+  return formatWeight(grams);
+}
+
 function formatVolume(ml, name, preferMetric) {
   const useMetric = preferMetric || isLiquidIngredient(name);
   if (useMetric) {
@@ -957,6 +1167,25 @@ function formatVolume(ml, name, preferMetric) {
   if (tsp >= 3) {
     return `${formatNumber(tsp / 3, 2)} tbsp`;
   }
+  return `${formatNumber(tsp, 2)} tsp`;
+}
+
+function formatVolumeFromMl(ml, system) {
+  if (system !== "us") {
+    if (ml >= 1000) {
+      return `${formatNumber(ml / 1000, 2)} l`;
+    }
+    return `${formatNumber(ml, ml >= 100 ? 0 : 1)} ml`;
+  }
+  const cups = ml / MEASUREMENT_SYSTEMS.us.cupMl;
+  if (cups >= 1) {
+    return `${formatNumber(cups, 2)} ${Math.abs(cups - 1) < 0.01 ? "cup" : "cups"}`;
+  }
+  const tbsp = ml / MEASUREMENT_SYSTEMS.us.tbspMl;
+  if (tbsp >= 1) {
+    return `${formatNumber(tbsp, 2)} tbsp`;
+  }
+  const tsp = ml / MEASUREMENT_SYSTEMS.us.tspMl;
   return `${formatNumber(tsp, 2)} tsp`;
 }
 
@@ -985,7 +1214,8 @@ function formatCount(count) {
   return Number.isInteger(count) ? String(count) : formatNumber(count, 1);
 }
 
-function buildShoppingItems(groups) {
+function buildShoppingItems(groups, options = {}) {
+  const system = options.system || measurementSystem || MEASUREMENT_BASE;
   const items = new Map();
 
   groups.forEach((group) => {
@@ -1006,6 +1236,7 @@ function buildShoppingItems(groups) {
           name: parsed.name,
           weightG: 0,
           volumeMl: 0,
+          metricMl: 0,
           volumeUnits: {},
           count: 0,
           hasWeight: false,
@@ -1057,6 +1288,7 @@ function buildShoppingItems(groups) {
           entry.volumeUnits[parsed.unit].raw.push(parsed.amountText);
         }
         if (unitMeta.metric) {
+          entry.metricMl += parsed.amount * unitMeta.toMl;
           entry.preferMetricVolume = true;
         }
         return;
@@ -1084,13 +1316,35 @@ function buildShoppingItems(groups) {
       return;
     }
     if (entry.hasWeight && entry.weightG > 0) {
-      output.push(`${formatWeight(entry.weightG)} ${name}`);
+      output.push(`${formatWeightForSystem(entry.weightG, system)} ${name}`);
       return;
     }
     if (entry.hasVolume && Object.keys(entry.volumeUnits).length) {
       const units = Object.keys(entry.volumeUnits).sort(
         (a, b) => volumeOrder.indexOf(a) - volumeOrder.indexOf(b)
       );
+      if (system === "us") {
+        units
+          .filter((unit) => ["cup", "tbsp", "tsp"].includes(unit))
+          .forEach((unit) => {
+            const unitData = entry.volumeUnits[unit];
+            if (unitData.raw.length) {
+              const pieces = unitData.raw.map((raw) => {
+                const amount = parseInlineQuantity(raw);
+                const label =
+                  unit === "cup" && amount > 1.01 ? "cups" : unit === "cup" ? "cup" : unit;
+                return `${raw} ${label}`;
+              });
+              output.push(`${pieces.join(" + ")} ${name}`);
+              return;
+            }
+            output.push(`${formatVolumeUnit(unitData.total, unit)} ${name}`);
+          });
+        if (entry.metricMl > 0) {
+          output.push(`${formatVolumeFromMl(entry.metricMl, system)} ${name}`);
+        }
+        return;
+      }
       units.forEach((unit) => {
         const unitData = entry.volumeUnits[unit];
         if (["cup", "tbsp", "tsp"].includes(unit) && unitData.raw.length) {
@@ -1144,7 +1398,7 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
         .join("")
     : '<div class="empty-state">No ingredients yet.</div>';
 
-  const shoppingItems = buildShoppingItems(groups);
+  const shoppingItems = buildShoppingItems(groups, { system: measureSystem });
   const shoppingMarkup = shoppingItems.length
     ? shoppingItems
         .map(
@@ -1170,8 +1424,8 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
           data-measure="${nextMeasureSystem}"
           aria-label="Switch to ${escapeHtml(nextMeasureLabel)} measurements"
         >
-          <span class="measure-label">US</span>
           <span class="measure-label">AU/UK</span>
+          <span class="measure-label">US</span>
           <span class="measure-knob" aria-hidden="true"></span>
         </button>
       </div>
@@ -1207,6 +1461,119 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
   `;
 }
 
+function normalizeIngredientForMatch(item) {
+  return String(item || "")
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/[0-9]/g, " ")
+    .replace(/[^\w\s]/g, " ")
+    .replace(
+      /\b(cups?|cup|tbsp|tablespoons?|tsp|teaspoons?|g|kg|mg|ml|l|oz|lb|lbs|grams?|milliliters?|liters?|pinch|dash|clove|cloves|slice|slices|can|cans|packet|packets)\b/g,
+      " "
+    )
+    .replace(
+      /\b(large|small|medium|fresh|ground|chopped|minced|diced|sliced|softened|melted|packed|room|temperature|optional|for|to)\b/g,
+      " "
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function ingredientMatchesStep(item, stepEntry) {
+  const step = normalizeText(getStepText(stepEntry));
+  return buildIngredientMatchTerms([item]).some((term) => {
+    const pattern = term.split(" ").map(escapeRegExp).join("\\s+");
+    return new RegExp(`(^|[^A-Za-z0-9_])${pattern}(?=$|[^A-Za-z0-9_])`, "i").test(step);
+  });
+}
+
+function buildCookIngredients(ingredients, stepEntry) {
+  const groups = buildIngredientGroups(ingredients);
+  if (!groups.length) {
+    return [];
+  }
+
+  const matchedGroups = groups
+    .map((group) => ({
+      title: group.title,
+      items: group.items.filter((item) => ingredientMatchesStep(item, stepEntry)),
+    }))
+    .filter((group) => group.items.length);
+
+  if (matchedGroups.length) {
+    return matchedGroups;
+  }
+
+  return [];
+}
+
+function buildCookModeMarkup(recipe, stepIndex) {
+  if (!recipe) {
+    return '<div class="empty-state">No recipe selected.</div>';
+  }
+  const steps = recipe.steps || [];
+  const totalSteps = steps.length;
+  const safeIndex = totalSteps ? Math.min(Math.max(stepIndex, 0), totalSteps - 1) : 0;
+  const stepEntry = steps[safeIndex];
+  const stepText = getStepText(stepEntry) || "No steps added yet.";
+  const stepMarkup = highlightIngredientMentions(stepText, recipe.ingredients || []);
+  const stepIsCook = isCookStep(stepEntry);
+  const ingredientGroups = buildCookIngredients(recipe.ingredients || [], stepEntry);
+  const showGroupTitles =
+    ingredientGroups.length > 1 ||
+    (ingredientGroups[0] && normalizeText(ingredientGroups[0].title) !== "main");
+  const ingredientMarkup = ingredientGroups.length
+    ? ingredientGroups
+        .map((group) => {
+          const titleMarkup = showGroupTitles
+            ? `<h3>${escapeHtml(group.title)}</h3>`
+            : "";
+          const itemsMarkup = group.items
+            .map((item) => `<li>${escapeHtml(item)}</li>`)
+            .join("");
+          return `
+            <div class="cook-ingredient-group">
+              ${titleMarkup}
+              <ul class="ingredient-list">${itemsMarkup}</ul>
+            </div>
+          `;
+        })
+        .join("")
+    : '<div class="empty-state">No listed ingredients for this step.</div>';
+
+  return `
+    <section class="cook-mode">
+      <div class="cook-mode__header">
+        <p class="section-kicker">Let's cook</p>
+        <div class="cook-mode__title-row">
+          <strong>${escapeHtml(recipe.title)}</strong>
+          ${totalSteps ? `<span>Step ${safeIndex + 1} of ${totalSteps}</span>` : ""}
+        </div>
+      </div>
+      <div class="cook-mode__grid">
+        <article class="cook-step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
+          <div class="step-card-header">
+            <div class="step-number">Step ${safeIndex + 1}</div>
+            ${
+              stepIsCook
+                ? '<span class="step-cook-badge"><i data-lucide="flame"></i><span>Cook</span></span>'
+                : ""
+            }
+          </div>
+          <p>${stepMarkup}</p>
+        </article>
+        <aside class="cook-ingredients-card notebook-card">
+          <div class="subsection-heading compact">
+            <p class="section-kicker">Ingredients</p>
+            <h2>For this step</h2>
+          </div>
+          ${ingredientMarkup}
+        </aside>
+      </div>
+    </section>
+  `;
+}
+
 function buildRecipeViewMarkup(recipe, options = {}) {
   if (!recipe) {
     return '<div class="empty-state">No recipe is available yet.</div>';
@@ -1225,6 +1592,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
   const methodItems = (recipe.steps || [])
     .map((item, index) => {
       const stepText = getStepText(item);
+      const stepMarkup = highlightIngredientMentions(stepText, recipe.ingredients || []);
       const stepIsCook = isCookStep(item);
       return `
         <article class="step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
@@ -1236,7 +1604,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
                 : ""
             }
           </div>
-          <p>${escapeHtml(stepText)}</p>
+          <p>${stepMarkup}</p>
         </article>
       `;
     })
@@ -1248,17 +1616,16 @@ function buildRecipeViewMarkup(recipe, options = {}) {
     .join("");
 
   const metaItems = [
-    recipe.prepTime && ["Prep", recipe.prepTime],
-    recipe.cookTime && ["Cook", recipe.cookTime],
-    recipe.serves && [yieldLabel, recipe.serves],
+    recipe.prepTime && { key: "prep", label: "Prep time", value: recipe.prepTime },
+    recipe.serves && { key: "serves", label: yieldLabel, value: recipe.serves },
   ].filter(Boolean);
 
   const metaMarkup = metaItems.length
     ? metaItems
         .map(
-          ([label, value]) => `
+          ({ label, value }) => `
             <div class="recipe-meta-item">
-              <span>${escapeHtml(label)}</span>
+              <span>${escapeHtml(label)}:</span>
               <strong>${escapeHtml(value)}</strong>
             </div>
           `
@@ -1292,7 +1659,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
       `
     : "";
 
-  const cookButtonMarkup = showCookButton
+  const cookButtonMarkup = showCookButton && recipe.cookTime
     ? `
         <button class="button button-ghost lets-cook-button" type="button" data-action="lets-cook">
           Let's cook
@@ -1317,39 +1684,34 @@ function buildRecipeViewMarkup(recipe, options = {}) {
             `
             : ""
         }
-        <div class="recipe-hero-grid">
+        <div class="recipe-hero-stack">
+          <div class="recipe-title-row">
+            <h1 class="recipe-page-title">${escapeHtml(recipe.title)}</h1>
+          </div>
           <div class="recipe-hero-media">
             <img
               class="recipe-hero-image"
-              src="${escapeHtml(recipe.image || "")}" 
+              src="${escapeHtml(recipe.image || "")}"
               alt="${escapeHtml(recipe.title)}"
             />
+            ${cookButtonMarkup}
+            ${
+              recipe.cookTime
+                ? `<span class="recipe-hero-cook-time">Cook time: ${escapeHtml(recipe.cookTime)}</span>`
+                : ""
+            }
           </div>
-          <div class="recipe-hero-copy">
+          <div class="recipe-hero-details">
             <p class="recipe-category">${escapeHtml(recipe.category || "Recipe")}</p>
-            <h1 class="recipe-page-title">${escapeHtml(recipe.title)}</h1>
             <p class="recipe-page-description">${escapeHtml(recipe.description || "")}</p>
             ${metaMarkup ? `<div class="recipe-meta-grid">${metaMarkup}</div>` : ""}
             ${tagItems ? `<div class="tag-row">${tagItems}</div>` : ""}
-            <div class="recipe-cta-row">${cookButtonMarkup}</div>
           </div>
         </div>
 
-        ${
-          recipe.notes
-            ? `
-              <section class="recipe-note-box">
-                <h3>Little note</h3>
-                <p>${escapeHtml(recipe.notes)}</p>
-              </section>
-            `
-            : ""
-        }
-
         <section class="method-section">
           <div class="subsection-heading">
-            <p class="section-kicker">Method</p>
-            <h2>Cook step by step</h2>
+            <h2>Method</h2>
           </div>
           <div class="step-grid">${methodItems}</div>
         </section>
@@ -1394,23 +1756,73 @@ function getSelectedRecipe(recipes) {
   return recipes[0] || allRecipes[0] || null;
 }
 
-function selectRecipe(recipeId) {
-  selectedRecipeId = recipeId;
-  const selected = filteredRecipes.find((recipe) => recipe.id === recipeId) || filteredRecipes[0];
-  renderRecipeView(selected || null);
-  updateActiveListItem();
-}
-
 function renderRecipeView(recipe) {
   if (!viewContainer) {
     return;
   }
   const displayRecipe = applyMeasurementSystem(recipe);
   viewContainer.innerHTML = buildRecipeViewMarkup(displayRecipe, {
-    showCookButton: false,
+    showCookButton: true,
     showBackButton: false,
   });
   refreshIcons();
+}
+
+function updateCookOverlayNav(recipe) {
+  if (!cookPrevButton || !cookNextButton) {
+    return;
+  }
+  const steps = recipe?.steps || [];
+  const totalSteps = steps.length;
+  cookPrevButton.disabled = cookStepIndex <= 0;
+  cookNextButton.disabled = totalSteps === 0 || cookStepIndex >= totalSteps - 1;
+}
+
+function renderCookOverlay(recipe) {
+  if (!cookOverlayContent) {
+    return;
+  }
+  const displayRecipe = applyMeasurementSystem(recipe);
+  cookOverlayContent.innerHTML = buildCookModeMarkup(displayRecipe, cookStepIndex);
+  refreshIcons();
+  updateCookOverlayNav(displayRecipe);
+}
+
+function openCookOverlay() {
+  if (!cookOverlay) {
+    return;
+  }
+  cookStepIndex = 0;
+  renderCookOverlay(getSelectedRecipe(filteredRecipes));
+  cookOverlay.classList.add("is-open");
+  cookOverlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-overlay-open");
+}
+
+function closeCookOverlay() {
+  if (!cookOverlay) {
+    return;
+  }
+  cookOverlay.classList.remove("is-open");
+  cookOverlay.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("is-overlay-open");
+}
+
+function navigateCookStep(delta) {
+  const recipe = getSelectedRecipe(filteredRecipes);
+  if (!recipe) {
+    return;
+  }
+  const totalSteps = recipe.steps?.length || 0;
+  if (!totalSteps) {
+    return;
+  }
+  const nextIndex = cookStepIndex + delta;
+  if (nextIndex < 0 || nextIndex >= totalSteps) {
+    return;
+  }
+  cookStepIndex = nextIndex;
+  renderCookOverlay(recipe);
 }
 
 function updateActiveListItem() {
@@ -1446,20 +1858,25 @@ function renderList(recipes) {
       listContainer.append(marker);
     }
 
-    const item = document.createElement("button");
-    item.type = "button";
+    const item = document.createElement("a");
     item.className = "az-list-item notebook-card";
     item.dataset.recipeId = recipe.id;
+    item.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
+    const imageMarkup = recipe.image
+      ? `<img src="${escapeHtml(recipe.image)}" alt="${escapeHtml(recipe.title || "Recipe image")}" />`
+      : `<div class="az-list-image-placeholder">Image coming soon</div>`;
     item.innerHTML = `
       <div class="az-list-row">
-        <strong class="az-list-title">${escapeHtml(recipe.title || "Untitled recipe")}</strong>
-        <span class="az-list-category">${escapeHtml(recipe.category || "Recipe")}</span>
+        <div class="az-list-media">${imageMarkup}</div>
+        <div class="az-list-body">
+          <div class="az-list-header">
+            <strong class="az-list-title">${escapeHtml(recipe.title || "Untitled recipe")}</strong>
+            <span class="az-list-category">${escapeHtml(recipe.category || "Recipe")}</span>
+          </div>
+          <p class="az-list-description">${escapeHtml(recipe.description || "")}</p>
+        </div>
       </div>
-      <p class="az-list-description">${escapeHtml(recipe.description || "")}</p>
     `;
-    item.addEventListener("click", () => {
-      selectRecipe(recipe.id);
-    });
 
     listContainer.append(item);
   });
@@ -1470,12 +1887,16 @@ function renderList(recipes) {
 }
 
 function updateScrollBubble() {
-  if (!scrollBubble || !listScroll || !letterMarkers.length) {
-    if (scrollBubble) {
-      scrollBubble.classList.remove("is-visible");
-    }
+  if (!listScroll || !scrollThumb || !scrollBar) {
     return;
   }
+
+  const scrollRange = listScroll.scrollHeight - listScroll.clientHeight;
+  const trackHeight = scrollBar.clientHeight;
+  const thumbHeight = scrollThumb.offsetHeight;
+  const maxTop = Math.max(trackHeight - thumbHeight, 0);
+  const ratio = scrollRange > 0 ? listScroll.scrollTop / scrollRange : 0;
+  scrollThumb.style.top = `${maxTop * ratio}px`;
 
   const scrollTop = listScroll.scrollTop;
   let currentLetter = letterMarkers[0]?.dataset.letter || "";
@@ -1488,23 +1909,69 @@ function updateScrollBubble() {
     }
   }
 
-  if (currentLetter) {
-    scrollBubble.textContent = currentLetter;
+  if (scrollLetter && currentLetter) {
+    scrollLetter.textContent = currentLetter;
   }
 }
 
 function handleListScroll() {
   updateScrollBubble();
-  if (!scrollBubble) {
+}
+
+let isDraggingThumb = false;
+let thumbDragOffset = 0;
+
+function setScrollFromThumb(top) {
+  if (!listScroll || !scrollBar || !scrollThumb) {
     return;
   }
-  scrollBubble.classList.add("is-visible");
-  if (bubbleTimer) {
-    clearTimeout(bubbleTimer);
+  const trackHeight = scrollBar.clientHeight;
+  const thumbHeight = scrollThumb.offsetHeight;
+  const maxTop = Math.max(trackHeight - thumbHeight, 0);
+  const clampedTop = Math.max(0, Math.min(maxTop, top));
+  const ratio = maxTop > 0 ? clampedTop / maxTop : 0;
+  const scrollRange = listScroll.scrollHeight - listScroll.clientHeight;
+  listScroll.scrollTop = ratio * scrollRange;
+}
+
+function handleThumbPointerDown(event) {
+  if (!scrollThumb) {
+    return;
   }
-  bubbleTimer = setTimeout(() => {
-    scrollBubble.classList.remove("is-visible");
-  }, 800);
+  event.preventDefault();
+  isDraggingThumb = true;
+  const rect = scrollThumb.getBoundingClientRect();
+  thumbDragOffset = event.clientY - rect.top;
+  scrollThumb.setPointerCapture(event.pointerId);
+}
+
+function handleThumbPointerMove(event) {
+  if (!isDraggingThumb || !scrollBar) {
+    return;
+  }
+  const trackRect = scrollBar.getBoundingClientRect();
+  const nextTop = event.clientY - trackRect.top - thumbDragOffset;
+  setScrollFromThumb(nextTop);
+}
+
+function handleThumbPointerUp(event) {
+  if (!scrollThumb) {
+    return;
+  }
+  isDraggingThumb = false;
+  scrollThumb.releasePointerCapture(event.pointerId);
+}
+
+function handleScrollBarPointerDown(event) {
+  if (!scrollThumb || !scrollBar) {
+    return;
+  }
+  if (event.target === scrollThumb || scrollThumb.contains(event.target)) {
+    return;
+  }
+  const trackRect = scrollBar.getBoundingClientRect();
+  const nextTop = event.clientY - trackRect.top - scrollThumb.offsetHeight / 2;
+  setScrollFromThumb(nextTop);
 }
 
 function updateSuggestions(searchTerm) {
@@ -1676,6 +2143,29 @@ function copyGroceryList(container) {
   }
 }
 
+function handleCookActions(event) {
+  const actionTarget = event.target.closest("[data-action]");
+  if (!actionTarget) {
+    return;
+  }
+  const action = actionTarget.dataset.action;
+
+  if (action === "lets-cook") {
+    openCookOverlay();
+    return;
+  }
+  if (action === "close-cook") {
+    closeCookOverlay();
+    return;
+  }
+  if (action === "cook-prev") {
+    navigateCookStep(-1);
+  }
+  if (action === "cook-next") {
+    navigateCookStep(1);
+  }
+}
+
 async function initLibrary() {
   measurementSystem = loadMeasurementSystem();
   allRecipes = await loadRecipes();
@@ -1714,6 +2204,17 @@ async function initLibrary() {
     listScroll.addEventListener("scroll", handleListScroll);
   }
 
+  if (scrollThumb) {
+    scrollThumb.addEventListener("pointerdown", handleThumbPointerDown);
+    scrollThumb.addEventListener("pointermove", handleThumbPointerMove);
+    scrollThumb.addEventListener("pointerup", handleThumbPointerUp);
+    scrollThumb.addEventListener("pointercancel", handleThumbPointerUp);
+  }
+
+  if (scrollBar) {
+    scrollBar.addEventListener("pointerdown", handleScrollBarPointerDown);
+  }
+
   if (searchInput) {
     searchInput.addEventListener("input", () => {
       updateSuggestions(searchInput.value);
@@ -1739,6 +2240,7 @@ async function initLibrary() {
 
   document.addEventListener("click", handleIngredientTabs);
   document.addEventListener("click", handleMeasurementToggle);
+  document.addEventListener("click", handleCookActions);
   refreshIcons();
 }
 

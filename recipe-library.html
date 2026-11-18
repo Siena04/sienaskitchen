@@ -8,27 +8,26 @@
       name="description"
       content="A complete A-Z recipe library with an expanded, step-by-step view for every recipe."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Nunito:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
     <script src="./recipe-library.js" defer></script>
     <script src="./footer.js" defer></script>
   </head>
   <body data-page="library">
+    <aside class="ad-rail ad-rail--left" data-ad-rail="leftRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
+    <aside class="ad-rail ad-rail--right" data-ad-rail="rightRail" aria-label="Advertisement">
+      <span class="ad-rail__label">Advertisement</span>
+    </aside>
     <div class="page-shell">
       <header class="site-header">
         <div class="brand-lockup">
-          <p class="eyebrow">The recipes of</p>
           <div class="brand-title">
             <img
               class="brand-logo"
-              src="./assets/kitchen-logo-icon.png"
-              alt="Siena's Kitchen logo"
+              src="./assets/siena-profile.jpg"
+              alt="Siena"
             />
             <a href="./index.html" class="brand-name">Siena's Kitchen</a>
           </div>
@@ -69,7 +68,7 @@
             <span class="nav-icon" aria-hidden="true"><i data-lucide="calculator"></i></span>
             Cooking Conversion Calculator
           </a>
-          <a href="./index.html#about">
+          <a href="./about.html">
             <span class="nav-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span>
             About
           </a>
@@ -77,15 +76,13 @@
       </header>
 
       <main>
-        <section class="az-library">
+        <a class="journal-back" href="./index.html" aria-label="Back to main page">&larr;</a>
+<section class="az-library">
           <div class="section-heading">
             <div>
               <p class="section-kicker">A-Z recipe library</p>
               <h2>Browse every recipe</h2>
             </div>
-            <a class="button button-ghost back-button back-button-top" href="./index.html">
-              Return to main page
-            </a>
           </div>
 
           <div class="az-layout">
@@ -118,7 +115,12 @@
                 <div id="azListScroll" class="az-list-scroll" tabindex="0">
                   <div id="azList" class="az-list" role="list"></div>
                 </div>
-                <div id="azScrollBubble" class="az-scroll-bubble" aria-hidden="true">A</div>
+                <div id="azScrollbar" class="az-scrollbar" aria-hidden="true">
+                  <div class="az-scrollbar-track"></div>
+                  <button id="azScrollThumb" class="az-scrollbar-thumb" type="button">
+                    <span id="azScrollLetter" class="az-scrollbar-letter">A</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -144,7 +146,7 @@
         </div>
         <div class="footer-links">
           <p class="footer-title">Explore</p>
-          <a href="./index.html#about">
+          <a href="./about.html">
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="sparkles"></i></span>
             About
           </a>
@@ -159,20 +161,42 @@
             <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="instagram"></i></span>
             Instagram
           </a>
-          <a href="https://tiktok.com/" target="_blank" rel="noreferrer">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="video"></i></span>
-            TikTok
-          </a>
-          <a href="https://pinterest.com/" target="_blank" rel="noreferrer">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="pin"></i></span>
-            Pinterest
-          </a>
-          <a href="mailto:hello@sienaskitchen.com">
-            <span class="icon-circle is-small" aria-hidden="true"><i data-lucide="mail"></i></span>
-            hello@sienaskitchen.com
-          </a>
+        </div>
+        <div class="footer-links">
+          <p class="footer-title">Legal</p>
+          <a href="./privacy.html">Privacy &amp; Cookies</a>
+          <a href="./advertising.html">Advertising disclosure</a>
         </div>
       </div>
     </footer>
+
+    <div id="cookOverlay" class="cook-overlay" aria-hidden="true">
+      <div class="cook-overlay__backdrop" data-action="close-cook"></div>
+      <div class="cook-overlay__panel" role="dialog" aria-modal="true" aria-label="Let's cook">
+        <div class="cook-overlay__bar">
+          <div class="cook-overlay__title">
+            <p class="section-kicker">Let's cook</p>
+            <strong>Step-by-step cooking view</strong>
+          </div>
+          <div class="cook-overlay__nav">
+            <button class="button button-ghost" type="button" data-action="cook-prev" id="cookPrev">
+              Prev
+            </button>
+            <button class="button" type="button" data-action="cook-next" id="cookNext">
+              Next
+            </button>
+            <button
+              class="button button-ghost cook-overlay__close"
+              type="button"
+              data-action="close-cook"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        <div id="cookOverlayContent" class="cook-overlay__content"></div>
+      </div>
+    </div>
+    <script src="./ads.js" defer></script>
   </body>
 </html>

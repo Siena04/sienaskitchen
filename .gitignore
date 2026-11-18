@@ -1,5 +1,7 @@
 admin.html
 admin.js
+data/admin-private.json
+data/admin-v2-state.json
 .DS_Store
 .Rhistory
 Inspiration/

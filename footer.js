@@ -57,6 +57,11 @@ function setupDropdownInteractions(dropdown) {
     return;
   }
 
+  const closeDropdown = () => {
+    dropdown.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+  };
+
   toggle.addEventListener("click", (event) => {
     event.preventDefault();
     const isOpen = dropdown.classList.toggle("is-open");
@@ -65,10 +70,11 @@ function setupDropdownInteractions(dropdown) {
 
   document.addEventListener("click", (event) => {
     if (!dropdown.contains(event.target)) {
-      dropdown.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
+      closeDropdown();
     }
   });
+
+  window.addEventListener("scroll", closeDropdown, { passive: true });
 }
 
 async function initFooterCategories() {

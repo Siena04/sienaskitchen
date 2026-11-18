@@ -416,11 +416,11 @@ function renderFeaturedRecipe(recipes) {
   if (!featuredRecipeCard) {
     return;
   }
-  const featuredId = featuredRecipeCard.dataset.featuredRecipe;
-  if (!featuredId) {
-    return;
-  }
-  const recipe = recipes.find((entry) => entry.id === featuredId);
+  const eligibleRecipes = recipes.filter((entry) => entry.id && entry.image && entry.published !== false);
+  if (!eligibleRecipes.length) return;
+  const now = new Date();
+  const dayNumber = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
+  const recipe = eligibleRecipes[dayNumber % eligibleRecipes.length];
   if (!recipe) {
     return;
   }
