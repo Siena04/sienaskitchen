@@ -120,26 +120,19 @@
                 </a>
               </div>
 
-              <div class="home-shortcuts">
-                <a class="home-explore-card" href="./recipe-library.html"><span><strong>Explore</strong></span><span aria-hidden="true">→</span></a>
-                <div class="conversion-card">
-                  <i class="home-tool-art home-tool-calculator" data-lucide="calculator" aria-hidden="true"></i>
-                  <h2 class="tool-card-title">Cooking Conversion Calculator</h2>
-                  <p class="tool-card-copy">
-                    Convert grams, cups, millilitres and spoons with ease. Ideal for baking.
-                  </p>
-                  <a class="button button-small tool-card-action conversion-button" href="./conversion.html">
-                    Try &gt;
-                  </a>
-                </div>
-                <div class="notion-meal-card">
-                  <h2 class="tool-card-title">Notion Meal Planner</h2>
-                  <p class="tool-card-copy">
-                    Plan meals, organise recipes and keep your week in one place.
-                  </p>
-                  <button class="button button-small tool-card-action notion-meal-button" type="button" disabled>
-                    Coming soon
-                  </button>
+              <div class="home-shortcuts" role="group" aria-label="Kitchen shortcuts">
+                <a class="home-shortcut home-shortcut--explore" href="./recipe-library.html">
+                  <span>Explore</span>
+                  <span class="home-shortcut-arrow" aria-hidden="true">→</span>
+                </a>
+                <a class="home-shortcut" href="./conversion.html">
+                  <i data-lucide="calculator" aria-hidden="true"></i>
+                  <span>Cooking Conversion Calculator</span>
+                  <span class="home-shortcut-arrow" aria-hidden="true">→</span>
+                </a>
+                <div class="home-shortcut home-shortcut--upcoming">
+                  <span>Notion Meal Planner</span>
+                  <small>Coming soon</small>
                 </div>
               </div>
               <div class="home-pantry-and-mailing" data-mailing-slot>

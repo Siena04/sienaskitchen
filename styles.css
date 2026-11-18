@@ -7074,3 +7074,79 @@ body[data-page="home"] .home-shortcuts > :is(.conversion-card, .notion-meal-card
 @media (max-width: 600px) {
   .hero-window:not(.home-fixed-layout) .home-pantry-and-mailing { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Compact kitchen shortcuts, pantry and mailing list. */
+body[data-page="home"] .home-shortcuts {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.45rem;
+  align-self: stretch;
+}
+
+.home-shortcut {
+  display: flex;
+  align-items: center;
+  min-height: 3.2rem;
+  gap: 0.55rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d8cfc1;
+  border-radius: 10px;
+  background: #fffdf7;
+  color: #493d32;
+  font: 700 1.13rem/1.15 "Aptos", Arial, sans-serif;
+  text-decoration: none;
+}
+
+.home-shortcut--explore { background: #e8eee2; border-color: #cbd6c4; color: #36543b; }
+.home-shortcut--upcoming { background: #f7f4ec; }
+.home-shortcut > svg { flex: 0 0 1.05rem; width: 1.05rem; height: 1.05rem; color: #687962; }
+.home-shortcut-arrow { margin-left: auto; color: #4f6549; font-size: 1.4rem; line-height: 1; }
+.home-shortcut small { margin-left: auto; color: #685f53; font: 500 0.85rem/1.2 "Aptos", Arial, sans-serif; }
+a.home-shortcut:hover { border-color: #8a9a7e; background: #eef3e9; }
+a.home-shortcut:focus-visible { outline: 2px solid #657e5b; outline-offset: 3px; }
+
+body[data-page="home"] .home-pantry-and-mailing { align-self: stretch; gap: 0.75rem; }
+body[data-page="home"] .home-pantry-and-mailing > :is(.pantry-card, .mailing-card) {
+  justify-content: center;
+  gap: 0.38rem;
+  padding: 0.8rem 1.05rem;
+  border-radius: 10px;
+  font-family: "Aptos", Arial, sans-serif;
+}
+body[data-page="home"] .home-pantry-and-mailing > .mailing-card { background: #fffdf7; }
+body[data-page="home"] .home-pantry-and-mailing :is(.tool-card-title, .mailing-card h2) {
+  max-width: none;
+  margin: 0;
+  font: 700 1.4rem/1.12 "Aptos", Arial, sans-serif;
+  letter-spacing: normal;
+}
+body[data-page="home"] .home-pantry-and-mailing :is(.pantry-card .tool-card-copy, .mailing-card p) {
+  font-size: 1rem;
+  line-height: 1.28;
+  color: #62574b;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-callouts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin: 0;
+  padding-top: 0.4rem;
+  border-top: 1px solid #e0d4c0;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-callouts li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 2rem auto;
+  gap: 0.18rem;
+  justify-items: center;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.15;
+}
+.home-pantry-and-mailing .pantry-callouts :is(.pantry-icon, .pantry-jar) {
+  max-height: 1.85rem;
+  max-width: 1.85rem;
+  align-self: end;
+}
+body[data-page="home"] .home-pantry-and-mailing .mailing-preview { gap: 0.45rem; margin-top: 0.35rem; }
+body[data-page="home"] .home-pantry-and-mailing .mailing-card small { margin: 0; font-size: 0.85rem; }
