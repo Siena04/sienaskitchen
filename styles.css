@@ -7244,3 +7244,20 @@ body[data-page="home"] .pantry-open-button:active { transform: translate(2px, 3p
 .pantry-preview h2 { margin-top: 0; }
 .pantry-preview p { margin-block: 1rem 1.5rem; }
 @media (prefers-reduced-motion: reduce) { body[data-page="home"] .pantry-open-button { transition: none; } }
+
+/* Quiet navy backdrop and warm, matte gold for the featured collection. */
+body[data-page="home"] .wellness-feature {
+  background-color: #182a46;
+  background-image: none;
+}
+body[data-page="home"] .wellness-feature-copy .section-kicker {
+  color: #d8b66f;
+}
+body[data-page="home"] .wellness-feature-copy .section-kicker span {
+  background-image: none;
+  color: #d8b66f;
+}
+body[data-page="home"] .wellness-feature-copy .section-kicker::before,
+body[data-page="home"] .wellness-feature-copy .section-kicker::after {
+  background: #d8b66f;
+}
