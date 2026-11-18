@@ -327,16 +327,19 @@ body[data-page="home"] .home-shortcut--explore .home-instagram-handle {
 /* A little more presence, with an inset underline. */
 .home-tools-caption {
   font-size: 1.04rem;
-  margin-inline: 0.65rem 1.15rem;
+  margin-inline: 1.15rem 1.15rem;
 }
 
-/* Give the pantry a quarter more of the shared row. */
-body[data-page="home"] .home-pantry-and-mailing { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.75fr); }
+/* Balance the pantry illustration with the mailing list. */
+body[data-page="home"] .home-pantry-and-mailing { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.85fr); }
 
 /* Keep the pantry copy and action together, beside the bear illustration. */
 body[data-page="home"] .home-pantry-and-mailing > .pantry-card {
   container-type: inline-size;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  align-self: start;
+  min-height: 0;
+  padding: 0.7rem 0.65rem 0.7rem 1.35rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
   grid-template-rows: auto auto auto;
   column-gap: 0.65rem;
   row-gap: 0.55rem;
@@ -367,6 +370,7 @@ body[data-page="home"] .pantry-feature-bear {
   align-self: center;
   width: 100%;
   height: auto;
+  transform: translateX(-0.2rem);
   overflow: hidden;
   pointer-events: none;
 }
