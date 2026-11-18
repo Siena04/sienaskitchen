@@ -115,7 +115,7 @@ function writeJson(filePath, value) {
 
 function getDefaultSiteContent() {
   return {
-    heroTitle: "Welcome to my Kitchen",
+    heroTitle: "Welcome to my Kitchen!",
     heroText: "Congrats! You've discovered my recipe archive.",
     libraryTitle: "More to cook next",
     footerTitle: "Siena's Kitchen",
