@@ -6826,3 +6826,5 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::after {
   display: none;
 }
 body[data-page="home"] .recipe-showcase .recipe-card-category::before { display: none; }
+
+body[data-page="home"] .dinner-caption { font-size: 1.1rem; line-height: 1.5; }
