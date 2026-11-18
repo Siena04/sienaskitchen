@@ -6651,57 +6651,6 @@ body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
   filter: drop-shadow(0 3px 2px rgba(88, 73, 57, 0.17));
 }
 
-/* Compact header with the menu aligned to its upper-left edge. */
-body[data-page] .site-header .header-menu-toggle {
-  align-self: start;
-  background: #fff;
-  color: #252525;
-  border: 2px solid #252525;
-  box-shadow: 3px 4px 0 #252525;
-  transition: transform 100ms ease, box-shadow 100ms ease;
-}
-body[data-page] .site-header .header-menu-toggle:active {
-  transform: translate(3px, 4px);
-  box-shadow: none;
-}
-body[data-page="home"] .site-header {
-  padding: 0.65rem 0.85rem;
-  column-gap: 0.85rem;
-  row-gap: 0;
-  grid-template-columns: 44px auto minmax(0, 1fr) minmax(180px, 300px);
-  grid-template-areas: "menu brand stickers search";
-}
-body[data-page="home"] .site-header .brand-lockup {
-  display: grid;
-  grid-template-columns: 58px auto;
-  grid-template-rows: auto auto;
-  column-gap: 0.65rem;
-  row-gap: 0.2rem;
-  align-self: center;
-  align-items: center;
-}
-body[data-page="home"] .site-header .brand-title { display: contents; }
-body[data-page="home"] .site-header .brand-logo { grid-column: 1; grid-row: 1 / 3; width: 58px; height: 58px; }
-body[data-page="home"] .site-header .brand-name { grid-column: 2; grid-row: 1; align-self: end; }
-body[data-page="home"] .site-header .brand-handle { grid-column: 2; grid-row: 2; align-self: start; margin: 0; padding: 0.18rem 0.5rem; font-size: 0.75rem; }
-body[data-page="home"] .site-header .header-sticker-shelf { display: flex; align-self: center; justify-self: end; padding: 0; }
-@media (max-width: 1100px) {
-  body[data-page="home"] .site-header .header-sticker-shelf .sticker-img { width: 24px; height: 24px; flex-basis: 24px; }
-}
-@media (max-width: 760px) {
-  body[data-page="home"] .site-header {
-    grid-template-columns: 44px minmax(0, 1fr) minmax(135px, 0.9fr);
-    grid-template-areas: "menu brand brand" ". stickers search";
-    row-gap: 0.65rem;
-    column-gap: 0.65rem;
-  }
-  body[data-page="home"] .site-header .header-sticker-shelf { gap: 0.25rem; }
-  body[data-page="home"] .site-header .header-sticker-shelf .sticker-img { width: 22px; height: 22px; flex-basis: 22px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  body[data-page] .site-header .header-menu-toggle { transition: none; }
-}
-
 /* Homepage recipe collections */
 body[data-page="home"] .festive-feature {
   margin: 1.5rem 0 2rem;
@@ -6811,4 +6760,20 @@ body[data-page="home"] .site-header .header-sticker-shelf { display: flex; align
 }
 @media (prefers-reduced-motion: reduce) {
   body[data-page] .site-header .header-menu-toggle { transition: none; }
+}
+
+/* Warm cream paper and a handwritten welcome. */
+body[data-page="home"] .home-welcome-column .hero-copy::before {
+  background-color: #eddbba;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(255, 250, 230, 0.5), transparent 65%),
+    linear-gradient(110deg, rgba(199, 166, 116, 0.06), rgba(255, 249, 226, 0.28));
+}
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy h1 {
+  font-family: "Caveat", "Chalkboard SE", cursive;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #604532;
+  margin-bottom: 0.65rem;
 }
