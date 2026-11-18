@@ -7150,3 +7150,31 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-callouts li {
 }
 body[data-page="home"] .home-pantry-and-mailing .mailing-preview { gap: 0.45rem; margin-top: 0.35rem; }
 body[data-page="home"] .home-pantry-and-mailing .mailing-card small { margin: 0; font-size: 0.85rem; }
+
+body[data-page="home"] .home-pantry-and-mailing > .pantry-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 5.65rem);
+  grid-template-rows: auto auto;
+  align-content: center;
+  column-gap: 1rem;
+  row-gap: 0.6rem;
+  padding-right: 1.2rem;
+}
+
+body[data-page="home"] .home-pantry-and-mailing .pantry-card .tool-card-copy {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+
+body[data-page="home"] .home-pantry-and-mailing .pantry-feature-jar {
+  position: static;
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  width: 100%;
+  height: auto;
+  transform: none;
+  pointer-events: none;
+}
