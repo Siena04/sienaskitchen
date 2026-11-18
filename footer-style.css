@@ -62,3 +62,25 @@ body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
 body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy::before {
   background: linear-gradient(120deg, #f6ecdc, #f0e2cd);
 }
+
+/* Place Siena's profile at the left edge of the My picks caption. */
+body[data-page="home"] .home-inspiration-card--pics .home-inspiration-content {
+  position: relative;
+  padding-left: 5.4rem;
+  min-height: 68px;
+}
+body[data-page="home"] .home-inspiration-card--pics .home-inspiration-content .picks-avatar {
+  position: absolute;
+  top: 0;
+  left: 1.2rem;
+  right: auto;
+  width: 52px;
+  height: 52px;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  object-fit: cover;
+  object-position: 76% 48%;
+  border: 2px solid #fffdf7;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #d8cfc1;
+}
