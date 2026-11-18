@@ -7178,3 +7178,19 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-feature-jar {
   transform: none;
   pointer-events: none;
 }
+
+.method-ingredient-amount { display: none; }
+.show-method-quantities .method-ingredient-amount { display: inline; font-weight: 700; color: #53654e; }
+
+.method-quantity-toggle {
+  margin-top: 0.5rem;
+  min-height: 44px;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.method-quantity-toggle[aria-pressed="true"] {
+  color: #36513a;
+  background: #e8eee2;
+  border-color: #819576;
+}

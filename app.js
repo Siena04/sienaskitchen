@@ -1711,6 +1711,7 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
           Convert to grocery list
         </button>
       </div>
+      ${hasGroups ? window.methodQuantities.toggleMarkup() : ""}
     </section>
   `;
 }
@@ -2001,6 +2002,7 @@ function highlightIngredientMentions(stepText, ingredients) {
     return escapeHtml(text);
   }
 
+  const findAmount = window.methodQuantities.createLookup(ingredients, buildIngredientMatchTerms);
   const pattern = terms
     .map((term) => term.split(" ").map(escapeRegExp).join("\\s+"))
     .join("|");
@@ -2012,6 +2014,10 @@ function highlightIngredientMentions(stepText, ingredients) {
     const ingredientStart = offset + prefix.length;
     markup += escapeHtml(text.slice(lastIndex, ingredientStart));
     markup += `<strong class="ingredient-mention">${escapeHtml(ingredient)}</strong>`;
+    const amount = findAmount(text, ingredientStart, ingredient);
+    if (amount) {
+      markup += `<span class="method-ingredient-amount"> (${escapeHtml(amount)})</span>`;
+    }
     lastIndex = ingredientStart + ingredient.length;
     return match;
   });
