@@ -6862,3 +6862,17 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::before {
 body[data-page="home"] .recipe-showcase .recipe-card-category::after { display: none; }
 
 body[data-page="home"] .recipe-showcase .recipe-card-category::before { background: #f4e6cc; }
+
+/* Compact nutrition under each recipe title. */
+body[data-page="home"] .recipe-card-nutrition {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.65rem;
+  margin-top: 0.45rem;
+  color: #74685d;
+  font: 400 0.72rem/1.4 Aptos, Arial, sans-serif;
+}
+body[data-page="home"] .recipe-card-nutrition span { white-space: nowrap; }
+body[data-page="home"] .recipe-card-nutrition b { color: #526451; font-weight: 700; }
+body[data-page="home"] .recipe-showcase .recipe-card-open { grid-column: 2; grid-row: 1; }

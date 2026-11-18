@@ -523,6 +523,33 @@ function makeRecipeCardInteractive(card, recipe) {
   });
 }
 
+function addCardNutrition(title, recipe) {
+  if (!title) return;
+  const nutrition = recipe?.nutrition || {};
+  const fields = [
+    ['kcal', 'Calories', nutrition.calories],
+    ['P', 'Protein', nutrition.protein],
+    ['C', 'Carbohydrates', nutrition.carbs],
+    ['F', 'Fat', nutrition.fat],
+  ];
+  const row = document.createElement('div');
+  row.className = 'recipe-card-nutrition';
+  row.setAttribute('aria-label', 'Nutrition information');
+  fields.forEach(([label, fullLabel, raw]) => {
+    const value = String(raw ?? '').trim();
+    const clean = label === 'kcal' ? value.replace(/\s*kcal\s*$/i, '').trim() : value;
+    const display = clean ? (label !== 'kcal' && /^\d+(?:\.\d+)?$/.test(clean) ? `${clean}g` : clean) : '—';
+    const item = document.createElement('span');
+    item.setAttribute('aria-label', `${fullLabel}: ${clean ? display : 'not available'}`);
+    const key = document.createElement('b');
+    key.textContent = label;
+    item.append(key, document.createTextNode(` ${display}`));
+    row.append(item);
+  });
+  title.insertAdjacentElement('afterend', row);
+}
+
+
 function buildRecipeCard(recipe) {
   if (!recipeCardTemplate) {
     return null;
@@ -544,6 +571,7 @@ function buildRecipeCard(recipe) {
     category.textContent = recipe.category || "Recipe";
   }
 
+  addCardNutrition(title, recipe);
   makeRecipeCardInteractive(card, recipe);
 
   return fragment;
@@ -2326,6 +2354,7 @@ function renderRecipes(recipes) {
       card.classList.add("is-active");
     }
 
+    addCardNutrition(title, recipe);
     makeRecipeCardInteractive(card, recipe);
 
     recipeGrid.append(fragment);
@@ -2553,6 +2582,7 @@ function renderSearchOverlayResults() {
     title.className = "recipe-title";
     title.textContent = recipe?.title || "Untitled recipe";
     body.append(title);
+    addCardNutrition(title, recipe);
 
     button.append(imageWrap, body);
     button.addEventListener("click", onClick);
