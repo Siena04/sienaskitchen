@@ -643,53 +643,12 @@ function renderCategoryRows(recipes) {
       </span>
     `;
     button.addEventListener("click", () => {
-      activeHomeCategory = category;
-      renderCategoryRows(recipes);
-      refreshIcons();
+      window.location.href = `./recipe-library.html?category=${encodeURIComponent(category)}`;
     });
     picker.append(button);
   });
 
-  const selectedRecipes = recipes.filter(
-    (recipe) => normalizeText(recipe.category) === normalizeText(activeHomeCategory)
-  );
-  const selectedPresentation = getCategoryPresentation(activeHomeCategory);
-  const selection = document.createElement("section");
-  selection.className = "category-selection";
-  selection.dataset.recipeRail = "";
-  selection.innerHTML = `
-    <div class="category-selection-heading">
-      <div>
-        <p class="section-kicker">Selected collection</p>
-        <h3>${escapeHtml(activeHomeCategory)}</h3>
-        <p>${escapeHtml(selectedPresentation.description)}</p>
-      </div>
-      <div class="rail-controls" aria-label="More ${escapeHtml(activeHomeCategory)} recipes">
-        <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous ${escapeHtml(activeHomeCategory)} recipes">
-          <i data-lucide="chevron-left" aria-hidden="true"></i>
-        </button>
-        <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next ${escapeHtml(activeHomeCategory)} recipes">
-          <i data-lucide="chevron-right" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
-    <div class="recipe-rail-viewport">
-      <div class="recipe-grid category-recipe-grid"></div>
-    </div>
-    <div class="rail-progress" role="progressbar" aria-label="${escapeHtml(activeHomeCategory)} recipe list position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <span class="rail-progress-thumb"></span>
-    </div>
-  `;
-  const grid = selection.querySelector(".category-recipe-grid");
-  selectedRecipes.forEach((recipe) => {
-    const card = buildRecipeCard(recipe);
-    if (card) {
-      grid.append(card);
-    }
-  });
-
-  categoryRows.append(picker, selection);
-  requestAnimationFrame(() => initializeRecipeRails(categoryRows));
+  categoryRows.append(picker);
 }
 
 const UNIT_ALIASES = new Map(
