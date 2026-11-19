@@ -547,6 +547,8 @@ function addCardNutrition(title, recipe) {
     item.append(key, document.createTextNode(` ${display}`));
     row.append(item);
   });
+  const category = title.closest('.recipe-card')?.querySelector('.recipe-card-category');
+  if (category) row.prepend(category);
   title.insertAdjacentElement('afterend', row);
 }
 
