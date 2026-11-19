@@ -455,3 +455,38 @@ body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img {
 body[data-page="home"] a.home-tool-app--calculator:hover .home-tool-app-icon {
   background: var(--calculator-grid) center / 13px 13px #d8e3cf;
 }
+
+
+/* One compact text group, balanced against the pantry illustration. */
+body[data-page="home"] .home-pantry-and-mailing > .pantry-card {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-rows: auto;
+  align-items: center;
+  column-gap: 0.75rem;
+  padding: 1.4rem 1.25rem;
+}
+.pantry-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-width: 0;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-card-content :is(.tool-card-title, .tool-card-copy) {
+  margin: 0;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-open-button {
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.25;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-feature-bear {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  width: 100%;
+  height: auto;
+  transform: translateY(0.45rem);
+}
