@@ -934,3 +934,6 @@ body[data-page="home"] .home-pantry-and-mailing > .pantry-card:focus-within {
   body[data-page="home"] .home-pantry-and-mailing > .pantry-card:hover,
   body[data-page="home"] .home-pantry-and-mailing > .pantry-card:focus-within { transform: none; }
 }
+
+body[data-page="home"] .cuisine-list .cuisine-example-card > span { align-self: stretch; }
+body[data-page="home"] .cuisine-list .cuisine-example-card > .cuisine-example-placeholder { width: 100%; padding: 0; font-weight: 400; }
