@@ -679,8 +679,8 @@ body[data-page="home"] .home-welcome-column .home-shortcut--explore:hover { colo
 body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon,
 body[data-page="home"] a.home-tool-app--calculator:hover .home-tool-app-icon {
   background: #fff;
-  border: 1px solid #8d9a81;
-  box-shadow: 2px 3px 0 #65775d;
+  border: 0;
+  box-shadow: 0 0 0 1px rgba(49, 71, 77, 0.11), 0 2px 5px rgba(49, 71, 77, 0.13);
   box-sizing: border-box;
 }
 body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon::before { content: none; }
@@ -689,3 +689,45 @@ body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img {
   height: 92%;
   object-fit: contain;
 }
+
+
+/* Let the copy and illustration breathe; keep the action in the corner. */
+body[data-page="home"] .home-pantry-and-mailing > .pantry-card {
+  padding: 1.25rem;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-card .tool-card-copy {
+  max-width: 25ch;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-feature-bear {
+  transform: translate(-0.2rem, -0.5rem) scale(1.12);
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  grid-column: auto;
+  grid-row: auto;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #b8c2ac;
+  border-radius: 50%;
+  background: #f0f2e9;
+  color: #627555;
+  font-size: 1.3rem;
+  line-height: 1;
+  box-shadow: none;
+  transform: none;
+}
+.pantry-arrow-action svg { display: block; width: 1.15rem; height: 1.15rem; }
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action:hover {
+  background: #e4eadb;
+  color: #405b38;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action:active { transform: scale(0.93); }
+
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img { transform: translateX(3px); }
