@@ -771,3 +771,5 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::after { content: 
 
 /* Use the same long arrow glyph as the welcome social link. */
 .pantry-arrow-action .home-shortcut-arrow { margin: 0; color: inherit; font: 400 1.2rem/1 "Aptos", Arial, sans-serif; }
+
+body[data-page="home"] .recipe-showcase .recipe-card-nutrition { flex-wrap: nowrap; column-gap: 0.4rem; }
