@@ -1249,3 +1249,14 @@ body[data-page="home"] .home-welcome-card .home-shortcut--explore { flex-wrap: n
 body[data-page="home"] .hero-stack .home-welcome-card .home-shortcut--explore > span:first-child { font-size: 0.74rem; }
 body[data-page="home"] .home-welcome-card .home-shortcut--explore .home-instagram-handle { font-size: 0.66rem; }
 body[data-page="home"] .home-welcome-card .home-shortcut--explore .home-shortcut-arrow { font-size: 0.95rem; }
+
+/* Trim the two cards while keeping the portrait's proportions and row alignment. */
+body[data-page="home"] .home-fixed-layout .home-welcome-column.home-welcome-card {
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  padding: 0.5rem;
+}
+body[data-page="home"] .home-right-column .home-utility-row .pantry-card {
+  min-height: 120px;
+  padding-block: 0.55rem;
+}
+body[data-page="home"] .home-right-column .pantry-card .tool-card-copy { max-width: 30ch; }
