@@ -731,4 +731,16 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow
 }
 body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action:active { transform: scale(0.93); }
 
-body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img { transform: translateX(3px); }
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img { transform: translate(3px, -3px); }
+
+/* A simple, neutral pantry arrow without an enclosing badge. */
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action,
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action:hover,
+body[data-page="home"] .home-pantry-and-mailing .pantry-open-button.pantry-arrow-action:focus-visible {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #74776f;
+  box-shadow: none;
+}
+.pantry-arrow-action svg { stroke-width: 1.2; }
