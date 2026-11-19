@@ -673,3 +673,19 @@ body[data-page="home"] .home-shortcut--explore .home-shortcut-arrow {
   font-size: 1.2rem;
 }
 body[data-page="home"] .home-welcome-column .home-shortcut--explore:hover { color: #4e634d; border-top-color: #d8d5c8; }
+
+
+/* A centred, cheerful kitchen calculator on a white journal-style tile. */
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon,
+body[data-page="home"] a.home-tool-app--calculator:hover .home-tool-app-icon {
+  background: #fff;
+  border: 1px solid #8d9a81;
+  box-shadow: 2px 3px 0 #65775d;
+  box-sizing: border-box;
+}
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon::before { content: none; }
+body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img {
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+}
