@@ -490,3 +490,34 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-feature-bear {
   height: auto;
   transform: translateY(0.45rem);
 }
+
+
+/* Small type adjustments for the lead recipe and site name. */
+body[data-page="home"] .home-fixed-layout .feature-info .feature-title { font-size: 2.85rem; }
+body[data-page="home"] .feature-info .feature-description { font-size: 1.04rem; }
+body[data-page="home"] .feature-info .feature-tag { font-size: 0.8rem; }
+body[data-page="home"] .feature-info .feature-button { font-size: 0.96rem; }
+body[data-page="home"] .site-header .brand-name { font-size: clamp(1.3rem, 1.8vw, 1.55rem); }
+
+/* Equal ivory caption panels and matching slim white bottom edges. */
+body[data-page="home"] .home-inspiration-card {
+  padding-bottom: 0.45rem;
+  background: #fffdf7;
+}
+body[data-page="home"] .home-inspiration-card .home-inspiration-content {
+  flex: 1;
+  align-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Adjust only the bear and action; preserve the pantry text placement. */
+body[data-page="home"] .home-pantry-and-mailing .pantry-feature-bear {
+  transform: translate(-0.45rem, 0.45rem) scale(1.08);
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-open-button {
+  white-space: nowrap;
+  font-size: clamp(0.6rem, 2.7cqi, 0.74rem);
+  padding-inline: 0.5rem;
+  gap: 0.3rem;
+}
