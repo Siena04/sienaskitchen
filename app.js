@@ -548,7 +548,7 @@ function addCardNutrition(title, recipe) {
     row.append(item);
   });
   const category = title.closest('.recipe-card')?.querySelector('.recipe-card-category');
-  if (category) row.prepend(category);
+  if (category) title.append(category);
   title.insertAdjacentElement('afterend', row);
 }
 
@@ -687,20 +687,46 @@ function renderCuisineRows(recipes) {
   const items = document.createDocumentFragment();
 
   recipeCuisines.forEach((cuisine) => {
-    const count = recipes.filter((recipe) => recipeMatchesCuisine(recipe, cuisine)).length;
-
+    const matches = recipes.filter((recipe) => recipeMatchesCuisine(recipe, cuisine));
     const item = document.createElement("li");
     const link = document.createElement("a");
     const name = document.createElement("strong");
     const detail = document.createElement("small");
     const arrow = document.createElement("span");
+    link.className = "cuisine-heading-link";
     link.href = `./recipe-library.html?series=cuisine-${cuisine.id}`;
     name.textContent = cuisine.label;
-    detail.textContent = count ? `${count} ${count === 1 ? "recipe" : "recipes"}` : "Recipes coming soon";
-    arrow.textContent = "↗";
+    detail.textContent = `${matches.length} ${matches.length === 1 ? "recipe" : "recipes"}`;
+    arrow.textContent = "→";
     arrow.setAttribute("aria-hidden", "true");
     link.append(name, detail, arrow);
     item.append(link);
+
+    const previews = document.createElement("div");
+    previews.className = "cuisine-examples";
+    matches.slice(0, 2).forEach((recipe) => {
+      const card = document.createElement("a");
+      card.className = "cuisine-example-card";
+      card.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
+      if (recipe.image) {
+        const image = document.createElement("img");
+        image.src = recipe.image;
+        image.alt = "";
+        image.loading = "lazy";
+        card.append(image);
+      }
+      const title = document.createElement("span");
+      title.textContent = recipe.title;
+      card.append(title);
+      previews.append(card);
+    });
+    if (!matches.length) {
+      const placeholder = document.createElement("p");
+      placeholder.className = "cuisine-examples-empty";
+      placeholder.textContent = "Recipes coming soon";
+      previews.append(placeholder);
+    }
+    item.append(previews);
     items.append(item);
   });
 
