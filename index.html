@@ -77,9 +77,17 @@
         <section class="hero-window">
           <div class="hero-grid">
             <div class="hero-stack">
-              <div class="home-welcome-column">
-              <div class="hero-copy">
-                <h1 data-site-hero-title>
+              <div class="home-top-row">
+                <div class="home-welcome-column home-welcome-card">
+                <div class="welcome-kitchen-photo-wrap">
+                  <img
+                    class="welcome-kitchen-photo"
+                    src="./assets/welcome-to-my-kitchen.jpg"
+                    alt="Siena holding homemade food in the kitchen"
+                  />
+                </div>
+                <div class="hero-copy">
+                  <h1 data-site-hero-title>
                   Welcome to my
                   <span class="hero-title-kitchen">
                     Kitchen
@@ -89,59 +97,19 @@
                     </span>
                   </span>
                 </h1>
-                <div class="welcome-kitchen-photo-wrap">
-                  <img
-                    class="welcome-kitchen-photo"
-                    src="./assets/welcome-to-my-kitchen.jpg"
-                    alt="Siena holding homemade food in the kitchen"
-                  />
-                </div>
-                <div class="hero-actions"></div>
-                <div class="hero-mini-cards"></div>
-              </div>
-              <div class="welcome-introduction">
-                <a href="./about.html">About me</a>
-                <p>Welcome to my recipe archive: a collection of things I love to cook!!</p>
-              </div>
-              <a class="home-shortcut home-shortcut--explore" href="https://instagram.com/sienaskitchen" target="_blank" rel="noreferrer">
+                  <div class="welcome-introduction"><p>Welcome to my recipe archive: a collection of things I love to cook!!</p>
+                    <a href="./about.html">About me</a></div>
+                  <a class="home-shortcut home-shortcut--explore" href="https://instagram.com/sienaskitchen" target="_blank" rel="noreferrer">
                 <span>Check out my page!</span>
                 <span class="home-instagram-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/></svg><span>@sienaskitchen</span></span>
                 <span class="home-shortcut-arrow" aria-hidden="true">→</span>
               </a>
-              </div>
-              <div class="home-inspiration" aria-label="Explore more">
-                <a class="home-inspiration-card home-inspiration-card--pics" href="./recipe-library.html?recipe=greek-sheet-pan-chicken">
-                  <img src="./uploads/recovered-greek-sheet-pan-chicken.jpg" alt="" loading="lazy" />
-                  <span class="home-inspiration-content">
-                    <img class="picks-avatar" src="./assets/siena-profile.jpg" alt="" loading="lazy" />
-                    <span class="home-inspiration-kicker">Things I cook on repeat</span>
-                    <strong>My picks</strong>
-                    <span>Try Greek sheet pan chicken <span aria-hidden="true">→</span></span>
-                  </span>
-                </a>
-                <a class="home-inspiration-card home-inspiration-card--christmas" href="./recipe-library.html?recipe=mr-beans-apple-snaps">
-                  <img src="./uploads/recovered-mr-beans-apple-snaps.jpg" alt="" loading="lazy" />
-                  <span class="home-inspiration-content">
-                    <strong>Christmas inspiration</strong>
-                    <span>Try spiced apple snaps <span aria-hidden="true">→</span></span>
-                  </span>
-                </a>
-              </div>
-
-              <div class="home-shortcuts" role="group" aria-label="Kitchen shortcuts">
-                <p class="home-tools-caption"><strong>Try my tools</strong> to simplify your cooking</p>
-                <div class="home-tool-apps">
-                  <a class="home-shortcut home-tool-app home-tool-app--calculator" href="./conversion.html">
-                    <span class="home-tool-app-icon" aria-hidden="true"><img src="./assets/calculator-journal.svg" alt="" width="68" height="80" /></span>
-                    <span>Cooking Conversion Calculator</span>
-                  </a>
-                  <div class="home-shortcut home-tool-app home-tool-app--notion">
-                    <span class="home-tool-app-icon"><img src="./assets/notion-app-logo.png" alt="" width="56" height="56" /></span>
-                    <span>Notion Meal Planner</span>
-                  </div>
                 </div>
               </div>
-              <div class="home-pantry-and-mailing" data-mailing-slot>
+                <div class="home-mailing-slot" data-mailing-slot></div>
+              </div>
+              <div class="home-utility-row">
+                <div class="home-pantry-and-mailing">
                 <div class="pantry-card">
                   <div class="pantry-card-content">
 <h2 class="tool-card-title">My Pantry</h2>
@@ -154,6 +122,20 @@
                   </svg>
                   <button class="button pantry-open-button pantry-arrow-action" type="button" aria-label="See what I keep in my pantry" aria-haspopup="dialog" aria-controls="pantryPreview"><span class="home-shortcut-arrow" aria-hidden="true">→</span></button>
                 </div>
+              </div>
+                <div class="home-shortcuts" role="group" aria-label="Kitchen shortcuts">
+                <p class="home-tools-caption"><strong>Try my tools</strong> to simplify your cooking</p>
+                <div class="home-tool-apps">
+                  <a class="home-shortcut home-tool-app home-tool-app--calculator" href="./conversion.html">
+                    <span class="home-tool-app-icon" aria-hidden="true"><img src="./assets/calculator-journal.svg" alt="" width="68" height="80" /></span>
+                    <span>Cooking Conversion Calculator</span>
+                  </a>
+                  <div class="home-shortcut home-tool-app home-tool-app--notion">
+                    <span class="home-tool-app-icon"><img src="./assets/notion-app-logo.png" alt="" width="56" height="56" /></span>
+                    <span>Notion Meal Planner</span>
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
             <article class="hero-feature-card" data-featured-recipe="mr-beans-apple-snaps">
@@ -175,6 +157,28 @@
 
         <section id="recipeView" class="recipe-view-section">
           <div id="recipeViewContainer" aria-live="polite"></div>
+        </section>
+
+        <section class="home-cooking-section home-fixed-layout" aria-labelledby="homeCookingHeading">
+          <div class="section-heading"><h2 id="homeCookingHeading">What Are We Cooking?</h2></div>
+          <div class="home-inspiration" aria-label="Explore more">
+                <a class="home-inspiration-card home-inspiration-card--pics" href="./recipe-library.html?recipe=greek-sheet-pan-chicken">
+                  <img src="./uploads/recovered-greek-sheet-pan-chicken.jpg" alt="" loading="lazy" />
+                  <span class="home-inspiration-content">
+                    <img class="picks-avatar" src="./assets/siena-profile.jpg" alt="" loading="lazy" />
+                    <span class="home-inspiration-kicker">Things I cook on repeat</span>
+                    <strong>My picks</strong>
+                    <span>Try Greek sheet pan chicken <span aria-hidden="true">→</span></span>
+                  </span>
+                </a>
+                <a class="home-inspiration-card home-inspiration-card--christmas" href="./recipe-library.html?recipe=mr-beans-apple-snaps">
+                  <img src="./uploads/recovered-mr-beans-apple-snaps.jpg" alt="" loading="lazy" />
+                  <span class="home-inspiration-content">
+                    <strong>Christmas inspiration</strong>
+                    <span>Try spiced apple snaps <span aria-hidden="true">→</span></span>
+                  </span>
+                </a>
+              </div>
         </section>
 
         <section id="recipeLibrary" class="library-section">
