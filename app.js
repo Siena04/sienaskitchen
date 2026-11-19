@@ -714,6 +714,11 @@ function renderCuisineRows(recipes) {
         image.alt = "";
         image.loading = "lazy";
         card.append(image);
+      } else {
+        const placeholder = document.createElement("span");
+        placeholder.className = "cuisine-example-placeholder";
+        placeholder.textContent = "Photo coming soon";
+        card.append(placeholder);
       }
       const title = document.createElement("span");
       title.textContent = recipe.title;
