@@ -773,3 +773,9 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::after { content: 
 .pantry-arrow-action .home-shortcut-arrow { margin: 0; color: inherit; font: 400 1.2rem/1 "Aptos", Arial, sans-serif; }
 
 body[data-page="home"] .recipe-showcase .recipe-card-nutrition { flex-wrap: nowrap; column-gap: 0.4rem; }
+
+/* A deeper oat tone separates the pantry from the warm ivory cards. */
+body[data-page="home"] .home-pantry-and-mailing > .pantry-card {
+  background: #eee2d0;
+  border-color: #d5c7b2;
+}
