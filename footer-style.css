@@ -598,3 +598,19 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-ope
 body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-open-button:active {
   transform: translate(1px, 2px) scale(1.12);
 }
+
+/* Softer grey photo link and a slightly raised social row. */
+body[data-page="home"] .home-welcome-column .welcome-about-link {
+  background: #e2e4df;
+  color: #647067;
+}
+body[data-page="home"] .home-welcome-column .welcome-about-link:hover,
+body[data-page="home"] .home-welcome-column .welcome-about-link:focus-visible {
+  background: #d9ddd6;
+  color: #4b5852;
+}
+body[data-page="home"] .home-welcome-column .home-shortcut--explore {
+  position: relative;
+  top: -0.25rem;
+  padding-left: 1.3rem;
+}
