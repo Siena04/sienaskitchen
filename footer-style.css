@@ -693,6 +693,7 @@ body[data-page="home"] .home-tool-app--calculator .home-tool-app-icon img {
 
 /* Let the copy and illustration breathe; keep the action in the corner. */
 body[data-page="home"] .home-pantry-and-mailing > .pantry-card {
+  position: relative;
   padding: 1.25rem;
 }
 body[data-page="home"] .home-pantry-and-mailing .pantry-card .tool-card-copy {
