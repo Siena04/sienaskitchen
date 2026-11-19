@@ -614,3 +614,62 @@ body[data-page="home"] .home-welcome-column .home-shortcut--explore {
   top: -0.25rem;
   padding-left: 1.3rem;
 }
+
+
+/* A quieter journal card: gently drawn paper, an inset label, one social line. */
+body[data-page="home"] .home-fixed-layout .home-welcome-column::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400' preserveAspectRatio='none'%3E%3Cpath d='M16 3 C55 1 80 5 115 3 S180 1 215 3 S280 5 315 3 S365 2 384 3 Q397 3 397 16 C399 55 395 80 397 115 S399 180 397 215 S395 280 397 315 S398 365 397 384 Q397 397 384 397 C345 399 320 395 285 397 S220 399 185 397 S120 395 85 397 S35 398 16 397 Q3 397 3 384 C1 345 5 320 3 285 S1 220 3 185 S5 120 3 85 S2 35 3 16 Q3 3 16 3 Z' fill='none' stroke='%23ccc2b2' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+}
+body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy h1 {
+  padding-inline: 0.3rem;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Aptos", Arial, sans-serif;
+  font-size: 1.28rem;
+  font-weight: 600;
+  line-height: 1.23;
+  text-align: left;
+  color: #514b40;
+}
+body[data-page="home"] .home-welcome-column .welcome-about-link {
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgb(255 253 247 / 55%);
+  border-radius: 5px;
+  background: #ecebe3;
+  color: #5d655b;
+  font: 500 0.74rem/1.2 "Aptos", Arial, sans-serif;
+  letter-spacing: 0.01em;
+  gap: 0.4em;
+  box-shadow: none;
+}
+body[data-page="home"] .home-welcome-column .welcome-about-link:hover,
+body[data-page="home"] .home-welcome-column .welcome-about-link:focus-visible {
+  background: #e1e4d9;
+  color: #394c3c;
+}
+body[data-page="home"] .home-welcome-column .home-shortcut--explore {
+  margin-inline: 0.85rem;
+  padding-inline: 0.25rem;
+  border-width: 1px 0 0;
+  border-top-color: #e4dfd3;
+  column-gap: 0.5rem;
+  color: #747d6e;
+}
+body[data-page="home"] .hero-stack .home-shortcut--explore > span:first-child {
+  font: 500 0.94rem/1.25 "Aptos", Arial, sans-serif;
+  color: inherit;
+}
+body[data-page="home"] .home-shortcut--explore .home-instagram-handle {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 0.74rem;
+  font-weight: 400;
+}
+body[data-page="home"] .home-shortcut--explore .home-shortcut-arrow {
+  color: inherit;
+  font-size: 1.2rem;
+}
+body[data-page="home"] .home-welcome-column .home-shortcut--explore:hover { color: #4e634d; border-top-color: #d8d5c8; }
