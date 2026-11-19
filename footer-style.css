@@ -521,3 +521,15 @@ body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-ope
   padding-inline: 0.5rem;
   gap: 0.3rem;
 }
+
+/* Enlarge the pantry action in place, without shifting the surrounding layout. */
+body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-open-button {
+  transform: scale(1.1);
+  transform-origin: top left;
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-open-button > span:first-child {
+  transform: scale(1.04);
+}
+body[data-page="home"] .home-pantry-and-mailing .pantry-card-content .pantry-open-button:active {
+  transform: translate(1px, 2px) scale(1.1);
+}
