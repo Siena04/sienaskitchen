@@ -974,8 +974,27 @@
       "fat": ""
     },
     "image": "./uploads/kangaroo-and-jalapeno-kebabs.jpg",
-    "ingredients": [],
-    "steps": [],
+    "ingredients": [
+      "500 g diced kangaroo",
+      "2 Tbsp soy sauce",
+      "1 Tbsp olive oil",
+      "1 Tbsp lime juice",
+      "2 tsp brown sugar",
+      "3 garlic cloves, finely minced",
+      "1 1/2 tsp smoked paprika",
+      "1 tsp ground cumin",
+      "1/2 tsp ground coriander",
+      "1/2 tsp dried oregano",
+      "1/2 tsp freshly cracked black pepper",
+      "2–3 fresh jalapeños, seeds removed and cut into thick rings for skewering"
+    ],
+    "steps": [
+      "Prepare the kangaroo. Cut into evenly sized 2.5–3 cm cubes, trimming away any tough silverskin.",
+      "Make the marinade. Mix the soy sauce, olive oil, lime juice, brown sugar, garlic and spices in a bowl.",
+      "Marinate. Coat the kangaroo and refrigerate for 30 minutes to 2 hours.",
+      "Assemble the skewers. Alternate kangaroo cubes with jalapeño pieces.",
+      "Cook on a hot, lightly oiled barbecue or in a frying pan, turning regularly until browned. Use a meat thermometer to check that the centre of the whole-muscle kangaroo pieces reaches at least 64°C, then rest for 3–5 minutes."
+    ],
     "notes": "",
     "measurementSystem": "au",
     "publishedAt": "2026-11-22T02:02:57.677Z",
