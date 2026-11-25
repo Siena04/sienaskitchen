@@ -1505,8 +1505,9 @@ body[data-page="home"] .kitchen-pantry-button:active { transform: none; }
 .kitchen-tool--notion img { width: 82%; height: 82%; }
 
 @media (width > 940px) {
-  /* Leave room for the lower icons and two-line labels in the adjacent column. */
-  .kitchen-author { margin-block-end: 3.5rem; }
+  .kitchen-utilities { align-content: space-between; }
+  .kitchen-tool { padding-block-end: 0; }
+  .kitchen-tool > :last-child { align-self: end; }
 }
 
 @media (max-width: 940px) {
