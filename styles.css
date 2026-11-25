@@ -7231,19 +7231,30 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::before { backgrou
   grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.18rem 0.4rem;
+  gap: 0.2rem 0.62rem;
   width: fit-content;
   max-width: 100%;
-  margin-top: 0.45rem;
-  padding: 0.18rem 0.48rem;
-  border-radius: 999px;
+  margin-block-start: 0.45rem;
+  margin-inline-start: -0.3rem;
+  padding: 0.24rem 0.46rem;
+  border-radius: 0.5rem;
   background: #eceee4;
-  color: #574d42;
-  font: 400 0.72rem/1.4 Aptos, Arial, sans-serif;
+  color: #3e382f;
+  font: 600 0.82rem/1.35 Aptos, Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
 }
-.recipe-card-nutrition span { white-space: nowrap; }
+.recipe-card-nutrition span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+  color: inherit;
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+}
 .feature-info .recipe-card-nutrition { margin-block: 0.25rem 0.65rem; }
-.recipe-card-nutrition b { color: #526451; font-weight: 700; }
+.recipe-card-nutrition b { color: #526451; font-size: 0.88em; font-weight: 700; }
 body[data-page="home"] .recipe-showcase .recipe-card-open { grid-column: 2; grid-row: 1; }
 
 /* Featured collection without sample recipe tiles. */

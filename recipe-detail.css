@@ -61,21 +61,21 @@ body.is-standalone-recipe .recipe-page-heading .section-kicker {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.25rem 0.55rem;
+  gap: 0.225rem 0.495rem;
   max-width: calc(100% - 1.3rem);
-  padding: 0.36rem 0.6rem;
+  padding: 0.324rem 0.54rem;
   border: 1px solid #8f7663;
-  border-radius: 0.55rem;
+  border-radius: 0.495rem;
   background: #403025f2;
   color: #f9efde;
   box-shadow: 0 2px 8px #2f211e40;
-  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.56rem);
+  font-size: clamp(1.125rem, 0.9rem + 0.72vw, 1.404rem);
   font-weight: 700;
   line-height: 1.2;
 }
 
-.recipe-photo-count { display: inline-flex; align-items: center; gap: 0.28rem; }
-.recipe-photo-meta time + .recipe-photo-count { padding-inline-start: 0.55rem; border-inline-start: 1px solid #ac927b; }
+.recipe-photo-count { display: inline-flex; align-items: center; gap: 0.252rem; }
+.recipe-photo-meta time + .recipe-photo-count { padding-inline-start: 0.495rem; border-inline-start: 1px solid #ac927b; }
 .recipe-photo-meta svg { width: 1em; height: 1em; flex: 0 0 auto; }
 
 .recipe-detail-hero .recipe-hero-details {
@@ -336,7 +336,8 @@ body.is-standalone-recipe .recipe-page-heading .section-kicker {
 
 .recipe-photo-card > .recipe-card-nutrition {
   margin: 0 0.4rem 0.5rem;
-  max-width: calc(100% - 0.8rem);
+  margin-inline-start: 0.25rem;
+  max-width: calc(100% - 0.65rem);
   align-self: end;
   border-radius: 0.65rem;
 }
