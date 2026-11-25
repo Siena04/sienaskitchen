@@ -1,8 +1,14 @@
 const PREVIEW_STORAGE_KEY = "recipe-site-draft";
+const CURATED_RECIPE_SERIES = new Map([
+  ["my-picks", new Set(["greek-sheet-pan-chicken"])],
+  ["christmas", new Set(["mr-beans-apple-snaps", "mini-beef-wellington", "garlic-milk-bread"])],
+]);
 
 const listScroll = document.getElementById("azListScroll");
 const listContainer = document.getElementById("azList");
 const viewContainer = document.getElementById("azRecipeView");
+const recipePageHeading = document.getElementById("recipePageHeading");
+const saveToast = document.getElementById("recipeSaveToast");
 const searchInput = document.getElementById("azSearchInput");
 const seriesFilter = document.getElementById("azSeriesFilter");
 const suggestions = document.getElementById("azSuggestions");
@@ -18,10 +24,13 @@ let allRecipes = [];
 let filteredRecipes = [];
 let selectedRecipeId = null;
 let activeCategory = "";
+let lockedSeries = "";
+let collectionTitle = "";
 let standaloneRecipeView = false;
 let letterMarkers = [];
 let measurementSystem = "au";
 let cookStepIndex = 0;
+let saveToastTimer;
 
 function isRecipePublished(recipe) {
   return recipe?.published !== false;
@@ -327,28 +336,6 @@ function isHealthyRecipe(recipe) {
   );
 }
 
-const TAG_COLORS = [
-  "tag-color-rose",
-  "tag-color-peach",
-  "tag-color-mint",
-  "tag-color-sky",
-  "tag-color-lemon",
-  "tag-color-lilac",
-];
-
-function hashString(value) {
-  let hash = 0;
-  for (let i = 0; i < value.length; i += 1) {
-    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
-  }
-  return hash;
-}
-
-function getTagColorClass(tag) {
-  const index = hashString(tag.toLowerCase()) % TAG_COLORS.length;
-  return TAG_COLORS[index];
-}
-
 const MEASUREMENT_STORAGE_KEY = "recipe-site-measurement-v2";
 const MEASUREMENT_SYSTEMS = {
   us: { label: "US", cupMl: 236.588, tbspMl: 14.7868, tspMl: 5 },
@@ -378,6 +365,10 @@ function recipeMatchesSeries(recipe, series) {
   if (!series || series === "all") {
     return true;
   }
+  const curatedRecipes = CURATED_RECIPE_SERIES.get(series);
+  if (curatedRecipes) {
+    return curatedRecipes.has(recipe.id);
+  }
   if (series.startsWith("cuisine-")) {
     const cuisine = recipeCuisines.find(({ id }) => series === `cuisine-${id}`);
     return Boolean(cuisine && recipeMatchesCuisine(recipe, cuisine));
@@ -397,7 +388,7 @@ function recipeMatchesSeries(recipe, series) {
     case "meal-prep":
       return haystack.includes("meal prep");
     case "baked-favourites":
-      return category.includes("dessert") || haystack.includes("bake");
+      return ["baking", "dessert"].includes(category) || haystack.includes("bake");
     case "asian-dishes":
       return (
         haystack.includes("asian") ||
@@ -744,7 +735,7 @@ function normalizeMeasureUnit(unitToken) {
   if (lower.startsWith("tsp") || lower.startsWith("tea")) {
     return "tsp";
   }
-  if (lower.startsWith("kg")) {
+  if (lower.startsWith("kg") || lower.startsWith("kilo")) {
     return "kg";
   }
   if (lower === "g" || lower.startsWith("gram")) {
@@ -858,19 +849,21 @@ function formatMeasureLabel(unit, value) {
   return unit;
 }
 
-function convertMeasurementText(text, fromSystem, toSystem) {
+function convertMeasurementText(text, fromSystem, toSystem, factor = 1) {
   if (!text) {
     return text;
   }
+  const format = factor === 1 ? formatMeasureAmount : (value, unit) =>
+    window.recipeServings.formatAmount(value, ["cup", "tbsp", "tsp"].includes(unit));
   return text.replace(MEASURE_REGEX, (match, startValue, endValue, unitToken) => {
     const unit = normalizeMeasureUnit(unitToken);
-    const start = parseInlineQuantity(startValue);
+    const start = parseInlineQuantity(startValue) * factor;
     if (!Number.isFinite(start)) {
       return match;
     }
     if (isWeightUnit(unit)) {
       if (endValue) {
-        const end = parseInlineQuantity(endValue);
+        const end = parseInlineQuantity(endValue) * factor;
         if (!Number.isFinite(end)) {
           return match;
         }
@@ -888,18 +881,18 @@ function convertMeasurementText(text, fromSystem, toSystem) {
         const convertedStart = startGrams / WEIGHT_GRAMS[targetUnit];
         const convertedEnd = endGrams / WEIGHT_GRAMS[targetUnit];
         const label = formatMeasureLabel(targetUnit, Math.max(convertedStart, convertedEnd));
-        return `${formatMeasureAmount(convertedStart, targetUnit)}-${formatMeasureAmount(
+        return `${format(convertedStart, targetUnit)}-${format(
           convertedEnd,
           targetUnit
         )} ${label}`;
       }
       const converted = convertWeight(start, unit, toSystem);
       const label = formatMeasureLabel(converted.unit, converted.value);
-      return `${formatMeasureAmount(converted.value, converted.unit)} ${label}`;
+      return `${format(converted.value, converted.unit)} ${label}`;
     }
     const convertedStart = convertMeasure(start, unit, fromSystem, toSystem);
     if (endValue) {
-      const end = parseInlineQuantity(endValue);
+      const end = parseInlineQuantity(endValue) * factor;
       if (!Number.isFinite(end)) {
         return match;
       }
@@ -908,40 +901,20 @@ function convertMeasurementText(text, fromSystem, toSystem) {
         convertedStart.unit,
         Math.max(convertedStart.value, convertedEnd.value)
       );
-      return `${formatMeasureAmount(convertedStart.value, convertedStart.unit)}-${formatMeasureAmount(
+      return `${format(convertedStart.value, convertedStart.unit)}-${format(
         convertedEnd.value,
         convertedStart.unit
       )} ${label}`;
     }
     const label = formatMeasureLabel(convertedStart.unit, convertedStart.value);
-    return `${formatMeasureAmount(convertedStart.value, convertedStart.unit)} ${label}`;
+    return `${format(convertedStart.value, convertedStart.unit)} ${label}`;
   });
 }
 
 function applyMeasurementSystem(recipe) {
-  if (!recipe) {
-    return recipe;
-  }
-  return {
-    ...recipe,
-    ingredients: (recipe.ingredients || []).map((item) =>
-      convertMeasurementText(item, MEASUREMENT_BASE, measurementSystem)
-    ),
-    steps: (recipe.steps || []).map((step) => {
-      const converted = convertMeasurementText(
-        getStepText(step),
-        MEASUREMENT_BASE,
-        measurementSystem
-      );
-      if (step && typeof step === "object") {
-        return { ...step, text: converted };
-      }
-      return converted;
-    }),
-    notes: recipe.notes
-      ? convertMeasurementText(recipe.notes, MEASUREMENT_BASE, measurementSystem)
-      : recipe.notes,
-  };
+  return window.recipeServings.displayRecipe(
+    recipe, measurementSystem, convertMeasurementText, getStepText, normalizeIngredientForMatch
+  );
 }
 
 function handleMeasurementToggle(event) {
@@ -1362,7 +1335,6 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
   const measureSystem = options.measureSystem || MEASUREMENT_BASE;
   const nextMeasureSystem = measureSystem === "us" ? "au" : "us";
   const nextMeasureLabel = MEASUREMENT_SYSTEMS[nextMeasureSystem]?.label || "AU/UK";
-  const currentMeasureLabel = MEASUREMENT_SYSTEMS[measureSystem]?.label || "US";
   const groups = buildIngredientGroups(ingredients);
   const hasGroups = groups.length > 0;
   const showTitles =
@@ -1426,16 +1398,18 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
         </div>
       </div>
       <div class="ingredient-actions">
-        <button
+        ${hasGroups ? `<button
           class="ingredient-copy-button"
           type="button"
-          data-action="copy-grocery"
-          aria-label="Copy grocery list"
-          title="Copy grocery list"
-          hidden
+          data-action="copy-ingredients"
+          aria-label="Copy ingredients list"
+          title="Copy ingredients list"
         >
-          <i data-lucide="clipboard"></i>
-        </button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <rect x="5" y="4" width="14" height="17" rx="2" />
+            <rect x="9" y="2" width="6" height="4" rx="1" fill="#f4f4ef" />
+          </svg>
+        </button>` : ""}
         <button
           class="button button-ghost ingredient-toggle-button"
           type="button"
@@ -1445,6 +1419,7 @@ function buildIngredientOverviewMarkup(ingredients, options = {}) {
           Convert to grocery list
         </button>
       </div>
+      <span class="sr-only" role="status" data-copy-status></span>
       ${hasGroups ? window.methodQuantities.toggleMarkup() : ""}
     </section>
   `;
@@ -1506,7 +1481,6 @@ function buildCookModeMarkup(recipe, stepIndex) {
   const stepEntry = steps[safeIndex];
   const stepText = getStepText(stepEntry) || "No steps added yet.";
   const stepMarkup = buildMethodRenderer(recipe)(stepText, safeIndex);
-  const stepIsCook = isCookStep(stepEntry);
   const ingredientGroups = buildCookIngredients(recipe.ingredients || [], stepEntry);
   const showGroupTitles =
     ingredientGroups.length > 1 ||
@@ -1540,17 +1514,7 @@ function buildCookModeMarkup(recipe, stepIndex) {
         </div>
       </div>
       <div class="cook-mode__grid">
-        <article class="cook-step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
-          <div class="step-card-header">
-            <div class="step-number">Step ${safeIndex + 1}</div>
-            ${
-              stepIsCook
-                ? '<span class="step-cook-badge"><i data-lucide="flame"></i><span>Cook</span></span>'
-                : ""
-            }
-          </div>
-          <p>${stepMarkup}</p>
-        </article>
+        ${window.recipeCookingUI.stepCardMarkup(stepEntry, safeIndex, stepText, stepMarkup, "cook-step-card")}
         <aside class="cook-ingredients-card notebook-card">
           <div class="subsection-heading compact">
             <p class="section-kicker">Ingredients</p>
@@ -1563,156 +1527,277 @@ function buildCookModeMarkup(recipe, stepIndex) {
   `;
 }
 
-function buildRecipeViewMarkup(recipe, options = {}) {
+// Keep the longer introductions on recipe detail pages.
+const recipeIntroductions = {
+  "mr-beans-apple-snaps": "These buttery spiced biscuits are topped with thin slices of Gala apple. Ginger, cinnamon, and a little molasses give the dough its warm flavour.",
+  "best-air-fried-chips": "A quick turn in the microwave softens the potatoes before they go into the air fryer. Season them however you like and serve them straight from the basket.",
+  "greek-sheet-pan-chicken": "Cherry tomatoes and red onion roast beneath the lemon-and-herb chicken. The olives and feta go in near the end, adding a salty finish to everything on the tray.",
+  "chicken-crust-pizza": "Cottage cheese and nutritional yeast go into the base, which you press into shape by hand. Salami, pineapple and mozzarella give it that familiar pizza-night flavour.",
+  "deli-style-marinated-chicken-breast": "Chicken breast gets a honey, Dijon and herb marinade before roasting. Slice it thinly and toss with Kewpie mayo and a little extra mustard for a deli-style sandwich filling.",
+  "simmered-hijiki-salad": "Hijiki and strips of fried tofu simmer in dashi, soy sauce and mirin for a savoury Japanese side. Shelled edamame adds a little colour and bite if you have some on hand.",
+  "chinese-sauteed-wombok": "Wombok is stir-fried with garlic, dried chillies and Sichuan peppercorns, then coated in a sweet-sour soy glaze. The thick stems and soft leaves give the same dish two different textures.",
+  "chilli-con-carne": "Lean beef mince and black beans make this a hearty chilli, with cumin and paprika running through the tomato base. Adjust the chilli to taste.",
+  "healthy-chicken-and-leek-pie": "Chicken and leeks meet a Greek yoghurt and thyme filling under a puff pastry lid.",
+  "korean-tofu-pancakes": "Silken tofu and potato starch form the base for these savoury pancakes, packed with shredded vegetables and chopped kimchi. Gochujang adds a little heat and depth.",
+  "miso-edamame-risoni": "Risoni cooks in vegetable stock with tahini and edamame, then gets a swirl of kale and white miso. A squeeze of lemon brightens the creamy sauce.",
+  "healthy-banana-bread": "Bananas, oat flour and Greek yoghurt make up this loaf, with vanilla and cinnamon in the batter. Chocolate chips add a little sweetness to each slice.",
+  "pork-prawn-dumplings": "Pork and prawns make up the filling, with ginger, garlic and sesame oil for flavour. Spoon it into ready-made wrappers and steam the dumplings until cooked through.",
+  "korean-mayak-drug-eggs": "Soft-boiled eggs soak overnight in soy sauce, honey, sesame oil and chilli. Spoon the eggs and some of the marinade over warm rice.",
+  "chicken-karaage": "Chicken thighs are marinated with soy, sake, ginger and garlic, then fried in a light cornflour coating. Serve the golden pieces with mayo and sliced spring onion.",
+  "cinnamon-protein-granola": "Oats, nuts and seeds bake with protein powder, nut butter and cinnamon. Give the tray a stir halfway through so it toasts evenly.",
+  "korean-chicken-tteokbokki-stew": "Seared chicken thighs and potatoes cook in a garlicky sauce with gochugaru and gochujang. The chewy rice cakes make it the sort of stew you want to eat straight from a big bowl.",
+};
+
+function getRecipeDescription(recipe) {
+  const introduction = recipeIntroductions[recipe.id];
+  const description = recipe.description?.trim();
+  return [description, introduction].filter(Boolean).join(" ");
+}
+
+function buildRelatedRecipesMarkup(recipe) {
+  const tags = new Set((recipe.tags || []).map(normalizeText));
+  const category = normalizeText(recipe.category);
+  const preview = new URLSearchParams(window.location.search).get("preview") === "1";
+  const candidates = allRecipes.filter((candidate) => candidate.id !== recipe.id);
+  const photographed = candidates.filter((candidate) => candidate.image);
+  const related = (photographed.length ? photographed : candidates)
+    .map((candidate) => ({
+      candidate,
+      score: Number(normalizeText(candidate.category) === category) * 2
+        + (candidate.tags || []).filter((tag) => tags.has(normalizeText(tag))).length,
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 6);
+
+  if (!related.length) return "";
+
+  return `
+    <section class="recipe-related" aria-labelledby="recipeRelatedHeading">
+      <h2 id="recipeRelatedHeading">You might also like</h2>
+      <ul class="recipe-related-list">
+        ${related.map(({ candidate }) => {
+          const params = new URLSearchParams({ recipe: candidate.id });
+          if (preview) params.set("preview", "1");
+          return `<li><a class="recipe-photo-card" data-related-recipe-id="${escapeHtml(candidate.id)}" href="./recipe-library.html?${escapeHtml(params.toString())}">
+            <span class="recipe-photo-card-media">${candidate.image
+              ? `<img src="${escapeHtml(candidate.image)}" alt="" loading="lazy" />`
+              : escapeHtml(candidate.category || "Recipe")}</span>
+            <span class="recipe-photo-card-title">${escapeHtml(candidate.title)}</span>
+          </a></li>`;
+        }).join("")}
+      </ul>
+    </section>
+  `;
+}
+
+// First appearances in the site's recipe archive. These predate publication timestamps.
+const recipeArchiveDates = {
+  "mr-beans-apple-snaps": "2026-03-22",
+  "best-air-fried-chips": "2026-03-22",
+  "greek-sheet-pan-chicken": "2026-03-22",
+  "chicken-crust-pizza": "2026-03-22",
+  "deli-style-marinated-chicken-breast": "2026-03-27",
+  "simmered-hijiki-salad": "2026-03-27",
+  "chinese-sauteed-wombok": "2026-03-27",
+  "chilli-con-carne": "2026-03-27",
+  "healthy-chicken-and-leek-pie": "2026-03-27",
+  "korean-tofu-pancakes": "2026-03-27",
+  "miso-edamame-risoni": "2026-03-27",
+  "healthy-banana-bread": "2026-03-27",
+  "pork-prawn-dumplings": "2026-03-27",
+  "korean-mayak-drug-eggs": "2026-03-27",
+  "chicken-karaage": "2026-03-27",
+  "cinnamon-protein-granola": "2026-03-27",
+  "korean-chicken-tteokbokki-stew": "2026-08-17",
+};
+
+const photoDateFormatter = new Intl.DateTimeFormat("en-AU", {
+  dateStyle: "medium",
+  timeZone: "Australia/Brisbane",
+});
+
+function buildRecipePhotoMeta(recipe) {
+  const posted = typeof recipe.publishedAt === "string" && Number.isFinite(Date.parse(recipe.publishedAt));
+  const date = posted ? recipe.publishedAt : recipeArchiveDates[recipe.id];
+  const dateMarkup = date
+    ? `<time datetime="${escapeHtml(date)}">${photoDateFormatter.format(new Date(date))}</time>`
+    : "";
+  const count = Number.isSafeInteger(recipe.cookedCount) && recipe.cookedCount >= 0 ? recipe.cookedCount : 0;
+  return `
+    <div class="recipe-photo-meta">
+      ${dateMarkup}
+      <span class="recipe-photo-count">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17v-4a4 4 0 1 1 1.5-7.7 4.1 4.1 0 0 1 7 0A4 4 0 1 1 17 13v4M7 17h10v3H7z"/>
+        </svg>
+        <span class="sr-only">People who cooked this</span>
+        ${count.toLocaleString("en-AU")}
+      </span>
+    </div>
+  `;
+}
+
+function buildRecipeViewMarkup(recipe) {
   if (!recipe) {
     return '<div class="empty-state">No recipe is available yet.</div>';
   }
 
-  const showCookButton = options.showCookButton !== false;
-  const showBackButton = options.showBackButton === true;
-  const backHref = options.backHref || "./index.html";
-  const backLabel = options.backLabel || "Return to main page";
-  const yieldLabel = getYieldLabel(recipe);
-  const showNutrition = isHealthyRecipe(recipe);
-  const ingredientOverviewMarkup = buildIngredientOverviewMarkup(recipe.ingredients || [], {
-    measureSystem: measurementSystem,
-  });
+  const description = getRecipeDescription(recipe);
+  const saved = window.recipeSaves.has(recipe.id);
+  const ingredientOverviewMarkup = window.recipeCookingUI.ingredientOverviewMarkup(
+    buildIngredientGroups(recipe.ingredients), measurementSystem, Boolean(recipe.steps?.length), recipe.serves
+  );
 
-  const renderMethodStep = buildMethodRenderer(recipe);
-  const methodItems = (recipe.steps || [])
-    .map((item, index) => {
-      const stepText = getStepText(item);
-      const stepMarkup = renderMethodStep(stepText, index);
-      const stepIsCook = isCookStep(item);
-      return `
-        <article class="step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
-          <div class="step-card-header">
-            <div class="step-number">Step ${index + 1}</div>
-            ${
-              stepIsCook
-                ? '<span class="step-cook-badge"><i data-lucide="flame"></i><span>Cook</span></span>'
-                : ""
-            }
-          </div>
-          <p>${stepMarkup}</p>
-        </article>
-      `;
-    })
-    .join("");
-  const tagItems = (recipe.tags || [])
-    .map(
-      (tag) => `<span class="${getTagColorClass(tag)}">${escapeHtml(tag)}</span>`
-    )
+  const methodItems = window.recipeCookingUI.methodItemsMarkup(recipe, getStepText, buildMethodRenderer(recipe));
+  const category = normalizeText(recipe.category);
+  const tags = [...new Set((recipe.tags || []).map(normalizeText))];
+  const tagItems = tags.filter((tag) => tag && tag !== category).slice(0, 4)
+    .map((tag) => `<li>${escapeHtml(tag)}</li>`)
     .join("");
 
   const metaItems = [
-    recipe.prepTime && { key: "prep", label: "Prep time", value: recipe.prepTime },
-    recipe.serves && { key: "serves", label: yieldLabel, value: recipe.serves },
+    recipe.prepTime && { label: "Prep time", value: recipe.prepTime },
+    recipe.cookTime && { label: "Cook time", value: recipe.cookTime },
+    { label: "Serves", value: recipe.serves, servingIndicator: true },
   ].filter(Boolean);
 
   const metaMarkup = metaItems.length
     ? metaItems
         .map(
-          ({ label, value }) => `
+          ({ label, value, servingIndicator }) => `
             <div class="recipe-meta-item">
-              <span>${escapeHtml(label)}:</span>
-              <strong>${escapeHtml(value)}</strong>
+              <dt>${escapeHtml(label)}</dt>
+              <dd${servingIndicator ? " data-recipe-serves" : ""}>${escapeHtml(value)}</dd>
             </div>
           `
         )
         .join("")
     : "";
-  const nutritionEntries = showNutrition
-    ? [
-        ["Calories", recipe.nutrition?.calories],
-        ["Protein", recipe.nutrition?.protein],
-        ["Carbs", recipe.nutrition?.carbs],
-        ["Fat", recipe.nutrition?.fat],
-      ].filter(([, value]) => value)
-    : [];
+  const nutritionEntries = [
+    ["Calories", recipe.nutrition?.calories],
+    ["Protein", recipe.nutrition?.protein],
+    ["Carbs", recipe.nutrition?.carbs],
+    ["Fat", recipe.nutrition?.fat],
+  ].filter(([, value]) => value != null && String(value).trim() !== "");
+  const estimate = recipe.nutritionEstimate;
+  const nutritionBasis = estimate?.basis || (recipe.yieldLabel === "makes" ? "per item" : "per serving");
+  const nutritionHeading = `${estimate ? "Estimated nutrition" : "Nutrition"} ${nutritionBasis}`;
   const nutritionMarkup = nutritionEntries.length
     ? `
-        <section class="sidebar-card notebook-card">
-          <div class="subsection-heading compact">
-            <p class="section-kicker">Nutrition</p>
-            <h2>Per serve</h2>
-          </div>
-          <div class="info-stack nutrition-stack">
-            ${nutritionEntries
-              .map(
-                ([label, value]) =>
-                  `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`
-              )
-              .join("")}
-          </div>
+        <section class="recipe-nutrition" aria-label="${escapeHtml(nutritionHeading)}">
+          <h2>${escapeHtml(nutritionHeading)}</h2>
+          <dl class="recipe-meta-grid">
+          ${nutritionEntries
+            .map(
+              ([label, value]) =>
+                `<div class="recipe-meta-item"><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`
+            )
+            .join("")}
+          </dl>
+          ${estimate?.notes ? `<p class="recipe-nutrition-note">${escapeHtml(estimate.notes)}</p>` : ""}
         </section>
       `
-    : "";
+    : `<p class="recipe-nutrition-note">${recipe.id === "miso-edamame-risoni"
+      ? "Macros pending quantities for the risoni and other unmeasured ingredients."
+      : "Macros pending ingredient amounts or yield."}</p>`;
 
-  const cookButtonMarkup = showCookButton && recipe.cookTime
+  const cookButtonMarkup = recipe.steps?.length
     ? `
         <button class="button button-ghost lets-cook-button" type="button" data-action="lets-cook">
-          Let's cook
+          Let's cook <span aria-hidden="true">→</span>
         </button>
       `
     : "";
 
   return `
     <article class="recipe-layout">
-      <section class="recipe-main notebook-card">
-        ${
-          showBackButton
-            ? `
-              <div class="recipe-main-top">
-                <a
-                  class="button button-ghost back-button recipe-back-button hero-action-right"
-                  href="${backHref}"
-                >
-                  ${escapeHtml(backLabel)}
-                </a>
-              </div>
-            `
-            : ""
-        }
-        <div class="recipe-hero-stack">
-          <div class="recipe-title-row">
-            <h1 class="recipe-page-title">${escapeHtml(recipe.title)}</h1>
-          </div>
+        <div class="recipe-detail-hero">
           <div class="recipe-hero-media">
-            <img
+            ${recipe.image ? `<img
               class="recipe-hero-image"
-              src="${escapeHtml(recipe.image || "")}"
+              src="${escapeHtml(recipe.image)}"
               alt="${escapeHtml(recipe.title)}"
-            />
-            ${cookButtonMarkup}
-            ${
-              recipe.cookTime
-                ? `<span class="recipe-hero-cook-time">Cook time: ${escapeHtml(recipe.cookTime)}</span>`
-                : ""
-            }
+            />${buildRecipePhotoMeta(recipe)}` : '<span class="recipe-photo-placeholder">Photo coming soon</span>'}
           </div>
           <div class="recipe-hero-details">
-            <p class="recipe-category">${escapeHtml(recipe.category || "Recipe")}</p>
-            <p class="recipe-page-description">${escapeHtml(recipe.description || "")}</p>
-            ${metaMarkup ? `<div class="recipe-meta-grid">${metaMarkup}</div>` : ""}
-            ${tagItems ? `<div class="tag-row">${tagItems}</div>` : ""}
+            <div class="recipe-detail-topline">
+              <p class="recipe-category">${escapeHtml(recipe.category || "Recipe")}</p>
+              <button class="recipe-save-button" type="button" aria-label="Save recipe"
+                aria-pressed="${saved}" data-save-recipe="${escapeHtml(recipe.id)}">
+                <span class="recipe-save-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+            ${description ? `<p class="recipe-page-description">${escapeHtml(description)}</p>` : ""}
+            ${tagItems ? `<ul class="recipe-detail-tags" aria-label="Recipe tags">${tagItems}</ul>` : ""}
+            <div class="recipe-detail-controls">
+              <div class="recipe-detail-stats">
+                <dl class="recipe-meta-grid recipe-timing">${metaMarkup}</dl>
+                ${nutritionMarkup}
+              </div>
+              <div class="recipe-detail-actions">
+                <button class="recipe-planner-launch" type="button" aria-haspopup="dialog"
+                  aria-controls="recipeMealPlanner" data-open-recipe-planner
+                  data-recipe-id="${escapeHtml(recipe.id)}" data-recipe-title="${escapeHtml(recipe.title)}">
+                  <span class="recipe-planner-icon" aria-hidden="true">
+                    <img src="./assets/notion-app-logo.png" alt="" width="48" height="48" />
+                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m4 8 5-5M5.5 3H9v3.5" />
+                    </svg>
+                  </span>
+                  <span>Add to meal planner</span>
+                </button>
+                ${cookButtonMarkup}
+              </div>
+            </div>
+            <span class="sr-only" role="status" data-save-status></span>
+            ${buildRelatedRecipesMarkup(recipe)}
           </div>
         </div>
 
-        <section class="method-section">
-          <div class="subsection-heading">
-            <h2>Method</h2>
-          </div>
-          <div class="step-grid">${methodItems}</div>
-        </section>
-      </section>
+        ${recipe.detailPhoto?.src ? `<img
+          class="recipe-detail-photo"
+          src="${escapeHtml(recipe.detailPhoto.src)}"
+          alt="${escapeHtml(recipe.detailPhoto.alt || "")}"
+          loading="lazy"
+          decoding="async"
+        />` : ""}
 
-      <aside class="recipe-sidebar">
-        ${ingredientOverviewMarkup}
-        ${nutritionMarkup}
-      </aside>
+        ${recipe.detailVideo ? `<video
+          class="recipe-detail-video"
+          src="${escapeHtml(recipe.detailVideo)}"
+          poster="${escapeHtml(recipe.image || "")}"
+          aria-label="${escapeHtml(recipe.title)} video"
+          controls
+          playsinline
+          preload="none"
+        ></video>` : ""}
+
+        <div class="recipe-reading-grid">
+          <aside class="recipe-sidebar">
+            ${ingredientOverviewMarkup}
+          </aside>
+          <section class="method-section">
+            <div class="subsection-heading">
+              <h2>Method</h2>
+            </div>
+            <div class="step-grid">${methodItems}</div>
+            ${window.recipeCookingUI.methodNoteMarkup(recipe)}
+          </section>
+        </div>
     </article>
   `;
+}
+
+function matchesBrowseCategory(recipe, category) {
+  const selected = normalizeText(category);
+  const actual = normalizeText(recipe.category);
+  if (selected === "baking & dessert") {
+    return ["baking", "dessert"].includes(actual);
+  }
+  if (selected === "breakfast") {
+    return actual === "breakfast" || (recipe.tags || []).some((tag) => normalizeText(tag) === "breakfast") || /granola|porridge|overnight oats/i.test(recipe.title || "");
+  }
+  return actual === selected;
 }
 
 function recipeMatches(recipe, searchTerm, categoryFilter) {
@@ -1730,7 +1815,7 @@ function recipeMatches(recipe, searchTerm, categoryFilter) {
 
   const normalizedCategory = normalizeText(categoryFilter || "");
   const categoryMatch =
-    !normalizedCategory || normalizeText(recipe.category) === normalizedCategory;
+    !normalizedCategory || matchesBrowseCategory(recipe, normalizedCategory);
   const searchMatch = !searchTerm || haystack.includes(searchTerm);
   return categoryMatch && searchMatch;
 }
@@ -1750,12 +1835,43 @@ function renderRecipeView(recipe) {
   if (!viewContainer) {
     return;
   }
-  const displayRecipe = applyMeasurementSystem(recipe);
-  viewContainer.innerHTML = buildRecipeViewMarkup(displayRecipe, {
-    showCookButton: true,
-    showBackButton: false,
-  });
+  if (!standaloneRecipeView) return;
+
+  recipePageHeading.textContent = recipe?.title || "Recipe";
+  document.title = `${recipePageHeading.textContent} | Siena's Kitchen`;
+  viewContainer.innerHTML = buildRecipeViewMarkup(applyMeasurementSystem(recipe));
+  for (const link of viewContainer.querySelectorAll("[data-related-recipe-id]")) {
+    const related = allRecipes.find(({ id }) => id === link.dataset.relatedRecipeId);
+    if (related) window.siteHeader.addCardNutrition(link.querySelector(".recipe-photo-card-title"), related);
+  }
   refreshIcons();
+}
+
+function handleRecipeSave(event) {
+  const button = event.target.closest("[data-save-recipe]");
+  if (!button) return;
+
+  const { saveRecipe: recipeId } = button.dataset;
+  const saved = !window.recipeSaves.has(recipeId);
+  const status = viewContainer.querySelector("[data-save-status]");
+  try {
+    window.recipeSaves.set(recipeId, saved);
+  } catch {
+    status.textContent = "This browser could not save the recipe.";
+    return;
+  }
+  button.setAttribute("aria-pressed", String(saved));
+  status.textContent = saved ? "Added to Saved Recipes." : "Recipe removed from Saved Recipes.";
+  if (!saveToast) return;
+
+  saveToast.hidden = !saved;
+  scheduleSaveToastDismissal();
+}
+
+function scheduleSaveToastDismissal() {
+  clearTimeout(saveToastTimer);
+  if (saveToast.hidden || saveToast.matches(":hover, :focus-within")) return;
+  saveToastTimer = setTimeout(() => { saveToast.hidden = true; }, 7000);
 }
 
 function updateCookOverlayNav(recipe) {
@@ -1830,7 +1946,10 @@ function renderList(recipes) {
   listContainer.innerHTML = "";
 
   if (!recipes.length) {
-    listContainer.innerHTML = '<div class="empty-state">No recipes match this search yet.</div>';
+    const emptyState = document.createElement("div");
+    emptyState.className = "empty-state";
+    emptyState.textContent = collectionTitle ? "No recipes in this collection yet." : "No recipes match this search yet.";
+    listContainer.append(emptyState);
     letterMarkers = [];
     updateScrollBubble();
     return;
@@ -1854,7 +1973,7 @@ function renderList(recipes) {
     item.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
     const imageMarkup = recipe.image
       ? `<img src="${escapeHtml(recipe.image)}" alt="${escapeHtml(recipe.title || "Recipe image")}" />`
-      : `<div class="az-list-image-placeholder">Image coming soon</div>`;
+      : `<div class="az-list-image-placeholder">No recipe photo</div>`;
     item.innerHTML = `
       <div class="az-list-row">
         <div class="az-list-media">${imageMarkup}</div>
@@ -1868,6 +1987,7 @@ function renderList(recipes) {
       </div>
     `;
 
+    window.siteHeader.addCardNutrition(item.querySelector(".az-list-header"), recipe);
     listContainer.append(item);
   });
 
@@ -1977,7 +2097,9 @@ function updateSuggestions(searchTerm) {
     return;
   }
 
+  const series = seriesFilter?.value || "all";
   const matches = allRecipes
+    .filter((recipe) => recipeMatches(recipe, "", activeCategory) && recipeMatchesSeries(recipe, series))
     .map((recipe) => recipe.title || "")
     .filter((title) => normalizeText(title).includes(trimmed));
 
@@ -2008,8 +2130,8 @@ function updateSuggestions(searchTerm) {
 }
 
 function applyFilters() {
-  const searchTerm = normalizeText(searchInput?.value || "");
-  const series = seriesFilter?.value || "all";
+  const searchTerm = collectionTitle ? "" : normalizeText(searchInput?.value || "");
+  const series = lockedSeries || seriesFilter?.value || "all";
   filteredRecipes = allRecipes.filter(
     (recipe) =>
       recipeMatches(recipe, searchTerm, activeCategory) && recipeMatchesSeries(recipe, series)
@@ -2035,12 +2157,21 @@ function applyFilters() {
   );
 }
 
-function updateSeriesParam(series) {
+function updateSeriesHeading() {
+  if (standaloneRecipeView) return;
+  const filterTitle = seriesFilter?.value !== "all" ? seriesFilter?.selectedOptions[0]?.textContent : "";
+  const title = collectionTitle || filterTitle;
+  recipePageHeading.textContent = title || "Browse every recipe";
+  document.title = `${title || "A-Z Recipe Library"} | Siena's Kitchen`;
+}
+
+function updateFilterParam(series) {
   const url = new URL(window.location.href);
+  url.searchParams.delete("series");
   if (series && series !== "all") {
-    url.searchParams.set("series", series);
+    url.searchParams.set("filter", series);
   } else {
-    url.searchParams.delete("series");
+    url.searchParams.delete("filter");
   }
   window.history.replaceState({}, "", url);
 }
@@ -2058,7 +2189,7 @@ function handleIngredientTabs(event) {
   }
 
   if (copyButton) {
-    copyGroceryList(container);
+    copyIngredientList(container);
     return;
   }
 
@@ -2076,10 +2207,7 @@ function handleIngredientTabs(event) {
     if (heading) {
       heading.textContent = isShoppingView ? "Grocery list" : "Ingredients list";
     }
-    const copyToggle = container.querySelector(".ingredient-copy-button");
-    if (copyToggle) {
-      copyToggle.hidden = !isShoppingView;
-    }
+    updateIngredientCopyLabel(container, isShoppingView);
     return;
   }
 
@@ -2095,42 +2223,62 @@ function handleIngredientTabs(event) {
   if (heading) {
     heading.textContent = isShoppingView ? "Grocery list" : "Ingredients list";
   }
-  const copyToggle = container.querySelector(".ingredient-copy-button");
-  if (copyToggle) {
-    copyToggle.hidden = !isShoppingView;
-  }
+  updateIngredientCopyLabel(container, isShoppingView);
   if (toggleButton) {
     toggleButton.setAttribute("aria-pressed", String(isShoppingView));
     toggleButton.textContent = isShoppingView ? "Back to ingredients list" : "Convert to grocery list";
   }
 }
 
-function copyGroceryList(container) {
-  const items = Array.from(container.querySelectorAll(".shopping-item span"))
+function updateIngredientCopyLabel(container, isShoppingView) {
+  const button = container.querySelector(".ingredient-copy-button");
+  if (!button) return;
+  const label = isShoppingView ? "Copy grocery list" : "Copy ingredients list";
+  button.setAttribute("aria-label", label);
+  button.title = label;
+}
+
+async function copyIngredientList(container) {
+  const activeView = container.querySelector(".ingredient-view.is-active");
+  if (!activeView) return;
+
+  const isShoppingView = activeView.dataset.view === "shopping";
+  const items = Array.from(activeView.querySelectorAll(
+    isShoppingView ? ".shopping-item span" : ".ingredient-component h3, .ingredient-list li"
+  ))
     .map((node) => node.textContent.trim())
     .filter(Boolean);
   if (!items.length) {
     return;
   }
-  const text = items.join("\n");
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(text).catch((error) => console.error(error));
-  } else {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "absolute";
-    textarea.style.left = "-9999px";
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.remove();
-  }
   const copyButton = container.querySelector(".ingredient-copy-button");
-  if (copyButton) {
-    copyButton.classList.add("is-copied");
-    setTimeout(() => copyButton.classList.remove("is-copied"), 1200);
+  const status = container.querySelector("[data-copy-status]");
+  const text = items.join("\n");
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      try {
+        textarea.select();
+        if (!document.execCommand("copy")) throw new Error("Clipboard unavailable");
+      } finally {
+        textarea.remove();
+        copyButton.focus({ preventScroll: true });
+      }
+    }
+  } catch {
+    status.textContent = "Could not copy the list.";
+    return;
   }
+  status.textContent = isShoppingView ? "Grocery list copied." : "Ingredients list copied.";
+  copyButton.classList.add("is-copied");
+  setTimeout(() => copyButton.classList.remove("is-copied"), 1200);
 }
 
 function handleCookActions(event) {
@@ -2157,15 +2305,6 @@ function handleCookActions(event) {
 }
 
 async function initLibrary() {
-  measurementSystem = loadMeasurementSystem();
-  allRecipes = await loadRecipes();
-  allRecipes.sort((a, b) =>
-    String(a?.title || "").localeCompare(String(b?.title || ""), undefined, {
-      sensitivity: "base",
-    })
-  );
-  filteredRecipes = [...allRecipes];
-
   const params = new URLSearchParams(window.location.search);
   const seriesParam = params.get("series");
   const categoryParam = params.get("category");
@@ -2186,16 +2325,34 @@ async function initLibrary() {
     standaloneRecipeView = true;
     document.body.classList.add("is-standalone-recipe");
   }
-  if (seriesFilter && seriesParam) {
-    const match = Array.from(seriesFilter.options).find(
-      (option) => normalizeText(option.value) === normalizeText(seriesParam)
-    );
-    if (match) {
-      seriesFilter.value = match.value;
-    }
+  const findOption = (value) => Array.from(seriesFilter?.options || []).find(
+    (option) => option.value === normalizeText(value)
+  );
+  const linkedOption = findOption(seriesParam);
+  const isCuisine = linkedOption?.value.startsWith("cuisine-");
+  const collectionOption = linkedOption && linkedOption.value !== "all" && !isCuisine ? linkedOption : null;
+
+  if (!standaloneRecipeView && !isCuisine) {
+    lockedSeries = collectionOption?.value || "";
+    collectionTitle = collectionOption?.textContent.trim() || categoryParam?.trim() || "";
+  }
+  if (collectionTitle) {
+    document.body.classList.add("is-recipe-collection");
+  } else if (seriesFilter) {
+    seriesFilter.value = (linkedOption || findOption(params.get("filter")))?.value || "all";
   }
 
+  measurementSystem = loadMeasurementSystem();
+  allRecipes = await loadRecipes();
+  allRecipes.sort((a, b) =>
+    String(a?.title || "").localeCompare(String(b?.title || ""), undefined, {
+      sensitivity: "base",
+    })
+  );
+  filteredRecipes = [...allRecipes];
+
   selectedRecipeId = selectedRecipeId || filteredRecipes[0]?.id || null;
+  updateSeriesHeading();
   applyFilters();
 
   if (listScroll) {
@@ -2213,7 +2370,7 @@ async function initLibrary() {
     scrollBar.addEventListener("pointerdown", handleScrollBarPointerDown);
   }
 
-  if (searchInput) {
+  if (!collectionTitle && searchInput) {
     searchInput.addEventListener("input", () => {
       updateSuggestions(searchInput.value);
       applyFilters();
@@ -2229,16 +2386,40 @@ async function initLibrary() {
     });
   }
 
-  if (seriesFilter) {
+  if (!collectionTitle && seriesFilter) {
     seriesFilter.addEventListener("change", () => {
+      updateSeriesHeading();
+      updateSuggestions(searchInput?.value || "");
       applyFilters();
-      updateSeriesParam(seriesFilter.value);
+      updateFilterParam(seriesFilter.value);
     });
   }
 
-  document.addEventListener("click", handleIngredientTabs);
   document.addEventListener("click", handleMeasurementToggle);
+  window.recipeCookingUI.bindServingSlider(viewContainer, {
+    getRecipe: () => getSelectedRecipe(filteredRecipes),
+    displayRecipe: applyMeasurementSystem,
+    buildIngredientGroups,
+    getStepText,
+    buildMethodRenderer,
+  });
   document.addEventListener("click", handleCookActions);
+  viewContainer?.addEventListener("click", handleRecipeSave);
+  window.recipeSaves.subscribe(() => {
+    const button = viewContainer?.querySelector("[data-save-recipe]");
+    if (button) button.setAttribute("aria-pressed", String(window.recipeSaves.has(button.dataset.saveRecipe)));
+  });
+  if (saveToast) {
+    saveToast.addEventListener("pointerenter", scheduleSaveToastDismissal);
+    saveToast.addEventListener("pointerleave", scheduleSaveToastDismissal);
+    saveToast.addEventListener("focusin", scheduleSaveToastDismissal);
+    saveToast.addEventListener("focusout", () => setTimeout(scheduleSaveToastDismissal, 0));
+    saveToast.querySelector("button").addEventListener("click", () => {
+      saveToast.hidden = true;
+      scheduleSaveToastDismissal();
+      viewContainer.querySelector("[data-save-recipe]")?.focus({ preventScroll: true });
+    });
+  }
   refreshIcons();
 }
 

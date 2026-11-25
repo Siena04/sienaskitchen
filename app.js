@@ -5,9 +5,6 @@ const recipeGrid = document.getElementById("recipeGrid");
 const recipeCardTemplate = document.getElementById("recipeCardTemplate");
 const searchInput = document.getElementById("searchInput");
 const topSearchInput = document.getElementById("topSearchInput");
-const searchOverlay = document.getElementById("searchOverlay");
-const overlaySearchInput = document.getElementById("overlaySearchInput");
-const overlaySearchResults = document.getElementById("overlaySearchResults");
 const categoryFilter = document.getElementById("categoryFilter");
 const recipeViewContainer = document.getElementById("recipeViewContainer");
 const cookOverlay = document.getElementById("cookOverlay");
@@ -36,7 +33,6 @@ let recipeViewMode = "preview";
 let measurementSystem = "au";
 let deletedRecipeIds = new Set();
 let siteSettings = {};
-let activeHomeCategory = "";
 
 function refreshIcons() {
   if (window.lucide) {
@@ -429,8 +425,12 @@ function renderFeaturedRecipe(recipes) {
   if (featuredRecipeTitle && recipe.title) {
     featuredRecipeTitle.textContent = recipe.title;
   }
-  if (featuredRecipeDescription && recipe.description) {
-    featuredRecipeDescription.textContent = recipe.description;
+  featuredRecipeCard.querySelector('.recipe-card-nutrition')?.remove();
+  window.siteHeader.addCardNutrition(featuredRecipeDescription || featuredRecipeTitle, recipe);
+  if (featuredRecipeDescription) {
+    const description = recipe.description?.trim() || "";
+    featuredRecipeDescription.textContent = description;
+    featuredRecipeDescription.hidden = !description;
   }
   if (featuredRecipeImage) {
     if (recipe.image) {
@@ -454,18 +454,32 @@ function renderFeaturedRecipe(recipes) {
   }
 }
 
+function matchesBrowseCategory(recipe, category) {
+  const selected = normalizeText(category);
+  const actual = normalizeText(recipe.category);
+  if (selected === "baking & dessert") {
+    return ["baking", "dessert"].includes(actual);
+  }
+  if (selected === "breakfast") {
+    return actual === "breakfast" || (recipe.tags || []).some((tag) => normalizeText(tag) === "breakfast") || /granola|porridge|overnight oats/i.test(recipe.title || "");
+  }
+  return actual === selected;
+}
+
 function getCategoryOrder(recipes) {
   const seen = new Set();
   const order = [];
   (recipes || []).forEach((recipe) => {
-    const category = recipe?.category?.trim();
+    const rawCategory = recipe?.category?.trim();
+    const category = ["baking", "dessert"].includes(normalizeText(rawCategory)) ? "Baking & Dessert" : rawCategory;
     if (!category || seen.has(category)) {
       return;
     }
     seen.add(category);
     order.push(category);
   });
-  const preferredOrder = ["Dinner", "Baking", "Sides", "Dessert"];
+  if (!order.some((category) => normalizeText(category) === "breakfast")) order.push("Breakfast");
+  const preferredOrder = ["Dinner", "Baking & Dessert", "Breakfast", "Sides"];
   return order.sort((a, b) => {
     const aIndex = preferredOrder.findIndex((item) => normalizeText(item) === normalizeText(a));
     const bIndex = preferredOrder.findIndex((item) => normalizeText(item) === normalizeText(b));
@@ -478,6 +492,12 @@ function getCategoryOrder(recipes) {
 }
 
 const CATEGORY_PRESENTATION = {
+  "baking & dessert": {
+    icon: "cake-slice",
+    coverRecipeId: "hot-cross-buns",
+    description: "Bakes, sweet treats and something for dessert.",
+  },
+  breakfast: { icon: "coffee", description: "A delicious start to the day." },
   dinner: {
     icon: "utensils",
     description: "Weeknight favourites and dishes worth gathering around.",
@@ -488,6 +508,7 @@ const CATEGORY_PRESENTATION = {
   },
   sides: {
     icon: "salad",
+    coverRecipeId: "garlic-milk-bread",
     description: "Bright extras and small plates that steal the table.",
   },
   dessert: {
@@ -524,35 +545,6 @@ function makeRecipeCardInteractive(card, recipe) {
   });
 }
 
-function addCardNutrition(title, recipe) {
-  if (!title) return;
-  const nutrition = recipe?.nutrition || {};
-  const fields = [
-    ['kcal', 'Calories', nutrition.calories],
-    ['P', 'Protein', nutrition.protein],
-    ['C', 'Carbohydrates', nutrition.carbs],
-    ['F', 'Fat', nutrition.fat],
-  ];
-  const row = document.createElement('div');
-  row.className = 'recipe-card-nutrition';
-  row.setAttribute('aria-label', 'Nutrition information');
-  fields.forEach(([label, fullLabel, raw]) => {
-    const value = String(raw ?? '').trim();
-    const clean = label === 'kcal' ? value.replace(/\s*kcal\s*$/i, '').trim() : value;
-    const display = clean ? (label !== 'kcal' && /^\d+(?:\.\d+)?$/.test(clean) ? `${clean}g` : clean) : '—';
-    const item = document.createElement('span');
-    item.setAttribute('aria-label', `${fullLabel}: ${clean ? display : 'not available'}`);
-    const key = document.createElement('b');
-    key.textContent = label;
-    item.append(key, document.createTextNode(` ${display}`));
-    row.append(item);
-  });
-  const category = title.closest('.recipe-card')?.querySelector('.recipe-card-category');
-  if (category) title.append(category);
-  title.insertAdjacentElement('afterend', row);
-}
-
-
 function buildRecipeCard(recipe) {
   if (!recipeCardTemplate) {
     return null;
@@ -574,7 +566,7 @@ function buildRecipeCard(recipe) {
     category.textContent = recipe.category || "Recipe";
   }
 
-  addCardNutrition(title, recipe);
+  window.siteHeader.addCardNutrition(title, recipe);
   makeRecipeCardInteractive(card, recipe);
 
   return fragment;
@@ -602,7 +594,84 @@ function updateRecipeRail(railBlock) {
     thumb.style.left = `${position * (100 - thumbWidth)}%`;
     progress.setAttribute("aria-valuenow", String(Math.round(position * 100)));
     progress.classList.toggle("is-complete", maxScroll === 0);
+    progress.setAttribute("aria-disabled", String(maxScroll === 0));
+    progress.tabIndex = maxScroll ? 0 : -1;
   }
+}
+
+function bindRecipeRailScrollbar(railBlock, rail) {
+  const scrollbar = railBlock.querySelector(".rail-progress");
+  const thumb = scrollbar?.querySelector(".rail-progress-thumb");
+  if (!thumb) {
+    return;
+  }
+
+  let pointerId = null;
+  let grabOffset = 0;
+
+  function moveThumb(clientX) {
+    const trackBounds = scrollbar.getBoundingClientRect();
+    const travel = trackBounds.width - thumb.getBoundingClientRect().width;
+    if (travel <= 0) {
+      return;
+    }
+    const position = Math.min(1, Math.max(0, (clientX - trackBounds.left - grabOffset) / travel));
+    rail.scrollLeft = position * (rail.scrollWidth - rail.clientWidth);
+    updateRecipeRail(railBlock);
+  }
+
+  scrollbar.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0 || pointerId !== null || rail.scrollWidth <= rail.clientWidth) {
+      return;
+    }
+    const thumbBounds = thumb.getBoundingClientRect();
+    grabOffset = event.target === thumb ? event.clientX - thumbBounds.left : thumbBounds.width / 2;
+    pointerId = event.pointerId;
+    scrollbar.focus({ preventScroll: true });
+    scrollbar.setPointerCapture(pointerId);
+    scrollbar.classList.add("is-dragging");
+    rail.classList.add("is-scrollbar-dragging");
+    moveThumb(event.clientX);
+    event.preventDefault();
+  });
+
+  scrollbar.addEventListener("pointermove", (event) => {
+    if (event.pointerId === pointerId) {
+      moveThumb(event.clientX);
+    }
+  });
+
+  scrollbar.addEventListener("lostpointercapture", (event) => {
+    if (event.pointerId === pointerId) {
+      pointerId = null;
+      scrollbar.classList.remove("is-dragging");
+      rail.classList.remove("is-scrollbar-dragging");
+    }
+  });
+
+  scrollbar.addEventListener("keydown", (event) => {
+    const maxScroll = rail.scrollWidth - rail.clientWidth;
+    if (maxScroll <= 0) {
+      return;
+    }
+    const firstCard = rail.querySelector(".recipe-card");
+    const cardWidth = firstCard?.getBoundingClientRect().width || 240;
+    const step = cardWidth + (parseFloat(getComputedStyle(rail).columnGap) || 0);
+    const page = Math.max(step, Math.floor(rail.clientWidth / step) * step);
+    const positions = {
+      ArrowLeft: rail.scrollLeft - step,
+      ArrowRight: rail.scrollLeft + step,
+      PageUp: rail.scrollLeft - page,
+      PageDown: rail.scrollLeft + page,
+      Home: 0,
+      End: maxScroll,
+    };
+    if (!Object.hasOwn(positions, event.key)) {
+      return;
+    }
+    event.preventDefault();
+    rail.scrollLeft = positions[event.key];
+  });
 }
 
 function initializeRecipeRails(root = document) {
@@ -614,6 +683,7 @@ function initializeRecipeRails(root = document) {
     if (rail.dataset.railReady !== "true") {
       rail.dataset.railReady = "true";
       rail.addEventListener("scroll", () => updateRecipeRail(railBlock), { passive: true });
+      bindRecipeRailScrollbar(railBlock, rail);
       railBlock.querySelectorAll("[data-rail-direction]").forEach((button) => {
         button.addEventListener("click", () => {
           const direction = Number(button.dataset.railDirection || 0);
@@ -637,26 +707,22 @@ function renderCategoryRows(recipes) {
   if (!categories.length) {
     return;
   }
-  if (!categories.some((category) => normalizeText(category) === normalizeText(activeHomeCategory))) {
-    activeHomeCategory = categories[0];
-  }
-
   const picker = document.createElement("div");
   picker.className = "category-picker";
   picker.setAttribute("aria-label", "Recipe categories");
 
   categories.forEach((category) => {
     const categoryRecipes = recipes.filter(
-      (recipe) => normalizeText(recipe.category) === normalizeText(category)
+      (recipe) => matchesBrowseCategory(recipe, category)
     );
-    const coverRecipe = categoryRecipes.find(recipeHasImage) || categoryRecipes[0];
     const presentation = getCategoryPresentation(category);
-    const isActive = normalizeText(category) === normalizeText(activeHomeCategory);
-    const button = document.createElement("button");
-    button.className = `category-choice${isActive ? " is-active" : ""}`;
-    button.type = "button";
-    button.setAttribute("aria-pressed", String(isActive));
-    button.innerHTML = `
+    const coverRecipe = categoryRecipes.find(
+      (recipe) => recipe.id === presentation.coverRecipeId && recipeHasImage(recipe)
+    ) || categoryRecipes.find(recipeHasImage) || categoryRecipes[0];
+    const link = document.createElement("a");
+    link.className = "category-choice";
+    link.href = `./recipe-library.html?category=${encodeURIComponent(category)}`;
+    link.innerHTML = `
       <span class="category-choice-media">
         ${
           coverRecipe?.image
@@ -673,10 +739,7 @@ function renderCategoryRows(recipes) {
         <span class="category-choice-arrow" aria-hidden="true">&#8594;</span>
       </span>
     `;
-    button.addEventListener("click", () => {
-      window.location.href = `./recipe-library.html?category=${encodeURIComponent(category)}`;
-    });
-    picker.append(button);
+    picker.append(link);
   });
 
   categoryRows.append(picker);
@@ -1039,7 +1102,7 @@ function normalizeMeasureUnit(unitToken) {
   if (lower.startsWith("tsp") || lower.startsWith("tea")) {
     return "tsp";
   }
-  if (lower.startsWith("kg")) {
+  if (lower.startsWith("kg") || lower.startsWith("kilo")) {
     return "kg";
   }
   if (lower === "g" || lower.startsWith("gram")) {
@@ -1153,19 +1216,21 @@ function formatMeasureLabel(unit, value) {
   return unit;
 }
 
-function convertMeasurementText(text, fromSystem, toSystem) {
+function convertMeasurementText(text, fromSystem, toSystem, factor = 1) {
   if (!text) {
     return text;
   }
+  const format = factor === 1 ? formatMeasureAmount : (value, unit) =>
+    window.recipeServings.formatAmount(value, ["cup", "tbsp", "tsp"].includes(unit));
   return text.replace(MEASURE_REGEX, (match, startValue, endValue, unitToken) => {
     const unit = normalizeMeasureUnit(unitToken);
-    const start = parseInlineQuantity(startValue);
+    const start = parseInlineQuantity(startValue) * factor;
     if (!Number.isFinite(start)) {
       return match;
     }
     if (isWeightUnit(unit)) {
       if (endValue) {
-        const end = parseInlineQuantity(endValue);
+        const end = parseInlineQuantity(endValue) * factor;
         if (!Number.isFinite(end)) {
           return match;
         }
@@ -1183,18 +1248,18 @@ function convertMeasurementText(text, fromSystem, toSystem) {
         const convertedStart = startGrams / WEIGHT_GRAMS[targetUnit];
         const convertedEnd = endGrams / WEIGHT_GRAMS[targetUnit];
         const label = formatMeasureLabel(targetUnit, Math.max(convertedStart, convertedEnd));
-        return `${formatMeasureAmount(convertedStart, targetUnit)}-${formatMeasureAmount(
+        return `${format(convertedStart, targetUnit)}-${format(
           convertedEnd,
           targetUnit
         )} ${label}`;
       }
       const converted = convertWeight(start, unit, toSystem);
       const label = formatMeasureLabel(converted.unit, converted.value);
-      return `${formatMeasureAmount(converted.value, converted.unit)} ${label}`;
+      return `${format(converted.value, converted.unit)} ${label}`;
     }
     const convertedStart = convertMeasure(start, unit, fromSystem, toSystem);
     if (endValue) {
-      const end = parseInlineQuantity(endValue);
+      const end = parseInlineQuantity(endValue) * factor;
       if (!Number.isFinite(end)) {
         return match;
       }
@@ -1203,40 +1268,20 @@ function convertMeasurementText(text, fromSystem, toSystem) {
         convertedStart.unit,
         Math.max(convertedStart.value, convertedEnd.value)
       );
-      return `${formatMeasureAmount(convertedStart.value, convertedStart.unit)}-${formatMeasureAmount(
+      return `${format(convertedStart.value, convertedStart.unit)}-${format(
         convertedEnd.value,
         convertedStart.unit
       )} ${label}`;
     }
     const label = formatMeasureLabel(convertedStart.unit, convertedStart.value);
-    return `${formatMeasureAmount(convertedStart.value, convertedStart.unit)} ${label}`;
+    return `${format(convertedStart.value, convertedStart.unit)} ${label}`;
   });
 }
 
 function applyMeasurementSystem(recipe) {
-  if (!recipe) {
-    return recipe;
-  }
-  return {
-    ...recipe,
-    ingredients: (recipe.ingredients || []).map((item) =>
-      convertMeasurementText(item, MEASUREMENT_BASE, measurementSystem)
-    ),
-    steps: (recipe.steps || []).map((step) => {
-      const converted = convertMeasurementText(
-        getStepText(step),
-        MEASUREMENT_BASE,
-        measurementSystem
-      );
-      if (step && typeof step === "object") {
-        return { ...step, text: converted };
-      }
-      return converted;
-    }),
-    notes: recipe.notes
-      ? convertMeasurementText(recipe.notes, MEASUREMENT_BASE, measurementSystem)
-      : recipe.notes,
-  };
+  return window.recipeServings.displayRecipe(
+    recipe, measurementSystem, convertMeasurementText, getStepText, normalizeIngredientForMatch
+  );
 }
 
 function handleMeasurementToggle(event) {
@@ -1805,7 +1850,6 @@ function buildCookModeMarkup(recipe, stepIndex) {
   const stepEntry = steps[safeIndex];
   const stepText = getStepText(stepEntry) || "No steps added yet.";
   const stepMarkup = buildMethodRenderer(recipe)(stepText, safeIndex);
-  const stepIsCook = isCookStep(stepEntry);
   const ingredientGroups = buildCookIngredients(recipe.ingredients || [], stepEntry);
   const showGroupTitles =
     ingredientGroups.length > 1 ||
@@ -1839,17 +1883,7 @@ function buildCookModeMarkup(recipe, stepIndex) {
         </div>
       </div>
       <div class="cook-mode__grid">
-        <article class="cook-step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
-          <div class="step-card-header">
-            <div class="step-number">Step ${safeIndex + 1}</div>
-            ${
-              stepIsCook
-                ? '<span class="step-cook-badge"><i data-lucide="flame"></i><span>Cook</span></span>'
-                : ""
-            }
-          </div>
-          <p>${stepMarkup}</p>
-        </article>
+        ${window.recipeCookingUI.stepCardMarkup(stepEntry, safeIndex, stepText, stepMarkup, "cook-step-card")}
         <aside class="cook-ingredients-card notebook-card">
           <div class="subsection-heading compact">
             <p class="section-kicker">Ingredients</p>
@@ -2092,33 +2126,11 @@ function buildRecipeViewMarkup(recipe, options = {}) {
   }
 
   const showCookButton = options.showCookButton !== false;
-  const yieldLabel = getYieldLabel(recipe);
-  const showNutrition = isHealthyRecipe(recipe);
-  const ingredientOverviewMarkup = buildIngredientOverviewMarkup(recipe.ingredients || [], {
-    measureSystem: measurementSystem,
-  });
+  const ingredientOverviewMarkup = window.recipeCookingUI.ingredientOverviewMarkup(
+    buildIngredientGroups(recipe.ingredients), measurementSystem, Boolean(recipe.steps?.length), recipe.serves
+  );
 
-  const renderMethodStep = buildMethodRenderer(recipe);
-  const methodItems = (recipe.steps || [])
-    .map((item, index) => {
-      const stepText = getStepText(item);
-      const stepMarkup = renderMethodStep(stepText, index);
-      const stepIsCook = isCookStep(item);
-      return `
-        <article class="step-card notebook-card${stepIsCook ? " is-cook-step" : ""}">
-          <div class="step-card-header">
-            <div class="step-number">Step ${index + 1}</div>
-            ${
-              stepIsCook
-                ? '<span class="step-cook-badge"><i data-lucide="flame"></i><span>Cook</span></span>'
-                : ""
-            }
-          </div>
-          <p>${stepMarkup}</p>
-        </article>
-      `;
-    })
-    .join("");
+  const methodItems = window.recipeCookingUI.methodItemsMarkup(recipe, getStepText, buildMethodRenderer(recipe));
   const tagItems = (recipe.tags || [])
     .map(
       (tag) => `<span class="${getTagColorClass(tag)}">${escapeHtml(tag)}</span>`
@@ -2127,35 +2139,33 @@ function buildRecipeViewMarkup(recipe, options = {}) {
 
   const metaItems = [
     recipe.prepTime && { key: "prep", label: "Prep time", value: recipe.prepTime },
-    recipe.serves && { key: "serves", label: yieldLabel, value: recipe.serves },
+    { label: "Serves", value: recipe.serves, servingIndicator: true },
   ].filter(Boolean);
 
   const metaMarkup = metaItems.length
     ? metaItems
         .map(
-          ({ label, value }) => `
+          ({ label, value, servingIndicator }) => `
             <div class="recipe-meta-item">
               <span>${escapeHtml(label)}:</span>
-              <strong>${escapeHtml(value)}</strong>
+              <strong${servingIndicator ? " data-recipe-serves" : ""}>${escapeHtml(value)}</strong>
             </div>
           `
         )
         .join("")
     : "";
-  const nutritionEntries = showNutrition
-    ? [
-        ["Calories", recipe.nutrition?.calories],
-        ["Protein", recipe.nutrition?.protein],
-        ["Carbs", recipe.nutrition?.carbs],
-        ["Fat", recipe.nutrition?.fat],
-      ].filter(([, value]) => value)
-    : [];
+  const nutritionEntries = [
+    ["Calories", recipe.nutrition?.calories],
+    ["Protein", recipe.nutrition?.protein],
+    ["Carbs", recipe.nutrition?.carbs],
+    ["Fat", recipe.nutrition?.fat],
+  ].filter(([, value]) => value);
   const nutritionMarkup = nutritionEntries.length
     ? `
         <section class="sidebar-card notebook-card">
           <div class="subsection-heading compact">
             <p class="section-kicker">Nutrition</p>
-            <h2>Per serve</h2>
+            <h2>${escapeHtml(recipe.nutritionEstimate?.basis || (recipe.yieldLabel === "makes" ? "per item" : "per serving"))}</h2>
           </div>
           <div class="info-stack nutrition-stack">
             ${nutritionEntries
@@ -2218,6 +2228,7 @@ function buildRecipeViewMarkup(recipe, options = {}) {
             <h2>Method</h2>
           </div>
           <div class="step-grid">${methodItems}</div>
+          ${window.recipeCookingUI.methodNoteMarkup(recipe)}
         </section>
       </section>
 
@@ -2248,10 +2259,9 @@ function buildRecipePreviewMarkup(recipe) {
           `
         )
         .join("")
-    : `<p class="preview-note">Ingredients are coming soon for this recipe.</p>`;
+    : `<p class="preview-note">Ingredients unavailable for this recipe.</p>`;
 
   const complexity = getComplexityRating(recipe);
-  const showNutrition = isHealthyRecipe(recipe);
   const nutritionEntries = [
     ["Calories", recipe.nutrition?.calories || "-"],
     ["Protein", recipe.nutrition?.protein || "-"],
@@ -2259,7 +2269,7 @@ function buildRecipePreviewMarkup(recipe) {
     ["Fat", recipe.nutrition?.fat || "-"],
   ];
 
-  const nutritionMarkup = showNutrition
+  const nutritionMarkup = nutritionEntries.some(([, value]) => value !== "-")
     ? `
         <div class="preview-macro-grid">
           ${nutritionEntries
@@ -2270,7 +2280,7 @@ function buildRecipePreviewMarkup(recipe) {
             .join("")}
         </div>
       `
-    : `<p class="preview-note">Macros show only for healthy recipes.</p>`;
+    : `<p class="preview-note">Macros pending ingredient amounts or yield.</p>`;
 
   return `
     <article class="recipe-preview notebook-card" aria-live="polite">
@@ -2291,7 +2301,7 @@ function buildRecipePreviewMarkup(recipe) {
             ${
               recipe.image
                 ? `<img class="preview-image" src="${escapeHtml(recipe.image)}" alt="${escapeHtml(recipe.title || "Recipe image")}" />`
-                : `<div class="preview-image-placeholder">Image coming soon</div>`
+                : `<div class="preview-image-placeholder">No recipe photo</div>`
             }
           </div>
           <h3>Ingredients</h3>
@@ -2303,7 +2313,7 @@ function buildRecipePreviewMarkup(recipe) {
             <strong>${escapeHtml(complexity)}</strong>
           </div>
           <div class="preview-macros">
-            <p class="preview-subtitle">Macros</p>
+            <p class="preview-subtitle">Macros ${escapeHtml(recipe.nutritionEstimate?.basis || (recipe.yieldLabel === "makes" ? "per item" : "per serving"))}</p>
             ${nutritionMarkup}
           </div>
         </aside>
@@ -2350,8 +2360,26 @@ function selectRecipe(recipeId, options = {}) {
   renderRecipes(filteredRecipes);
 }
 
+const dinnerRowExclusions = new Set([
+  "deli-style-marinated-chicken-breast",
+  "korean-tofu-pancakes",
+  "miso-edamame-risoni",
+  "pork-prawn-dumplings",
+  "chicken-karaage",
+  "campfire-quesadilla",
+  "chilli-con-carne",
+  "korean-chicken-tteokbokki-stew",
+  "shabu-shabu-for-one",
+  "guinness-beef-pie",
+  "singapore-chilli-mud-crab",
+  "shabu-shabu",
+  "one-pot-mackerel-tofu-rice",
+]);
+
 function renderRecipes(recipes) {
-  recipes = recipes.filter((recipe) => /dinner/i.test(recipe.category || ""));
+  recipes = recipes.filter(
+    (recipe) => /dinner/i.test(recipe.category || "") && !dinnerRowExclusions.has(recipe.id)
+  );
   recipeGrid.innerHTML = "";
 
   if (!recipes.length) {
@@ -2400,7 +2428,7 @@ function renderRecipes(recipes) {
       card.classList.add("is-active");
     }
 
-    addCardNutrition(title, recipe);
+    window.siteHeader.addCardNutrition(title, recipe);
     makeRecipeCardInteractive(card, recipe);
 
     recipeGrid.append(fragment);
@@ -2597,121 +2625,8 @@ function handleCookActions(event) {
   }
 }
 
-function renderSearchOverlayResults() {
-  if (!overlaySearchResults || !overlaySearchInput) {
-    return;
-  }
-
-  const searchTerm = normalizeText(overlaySearchInput.value);
-  overlaySearchResults.innerHTML = "";
-  overlaySearchResults.classList.remove("is-latest", "is-matches");
-
-  const buildResultCard = (recipe, onClick) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "search-overlay__result recipe-card notebook-card";
-
-    const imageWrap = document.createElement("div");
-    imageWrap.className = "recipe-image-wrap";
-    if (recipe?.image) {
-      const img = document.createElement("img");
-      img.className = "recipe-image";
-      img.loading = "lazy";
-      img.src = recipe.image;
-      img.alt = recipe.title || "Recipe";
-      imageWrap.append(img);
-    }
-
-    const body = document.createElement("div");
-    body.className = "recipe-card-body";
-    const title = document.createElement("h3");
-    title.className = "recipe-title";
-    title.textContent = recipe?.title || "Untitled recipe";
-    body.append(title);
-    addCardNutrition(title, recipe);
-
-    button.append(imageWrap, body);
-    button.addEventListener("click", onClick);
-    return button;
-  };
-
-  if (!searchTerm) {
-    overlaySearchResults.classList.add("is-latest");
-    const latestHeader = document.createElement("div");
-    latestHeader.className = "search-overlay__section-title";
-    latestHeader.textContent = "Latest";
-    overlaySearchResults.append(latestHeader);
-
-    const latestRecipes = [...allRecipes].slice(-10).reverse();
-    if (!latestRecipes.length) {
-      overlaySearchResults.innerHTML =
-        '<div class="search-overlay__empty">No recipes yet.</div>';
-      return;
-    }
-
-    latestRecipes.forEach((recipe) => {
-      const button = buildResultCard(recipe, () => {
-        window.location.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
-      });
-      overlaySearchResults.append(button);
-    });
-    return;
-  }
-
-  overlaySearchResults.classList.add("is-matches");
-
-  const matches = allRecipes
-    .filter((recipe) => recipeMatches(recipe, searchTerm, "all"))
-    .slice(0, 10);
-
-  if (!matches.length) {
-    overlaySearchResults.innerHTML =
-      '<div class="search-overlay__empty">No matches yet.</div>';
-    return;
-  }
-
-  matches.forEach((recipe) => {
-    const button = buildResultCard(recipe, () => {
-      window.location.href = `./recipe-library.html?recipe=${encodeURIComponent(recipe.id)}`;
-    });
-    overlaySearchResults.append(button);
-  });
-}
-
-function openSearchOverlay() {
-  if (!searchOverlay || !overlaySearchInput) {
-    return;
-  }
-  searchOverlay.classList.add("is-open");
-  searchOverlay.setAttribute("aria-hidden", "false");
-  document.body.classList.add("is-overlay-open");
-  overlaySearchInput.value = topSearchInput?.value || searchInput?.value || "";
-  renderSearchOverlayResults();
-  overlaySearchInput.focus();
-}
-
-function closeSearchOverlay() {
-  if (!searchOverlay) {
-    return;
-  }
-  searchOverlay.classList.remove("is-open");
-  searchOverlay.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("is-overlay-open");
-}
-
-function handleSearchOverlayClick(event) {
-  const closeTarget = event.target.closest("[data-action=\"close-search\"]");
-  if (closeTarget) {
-    closeSearchOverlay();
-  }
-}
-
 function handleOverlayKeydown(event) {
   if (event.key !== "Escape") {
-    return;
-  }
-  if (searchOverlay?.classList.contains("is-open")) {
-    closeSearchOverlay();
     return;
   }
   if (cookOverlay?.classList.contains("is-open")) {
@@ -2744,11 +2659,13 @@ function renderHomeCollections(recipes) {
   const searchable = (recipe) => [recipe.title, recipe.category, ...(recipe.tags || [])].join(" ").toLowerCase();
   const pick = (pattern) => recipes.filter((recipe) => pattern.test(searchable(recipe)));
   const collections = {
-    hungry: recipes.filter((recipe) => !/dinner/i.test(recipe.category || "")),
     festive: pick(/christmas|festive|holiday|spiced|cinnamon|ginger/),
     wellness: pick(/baking|dessert|bake|cookies|sweet/).slice(0, 3),
-    baking: pick(/baking|dessert|bake|cookies/),
-    "one-pot": pick(/one[ -]pot|stew|chilli|chili|risoni|risotto/),
+    "one-pot": recipes.filter(
+      (recipe) => recipe.id === "shabu-shabu-for-one" || /one[ -]pot|stew|chilli|chili|risoni|risotto/.test(searchable(recipe))
+    ).filter(
+      (recipe) => recipe.id !== "miso-edamame-risoni" && recipe.id !== "singapore-chilli-mud-crab"
+    ),
   };
 
   Object.entries(collections).forEach(([name, entries]) => {
@@ -2759,12 +2676,12 @@ function renderHomeCollections(recipes) {
     if (!shown.length) {
       const message = document.createElement("p");
       message.className = "collection-empty";
-      message.textContent = "More recipes coming soon.";
+      message.textContent = "No recipes in this collection yet.";
       container.append(message);
       return;
     }
     shown.forEach((recipe) => {
-      if (name === "hungry" || name === "baking" || name === "one-pot") {
+      if (name === "one-pot") {
         const card = buildRecipeCard(recipe);
         if (card) container.append(card);
         return;
@@ -2842,33 +2759,24 @@ async function init() {
   if (searchInput) {
     searchInput.addEventListener("input", handleInlineSearchInput);
   }
-  if (topSearchInput) {
-    topSearchInput.setAttribute("readonly", "readonly");
-    const openFromTopSearch = () => {
-      openSearchOverlay();
-    };
-    topSearchInput.addEventListener("focus", openFromTopSearch);
-    topSearchInput.addEventListener("click", openFromTopSearch);
-  }
   if (categoryFilter) {
     categoryFilter.addEventListener("change", applyFilters);
   }
-  document.addEventListener("click", handleIngredientTabs);
   document.addEventListener("click", handleMeasurementToggle);
+  window.recipeCookingUI.bindServingSlider(recipeViewContainer, {
+    getRecipe: () => getSelectedRecipe(filteredRecipes),
+    displayRecipe: applyMeasurementSystem,
+    buildIngredientGroups,
+    getStepText,
+    buildMethodRenderer,
+  });
   document.addEventListener("click", handleCookActions);
   document.addEventListener("keydown", handleOverlayKeydown);
   window.addEventListener("storage", handleStorageUpdate);
   window.addEventListener("resize", () => initializeRecipeRails(document));
-
-  if (searchOverlay) {
-    searchOverlay.addEventListener("click", handleSearchOverlayClick);
-  }
-
-  if (overlaySearchInput) {
-    overlaySearchInput.addEventListener("input", renderSearchOverlayResults);
-  }
 }
 
+window.siteHeader.setRecipeProvider(loadRecipes);
 init();
 
 async function handleStorageUpdate(event) {

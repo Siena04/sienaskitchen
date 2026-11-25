@@ -28,6 +28,7 @@ const MIME_TYPES = {
   ".gif": "image/gif",
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
+  ".mp4": "video/mp4",
   ".heic": "image/heic",
   ".heif": "image/heif",
   ".ico": "image/x-icon",
@@ -99,7 +100,7 @@ function getPreviewRevision() {
   return crypto.createHash("sha256").update(revision).digest("hex");
 }
 
-function sendFile(filePath, response) {
+function sendFile(filePath, request, response) {
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME_TYPES[ext] || "application/octet-stream";
 
@@ -113,6 +114,31 @@ function sendFile(filePath, response) {
 
       response.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
       response.end("Server error");
+      return;
+    }
+
+    if (ext === ".mp4") {
+      const headers = { "Content-Type": contentType, "Cache-Control": "no-store", "Accept-Ranges": "bytes" };
+      const range = /^bytes=(\d*)-(\d*)$/.exec(request.headers.range || "");
+      if (range && (range[1] || range[2])) {
+        const start = range[1] ? Number(range[1]) : Math.max(0, data.length - Number(range[2]));
+        const end = range[1] && range[2] ? Math.min(Number(range[2]), data.length - 1) : data.length - 1;
+        if (start >= data.length || start > end) {
+          response.writeHead(416, { ...headers, "Content-Range": `bytes */${data.length}` });
+          response.end();
+          return;
+        }
+        const chunk = data.subarray(start, end + 1);
+        response.writeHead(206, {
+          ...headers,
+          "Content-Length": chunk.length,
+          "Content-Range": `bytes ${start}-${end}/${data.length}`,
+        });
+        response.end(chunk);
+        return;
+      }
+      response.writeHead(200, { ...headers, "Content-Length": data.length });
+      response.end(data);
       return;
     }
 
@@ -417,6 +443,9 @@ async function handleAdminApi(request, response, urlPath) {
       sendJson(response, 404, { ok: false, error: "Recipe not found." });
       return;
     }
+    if (payload.publish !== false && recipe.status !== "published" && !recipe.publishedAt && !recipe.publishedSnapshot) {
+      recipe.publishedAt = new Date().toISOString();
+    }
     recipe.status = payload.publish === false ? "draft" : "published";
     recipe.hasUnpublishedChanges = false;
     recipe.publishedSnapshot = payload.publish === false ? recipe.publishedSnapshot : serializePublicRecipe(recipe);
@@ -594,11 +623,11 @@ const server = http.createServer(async (request, response) => {
 
   fs.stat(filePath, (error, stats) => {
     if (!error && stats.isDirectory()) {
-      sendFile(path.join(filePath, "index.html"), response);
+      sendFile(path.join(filePath, "index.html"), request, response);
       return;
     }
 
-    sendFile(filePath, response);
+    sendFile(filePath, request, response);
   });
 });
 

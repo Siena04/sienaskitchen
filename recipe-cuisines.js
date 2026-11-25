@@ -1,12 +1,12 @@
 const recipeCuisines = [
-  { id: "chinese", label: "Chinese", recipes: ["chinese-sauteed-wombok", "pork-prawn-dumplings"] },
+  { id: "chinese", label: "Chinese", recipes: ["pork-prawn-dumplings"] },
   { id: "mediterranean", label: "Mediterranean", recipes: ["greek-sheet-pan-chicken"], aliases: ["greek"] },
   { id: "japanese", label: "Japanese", recipes: ["chicken-karaage", "simmered-hijiki-salad", "miso-edamame-risoni"], aliases: ["japanese-inspired"] },
   { id: "italian", label: "Italian", recipes: ["chicken-crust-pizza"], aliases: ["italian-inspired"] },
   { id: "thai", label: "Thai", recipes: [] },
   { id: "indian", label: "Indian", recipes: [] },
   { id: "greek", label: "Greek", recipes: ["greek-sheet-pan-chicken"] },
-  { id: "korean", label: "Korean", recipes: ["korean-tofu-pancakes", "korean-mayak-drug-eggs", "korean-chicken-tteokbokki-stew"] },
+  { id: "korean", label: "Korean", recipes: ["korean-mayak-drug-eggs", "korean-chicken-tteokbokki-stew"] },
   { id: "tex-mex", label: "Tex-Mex-inspired", recipes: ["chilli-con-carne"] },
 ];
 

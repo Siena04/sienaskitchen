@@ -13,6 +13,21 @@
   ]);
   const preparation = /^(?:(?:finely|roughly|thinly|freshly|fresh|dried|ground|grated|chopped|minced|sliced|diced|crushed|large|medium|small|plain)\s+)+/i;
 
+  function stepLeadEnd(text) {
+    const leadIn = text.match(/^\s*(?:in|using|working|if)\b[^,]+,\s*/i)?.[0].length || 0;
+    const opening = text.slice(leadIn).split(/[,;!?]|\.(?=\s|$)|\s+(?:then|until|before|while)\b/i, 1)[0];
+    const words = Array.from(opening.matchAll(/\S+/g)).slice(0, leadIn ? 5 : 8);
+    while (words.length > 1 && /^(?:a|an|the|and|or|of|in|into|on|onto|to|with|for|over|at|by)$/i.test(words.at(-1)[0])) {
+      words.pop();
+    }
+    const last = words.at(-1);
+    return last ? leadIn + last.index + last[0].length : 0;
+  }
+
+  function leadMarkup(opening, remaining) {
+    return opening ? '<strong class="method-step-lead">' + opening + '</strong>' + remaining : remaining;
+  }
+
   function makeRenderer(groups, steps, normalizeName, escapeHtml) {
     const matches = new Map();
     const componentPatterns = groups.map(({ title, items }, groupIndex) => {
@@ -66,7 +81,11 @@
       );
     });
 
-    if (!matches.size) return (text) => escapeHtml(text);
+    const renderPlain = (text) => {
+      const end = stepLeadEnd(text);
+      return leadMarkup(escapeHtml(text.slice(0, end)), escapeHtml(text.slice(end)));
+    };
+    if (!matches.size) return renderPlain;
     const pattern = [...matches.keys()].sort((a, b) => b.length - a.length).map(escapePattern).join('|');
     const matcher = new RegExp('(^|[^A-Za-z0-9_])(' + pattern + ')(?=$|[^A-Za-z0-9_])', 'gi');
     let activeGroup = -1;
@@ -82,8 +101,16 @@
       if (cues.length) activeGroup = cues.at(-1).groupIndex;
       const usedRows = new Set();
 
-      let markup = '';
+      const leadEnd = stepLeadEnd(text);
+      let opening = '';
+      let remaining = '';
       let lastIndex = 0;
+      function appendText(start, end) {
+        const cut = Math.max(start, Math.min(leadEnd, end));
+        opening += escapeHtml(text.slice(start, cut));
+        remaining += escapeHtml(text.slice(cut, end));
+      }
+
       text.replace(matcher, (match, prefix, mention, offset) => {
         const start = offset + prefix.length;
         const end = start + mention.length;
@@ -105,20 +132,26 @@
           content = '<span class="method-ingredient-original">' + content + '</span>' +
             '<span class="method-ingredient-replacement">' + escapeHtml(row.line) + '</span>';
         }
-        markup += escapeHtml(text.slice(lastIndex, start)) + '<strong class="ingredient-mention">' + content + '</strong>';
+        appendText(lastIndex, start);
+        const ingredient = '<strong class="ingredient-mention">' + content + '</strong>';
+        if (start < leadEnd) opening += ingredient;
+        else remaining += ingredient;
         lastIndex = end;
         return match;
       });
-      return markup + escapeHtml(text.slice(lastIndex));
+      appendText(lastIndex, text.length);
+      return leadMarkup(opening, remaining);
     });
 
-    return (text, index) => rendered[index] || escapeHtml(text);
+    return (text, index) => rendered[index] || renderPlain(text);
   }
 
-  const toggleLabel = () => showAmounts ? 'Remove quantities from method' : 'Add quantities to method';
   let showAmounts = false;
   function toggleMarkup() {
-    return `<button class="button button-ghost method-quantity-toggle" type="button" aria-pressed="${showAmounts}">${toggleLabel()}</button>`;
+    return `<button class="method-quantity-toggle" type="button" role="switch" aria-checked="${showAmounts}">
+      <span class="method-quantity-track" aria-hidden="true"></span>
+      <span>Show amounts in method</span>
+    </button>`;
   }
 
   document.addEventListener('click', (event) => {
@@ -127,8 +160,7 @@
     showAmounts = !showAmounts;
     document.body.classList.toggle('show-method-quantities', showAmounts);
     document.querySelectorAll('.method-quantity-toggle').forEach((button) => {
-      button.setAttribute('aria-pressed', String(showAmounts));
-      button.textContent = toggleLabel();
+      button.setAttribute('aria-checked', String(showAmounts));
     });
   });
 

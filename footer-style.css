@@ -35,24 +35,82 @@
   .site-footer .footer-brand { grid-column: auto; }
 }
 
-/* Slightly roomier homepage header. */
-body[data-page="home"] .site-header {
-  padding-top: 0.82rem;
-  padding-bottom: 0.82rem;
-  column-gap: 1rem;
+/* A small campsite tucked beside the footer links. */
+.footer-legal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.5rem;
 }
-body[data-page="home"] .site-header .header-menu-toggle {
-  width: 42px;
-  height: 42px;
-  padding: 9px;
+
+.footer-camp-link {
+  position: relative;
+  inset-block-end: 0.65rem;
+  display: grid;
+  place-items: end center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
 }
-body[data-page="home"] .site-header .brand-lockup {
-  margin-left: 0.2rem;
-  transform: translateY(3px);
+
+.footer-camp-link:focus-visible {
+  outline: 2px solid #d7e9d4;
+  outline-offset: 3px;
 }
-@media (max-width: 760px) {
-  body[data-page="home"] .site-header { column-gap: 0.8rem; }
-  body[data-page="home"] .site-header .brand-lockup { margin-left: 0.1rem; }
+
+.footer-camp-tent {
+  position: relative;
+  display: block;
+  width: 2.75rem;
+  height: 2rem;
+  margin-bottom: 0.2rem;
+  background: linear-gradient(115deg, #bcd88e 0 50%, #81a665 50% 100%);
+  clip-path: polygon(2% 88%, 35% 10%, 67% 10%, 98% 81%, 65% 91%);
+}
+
+.footer-camp-tent::before,
+.footer-camp-tent::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.footer-camp-tent::before {
+  background: #4e7050;
+  clip-path: polygon(13% 88%, 35% 28%, 57% 89%);
+}
+
+.footer-camp-tent::after {
+  background: #e5efc8;
+  clip-path: polygon(4% 85%, 35% 10%, 38% 11%, 9% 87%);
+}
+
+.footer-camp-surprise {
+  position: absolute;
+  top: -0.65rem;
+  right: -0.12rem;
+  opacity: 0;
+  color: #fff2b7;
+  font-size: 1.25rem;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.footer-camp-link.is-hopping .footer-camp-tent {
+  animation: footer-camp-hop 300ms ease-out both;
+}
+
+.footer-camp-link.is-hopping .footer-camp-surprise {
+  animation: footer-camp-pop 300ms ease-out both;
+}
+
+@keyframes footer-camp-hop {
+  45% { transform: translateY(-0.65rem) rotate(-8deg); }
+}
+
+@keyframes footer-camp-pop {
+  0% { opacity: 0; transform: scale(0.6); }
+  30%, 100% { opacity: 1; transform: scale(1); }
 }
 
 /* A light warm-paper tone for the welcome card. */
@@ -66,7 +124,7 @@ body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy::befor
 /* Place Siena's profile at the left edge of the My picks caption. */
 body[data-page="home"] .home-inspiration-card--pics .home-inspiration-content {
   position: relative;
-  padding-left: 5.4rem;
+  padding-left: 9rem;
   min-height: 68px;
 }
 body[data-page="home"] .home-inspiration-card--pics .home-inspiration-content .picks-avatar {
@@ -74,8 +132,8 @@ body[data-page="home"] .home-inspiration-card--pics .home-inspiration-content .p
   top: 0;
   left: 1.2rem;
   right: auto;
-  width: 52px;
-  height: 52px;
+  width: 104px;
+  height: 104px;
   aspect-ratio: 1;
   transform: translateY(-50%);
   object-fit: cover;
@@ -121,6 +179,40 @@ body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-conte
 body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-kicker,
 body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content::after { color: #fff7e8; }
 body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content strong::before { content: "❄"; color: #ffe6b8; margin-right: 0.5rem; }
+
+body[data-page="home"] .home-fixed-layout .home-inspiration-content strong { font-size: 1.3rem; line-height: 1.15; }
+/* Aptos headings on the supporting cards; retain the welcome typography. */
+body[data-page="home"] .home-fixed-layout .home-inspiration-content strong,
+body[data-page="home"] .home-explore-card strong,
+body[data-page="home"] .home-fixed-layout .conversion-card .tool-card-title {
+  font-family: "Aptos", Arial, sans-serif;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content {
+  padding-top: 1.8rem;
+  padding-bottom: 0.4rem;
+}
+body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content strong::before {
+  content: "✦";
+  color: #ffe6b8;
+  margin-right: 0.5rem;
+}
+
+/* Quiet striped Christmas stationery. */
+body[data-page="home"] .home-inspiration-card--christmas {
+  border: 1px solid #d6b6ac;
+  background: #fffdf8;
+}
+body[data-page="home"] .home-inspiration-card--christmas::before { content: none; }
+body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content {
+  border-top: 1px solid #e2c9bf;
+  background-color: #fffdf8;
+  background-image: repeating-linear-gradient(115deg, transparent 0 28px, rgba(163, 57, 46, 0.08) 28px 30px, transparent 30px 58px);
+  color: #723e36;
+}
+body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content::after,
+body[data-page="home"] .home-inspiration-card--christmas .home-inspiration-content strong::before { color: #a55548; }
 
 /* White welcome card with a fine, gently wavering pencil outline. */
 body[data-page="home"] .home-fixed-layout .home-welcome-column .hero-copy {
@@ -261,6 +353,15 @@ body[data-page="home"] .mailing-preview .mailing-preview-submit,
   font-weight: 700;
   white-space: nowrap;
   transition: transform 100ms ease, box-shadow 100ms ease;
+}
+body[data-page="home"] .mailing-preview .mailing-preview-submit {
+  align-self: center;
+  min-height: 36px;
+  padding-block: 0.4rem;
+  border-color: #b5a18c;
+  background: #fffaf3;
+  color: #66564a;
+  box-shadow: 2px 3px 0 #b6a08b;
 }
 body[data-page="home"] .mailing-preview .mailing-preview-submit:active,
 .mailing-dialog .mailing-submit:active {
@@ -497,7 +598,7 @@ body[data-page="home"] .home-fixed-layout .feature-info .feature-title { font-si
 body[data-page="home"] .feature-info .feature-description { font-size: 1.09rem; }
 body[data-page="home"] .feature-info .feature-tag { font-size: 0.84rem; }
 body[data-page="home"] .feature-info .feature-button { font-size: 1rem; }
-body[data-page="home"] .site-header .brand-name { font-size: clamp(1.3rem, 1.8vw, 1.55rem); }
+body[data-page] .shared-site-header .brand-name { font-size: clamp(1.3rem, 1.8vw, 1.55rem); }
 
 /* Equal ivory caption panels and matching slim white bottom edges. */
 body[data-page="home"] .home-inspiration-card {
@@ -1130,133 +1231,305 @@ body[data-page="home"] .home-cooking-section .home-inspiration-card--christmas {
 body[data-page="home"] .home-cooking-section .home-inspiration-card--christmas .home-inspiration-content { color: #723e36; }
 body[data-page="home"] .home-cooking-section .home-inspiration-card--christmas .home-inspiration-content::after { color: #a55548; }
 
-body[data-page="home"] .home-fixed-layout .home-welcome-column.home-welcome-card { grid-row: auto; grid-column: auto; }
-
-
-/* Welcome owns the left column; the right column contains signup and utilities. */
-body[data-page="home"] .home-fixed-layout .hero-stack {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.4fr);
-  align-items: stretch;
-  gap: 1.25rem;
+body[data-page="home"] .recipe-view-section:has(> #recipeViewContainer:empty) {
+  padding-top: 0;
 }
-.home-right-column.home-top-row {
+
+@media (max-width: 760px) {
+  body[data-page="home"] .hero-window.home-fixed-layout {
+    width: 100%;
+    zoom: 1;
+  }
+
+  body[data-page="home"] .home-fixed-layout .hero-grid { gap: 0.8rem; }
+
+  body[data-page="home"] .home-fixed-layout .hero-feature-card,
+  body[data-page="home"] .home-fixed-layout .hero-feature-card .feature-image {
+    min-height: 0;
+  }
+
+  body[data-page="home"] .home-fixed-layout .feature-info {
+    gap: 0.55rem;
+    padding: clamp(0.75rem, 3vw, 1.5rem);
+  }
+
+  body[data-page="home"] .home-fixed-layout .feature-info .feature-title {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    overflow-wrap: anywhere;
+  }
+
+  body[data-page="home"] .feature-info .feature-tag { font-size: 0.7rem; }
+  body[data-page="home"] .feature-info .feature-description { font-size: 0.875rem; line-height: 1.35; }
+  body[data-page="home"] .feature-info .feature-button { font-size: 0.85rem; }
+}
+
+/* Author feature and kitchen tools share the daily feature's content edges. */
+.kitchen-intro {
+  --kitchen-gap: clamp(1rem, 1.75vw, 1.6rem);
+  --kitchen-radius: 1.25rem;
+  --kitchen-ink: #304137;
+  --kitchen-paper: #f5eddf;
+  display: grid;
+  grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr);
+  gap: var(--kitchen-gap);
+  margin-block-start: var(--kitchen-gap);
+  color: var(--kitchen-ink);
+}
+
+.kitchen-author {
+  display: grid;
+  grid-template-columns: minmax(0, 0.87fr) minmax(0, 1.13fr);
+  align-items: center;
+  gap: clamp(0.95rem, 1.85vw, 1.65rem);
+  padding: clamp(0.7rem, 1.15vw, 1.05rem) clamp(1.1rem, 1.85vw, 1.7rem);
+  border-radius: var(--kitchen-radius);
+  background: var(--kitchen-paper);
+}
+
+.kitchen-author-photo {
+  justify-self: center;
+  width: 100%;
+  max-width: 11.5rem;
+  overflow: hidden;
+  border: 1px solid #c7b69c;
+  border-radius: 0.4rem;
+}
+
+.kitchen-author-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 38%;
+}
+
+.kitchen-author-copy { min-width: 0; }
+body[data-page="home"] .kitchen-author h1 {
+  margin: 0;
+  max-width: 15ch;
+  font: 700 clamp(2.1rem, 3.15vw, 3rem)/1.04 var(--home-heading-font);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.kitchen-description {
+  max-width: 33ch;
+  margin: 0.5rem 0 0.7rem;
+  color: #47584b;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.kitchen-author-links {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.15rem;
+}
+
+.kitchen-cta {
+  padding: 0.55rem 1.2rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 760px) {
+  .kitchen-cta { font-size: 0.85rem; }
+}
+
+.kitchen-instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #425749;
+  font-size: 0.9rem;
+  text-underline-offset: 0.22em;
+  text-decoration-color: transparent;
+}
+.kitchen-instagram:hover { text-decoration-color: currentColor; }
+.kitchen-instagram svg { width: 1rem; height: 1rem; }
+
+.kitchen-utilities {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: start;
+  gap: clamp(0.7rem, 1.1vw, 1rem);
   min-width: 0;
 }
-body[data-page="home"] .home-fixed-layout .home-welcome-column.home-welcome-card {
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: 1rem;
-  min-height: 320px;
-}
-body[data-page="home"] .home-fixed-layout .home-welcome-card .hero-copy h1 { font-size: 1.3rem; }
-.home-welcome-card .welcome-introduction { font-size: 0.9rem; line-height: 1.4; }
-body[data-page="home"] .home-right-column .mailing-card {
-  padding: 1rem 1.25rem;
-  gap: 0.3rem;
-}
-.home-right-column .mailing-card h2 { font-size: 1.25rem; }
-.home-right-column .mailing-card p { font-size: 0.9rem; line-height: 1.35; }
-.home-right-column .mailing-card .mailing-preview { margin-top: 0.35rem; font-size: 0.9rem; }
-.home-right-column .mailing-preview button { padding-block: 0.5rem; }
-.home-right-column .home-utility-row {
-  flex: 1;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 1rem;
-}
-body[data-page="home"] .home-right-column .home-utility-row .pantry-card {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 6.5rem);
-  min-height: 165px;
-  padding: 1rem 1.1rem;
-}
-body[data-page="home"] .home-right-column .pantry-card .tool-card-title { font-size: 1.22rem; }
-body[data-page="home"] .home-right-column .pantry-card .tool-card-copy { max-width: 26ch; font-size: 0.9rem; line-height: 1.35; }
-body[data-page="home"] .home-right-column .home-utility-row .home-shortcuts {
-  padding: 0.3rem 0.4rem;
-  gap: 0.55rem;
-}
-.home-right-column .home-tools-caption { font-size: 0.88rem; line-height: 1.3; }
-body[data-page="home"] .home-right-column .home-tool-apps { padding-top: 0.25rem; gap: 0.7rem; }
-body[data-page="home"] .home-right-column .home-tool-app-icon { width: 76px; max-width: 76%; }
-body[data-page="home"] .home-right-column .home-tool-app > span:last-child { font-size: 0.82rem; line-height: 1.15; }
 
-body[data-page="home"] .home-fixed-layout .home-welcome-card .hero-copy { align-self: center; }
-
-
-/* A wider, shallower welcome card beside compact signup and kitchen tools. */
-body[data-page="home"] .home-fixed-layout .hero-stack {
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.25fr);
-  gap: 1rem;
+.kitchen-feature-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: clamp(0.6rem, 1vw, 0.9rem);
 }
-body[data-page="home"] .home-fixed-layout .home-welcome-column.home-welcome-card {
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  min-height: 0;
-  padding: 0.65rem;
-  gap: 1rem;
+
+.kitchen-feature-grid > * {
+  padding: clamp(0.65rem, 1vw, 0.95rem);
+  border-radius: var(--kitchen-radius);
+  transition: background-color 150ms ease;
 }
-body[data-page="home"] .home-fixed-layout .home-welcome-card .welcome-kitchen-photo-wrap {
-  display: flex;
+
+.kitchen-pantry {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
   align-items: center;
-  align-self: stretch;
+  gap: 0.35rem 0.5rem;
+  padding: clamp(0.95rem, 1.4vw, 1.35rem);
+  background: #e2e8d9;
 }
-body[data-page="home"] .home-fixed-layout .home-welcome-card .hero-copy {
-  gap: 0.5rem;
-  padding: 0.4rem 0.4rem 0.4rem 0;
-}
-.welcome-eyebrow {
+
+.kitchen-pantry:is(:hover, :focus-within) { background: #d8e3d0; }
+
+body[data-page="home"] .kitchen-feature-grid h2 {
   margin: 0;
-  color: #929082;
-  font: 400 0.68rem/1.2 "Aptos", Arial, sans-serif;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font: 700 clamp(1.05rem, 1.55vw, 1.4rem)/1.15 var(--home-heading-font);
+  text-wrap: balance;
 }
-body[data-page="home"] .home-fixed-layout .home-welcome-card .hero-copy h1 { font-size: 1.3rem; }
-.home-welcome-card .welcome-introduction { font-size: 0.9rem; line-height: 1.4; }
-.home-welcome-card .welcome-introduction p { margin-bottom: 0.5rem; }
-.home-welcome-card .welcome-introduction > a { font-size: 0.85rem; text-underline-offset: 0.25em; }
-.home-right-column.home-top-row { gap: 0.75rem; }
-body[data-page="home"] .home-right-column .mailing-card { padding: 0.75rem 1rem; gap: 0.25rem; }
-.home-right-column .mailing-card h2 { font-size: 1.15rem; }
-.home-right-column .mailing-card p { font-size: 0.84rem; }
-.home-right-column .mailing-card .mailing-preview { margin-top: 0.2rem; font-size: 0.86rem; }
-.home-right-column .mailing-preview button { padding-block: 0.4rem; }
-.home-right-column .home-utility-row { gap: 0.75rem; }
-body[data-page="home"] .home-right-column .home-utility-row .pantry-card {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 5rem);
-  min-height: 132px;
-  padding: 0.75rem 0.9rem;
+
+.kitchen-pantry p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #47584b;
+  font-size: 0.875rem;
+  line-height: 1.4;
 }
-body[data-page="home"] .home-right-column .pantry-card .tool-card-title { font-size: 1.1rem; }
-body[data-page="home"] .home-right-column .pantry-card .tool-card-copy { font-size: 0.84rem; line-height: 1.3; }
-body[data-page="home"] .home-right-column .home-utility-row .home-shortcuts { padding: 0.2rem; gap: 0.4rem; }
-.home-right-column .home-tools-caption { font-size: 0.82rem; line-height: 1.25; padding-bottom: 0.3rem; }
-body[data-page="home"] .home-right-column .home-tool-apps {
-  grid-template-columns: repeat(2, minmax(0, 8.3rem));
+
+.kitchen-pantry-art {
+  grid-area: 1 / 2;
+  width: clamp(3rem, 6vw, 5.75rem);
+  transform: translateX(-4px) scale(1.1);
+}
+
+.kitchen-library-link {
+  display: grid;
+  align-content: center;
+  gap: 0.6rem;
+  min-width: 0;
+  background: var(--kitchen-paper);
+  color: var(--kitchen-ink);
+  text-decoration: none;
+}
+
+.kitchen-library-link:is(:hover, :focus-visible) {
+  background: #eadcc4;
+  color: var(--kitchen-ink);
+}
+
+.kitchen-library-link h2 small {
+  font-size: 0.75em;
+  white-space: nowrap;
+}
+
+.kitchen-library-link .kitchen-cta {
+  position: relative;
+  inset-block-start: 0.25rem;
+  justify-self: start;
+  max-width: 100%;
+  padding-block: 0.35rem;
+  padding-inline: clamp(0.45rem, 1.35vw, 1.2rem);
+  text-align: center;
+}
+
+@media (min-width: 1150px) {
+  .kitchen-pantry p { grid-column: 1; }
+  .kitchen-pantry-art { grid-row: 1 / span 3; }
+}
+
+.kitchen-pantry-button {
+  justify-self: start;
+  padding: 0.18rem 0 0;
+  border: 0;
+  background: transparent;
+  color: #344b3d;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.23em;
+}
+
+body[data-page="home"] .kitchen-pantry-button:active { transform: none; }
+.kitchen-pantry-button::after { content: ""; position: absolute; inset: 0; border-radius: var(--kitchen-radius); }
+.kitchen-pantry-button:focus-visible { outline: none; }
+.kitchen-pantry-button:focus-visible::after,
+.kitchen-intro a:focus-visible { outline: 2px solid #395d46; outline-offset: 3px; }
+
+.kitchen-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 11rem));
   justify-content: center;
-  padding-top: 0.15rem;
+  gap: clamp(0.4rem, 1.45vw, 1.15rem);
+  padding-block-start: 0.4rem;
+}
+
+.kitchen-tool {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: center;
+  align-items: start;
+  text-align: center;
   gap: 0.4rem;
+  padding: 0.3rem 0.25rem;
+  border-radius: var(--kitchen-radius);
+  color: var(--kitchen-ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.28;
+  text-decoration: none;
+  overflow-wrap: anywhere;
 }
-body[data-page="home"] .home-right-column .home-tool-app-icon { width: 72px; }
-body[data-page="home"] .home-right-column .home-tool-app > span:last-child { font-size: 0.78rem; }
 
-/* Let the portrait fill the card height while retaining its existing framing. */
-body[data-page="home"] .home-fixed-layout .home-welcome-column.home-welcome-card { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
-body[data-page="home"] .home-fixed-layout .home-welcome-card .welcome-kitchen-photo-wrap { justify-content: center; }
-
-body[data-page="home"] .home-welcome-card .home-shortcut--explore { flex-wrap: nowrap; column-gap: 0.35rem; }
-body[data-page="home"] .hero-stack .home-welcome-card .home-shortcut--explore > span:first-child { font-size: 0.74rem; }
-body[data-page="home"] .home-welcome-card .home-shortcut--explore .home-instagram-handle { font-size: 0.66rem; }
-body[data-page="home"] .home-welcome-card .home-shortcut--explore .home-shortcut-arrow { font-size: 0.95rem; }
-
-/* Trim the two cards while keeping the portrait's proportions and row alignment. */
-body[data-page="home"] .home-fixed-layout .home-welcome-column.home-welcome-card {
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  padding: 0.5rem;
+.kitchen-tool--calculator .kitchen-tool-icon { transition: background-color 150ms ease; }
+.kitchen-tool--calculator:is(:hover, :focus-visible) { color: var(--kitchen-ink); }
+.kitchen-tool--calculator:is(:hover, :focus-visible) .kitchen-tool-icon { background: #eef1e6; }
+.kitchen-tool-icon {
+  display: grid;
+  place-items: center;
+  width: 5.082rem;
+  aspect-ratio: 1;
+  padding: 0.37268rem;
+  border-radius: 0.8rem;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(48 65 55 / 15%), 0 0 0 1px rgb(48 65 55 / 8%);
 }
-body[data-page="home"] .home-right-column .home-utility-row .pantry-card {
-  min-height: 120px;
-  padding-block: 0.55rem;
+
+.kitchen-tool-icon img { width: 100%; height: 100%; object-fit: contain; }
+.kitchen-tool--calculator img { transform: translate(4%, -6%); }
+.kitchen-tool--notion img { width: 82%; height: 82%; }
+
+@media (width > 940px) {
+  /* Leave room for the lower icons and two-line labels in the adjacent column. */
+  .kitchen-author { margin-block-end: 3.5rem; }
 }
-body[data-page="home"] .home-right-column .pantry-card .tool-card-copy { max-width: 30ch; }
+
+@media (max-width: 940px) {
+  .kitchen-intro { grid-template-columns: minmax(0, 1fr); }
+  .kitchen-author { grid-template-columns: minmax(0, 11.5rem) minmax(0, 1fr); }
+}
+
+@media (max-width: 690px) {
+  .kitchen-author { grid-template-columns: minmax(0, 0.76fr) minmax(0, 1.24fr); }
+}
+
+@media (max-width: 470px) {
+  .kitchen-author {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+  }
+
+  .kitchen-author-photo { max-width: min(76%, 14rem); }
+  .kitchen-author-photo img { aspect-ratio: 3 / 2; object-position: 50% 33%; }
+  .kitchen-tool {
+    padding-inline: 0.25rem;
+    font-size: clamp(0.825rem, 4.2vw, 0.875rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .header-menu-toggle,
+  .kitchen-feature-grid > *,
+  .kitchen-tool--calculator .kitchen-tool-icon { transition: none; }
+}

@@ -1,26 +1,87 @@
-.mailing-card { padding: 1.15rem 1.3rem; border: 1px solid #d8cfc1; border-radius: 15px; background: #fffdf8; color: #493d32; }
-.mailing-card h2 { margin: 0 0 .5rem; font-family: inherit; font-size: 1.25rem; line-height: 1.2; }
-.mailing-card p { color: #78695d; font-size: .85rem; }
-.mailing-card small { display: block; margin-top: .6rem; color: #78695d; font-size: .72rem; }
-.mailing-preview { display: flex; gap: .4rem; margin-top: .8rem; }
-.mailing-preview button { border: 1px solid #b9aea2; border-radius: 8px; padding: .6rem .7rem; font: inherit; cursor: pointer; }
-.mailing-preview-field { flex: 1; min-width: 0; text-align: left; color: #756b61; background: #fff; }
-.mailing-preview-submit, .mailing-submit { background: #dce9dc; color: #334a37; font-weight: 700; }
+.home-mailing-slot:not(:empty) {
+  margin-bottom: clamp(.75rem, 1.5vw, 1.15rem);
+}
+
+.mailing-card {
+  width: 100%;
+  padding: clamp(.8rem, 1.5vw, 1.05rem) clamp(.75rem, 3vw, 2rem);
+  border: 1px solid #d7c0a6;
+  border-radius: 18px;
+  background-color: #ead7c0;
+  background-image:
+    linear-gradient(rgba(132, 98, 67, .16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(132, 98, 67, .16) 1px, transparent 1px);
+  background-size: 20px 20px;
+  color: #493d32;
+  text-align: center;
+}
+
+.mailing-copy h2 {
+  margin: 0 0 .25rem;
+  color: inherit;
+  font: 700 clamp(1.45rem, 2.45vw, 1.9rem)/1.12 var(--home-heading-font);
+  text-wrap: balance;
+}
+
+.mailing-copy p {
+  margin: 0;
+  color: #615348;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.mailing-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: min(100%, 40rem);
+  margin: .6rem auto 0;
+  gap: .5rem;
+}
+
+.mailing-preview-field,
+.mailing-preview-submit {
+  min-height: 40px;
+  border: 1px solid #bdad98;
+  border-radius: 8px;
+  padding: .4rem .85rem;
+  font: inherit;
+}
+
+.mailing-preview-field {
+  width: 100%;
+  min-width: 0;
+  color: #493d32;
+  background: #fff8e8;
+}
+
+.mailing-preview-field::placeholder { color: #675b4d; }
+
+.mailing-card,
+.mailing-preview-field,
+.mailing-preview-submit { cursor: pointer; }
+
+body[data-page="home"] .mailing-preview .mailing-preview-submit:hover { background: #f4e9db; }
+
+@media (max-width: 375px) {
+  .mailing-preview { grid-template-columns: minmax(0, 1fr); }
+}
+
+.mailing-submit { background: #dce9dc; color: #334a37; font-weight: 700; }
 .mailing-dialog { width: min(540px, calc(100% - 2rem)); max-height: min(85dvh, 800px); padding: 1.5rem; border: 1px solid #b9aea2; border-radius: 18px; color: #493d32; background: #fffdf8; font-family: Aptos, Arial, sans-serif; }
 .mailing-dialog::backdrop { background: rgba(22,31,25,.5); }
 .mailing-dialog-top { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
 .mailing-dialog-top h2 { margin: 0; font: 700 1.5rem/1.2 Aptos, Arial, sans-serif; }
 .mailing-close { width: 40px; height: 40px; border: 1px solid #b9aea2; border-radius: 10px; background: #fff; font-size: 1.6rem; cursor: pointer; }
-.mailing-notice { margin: .8rem 0 1rem; font-size: .84rem; color: #795d4c; }
 .mailing-form[hidden], .mailing-thanks[hidden] { display: none; }
-.mailing-form { display: grid; gap: .9rem; }
-.mailing-form > label, .mailing-form fieldset > label:last-child { display: grid; gap: .35rem; font-weight: 700; }
+.mailing-form { display: grid; gap: .9rem; margin-top: .8rem; }
+.mailing-form > label { display: grid; gap: .35rem; font-weight: 700; }
 .mailing-form input:not([type="checkbox"]) { width: 100%; border: 1px solid #b9aea2; border-radius: 8px; padding: .65rem; font: inherit; }
 .mailing-form fieldset { display: flex; flex-wrap: wrap; gap: .6rem 1rem; border: 1px solid #ded6c9; border-radius: 10px; padding: .8rem; }
-.mailing-form fieldset label { font-size: .9rem; }
-.mailing-form fieldset > label:last-child { flex: 1 0 100%; }
+.mailing-form fieldset label { display: inline-flex; align-items: center; gap: .4rem; font-size: .9rem; }
+.mailing-form fieldset input[type="checkbox"] { flex: none; margin: 0; }
 .mailing-form legend { font-weight: 700; }
 .mailing-form legend small { font-weight: 400; }
 .mailing-submit { justify-self: start; padding: .7rem 1rem; border: 1px solid #91a691; border-radius: 9px; cursor: pointer; font: inherit; font-weight: 700; }
-.mailing-card button:focus-visible, .mailing-dialog :is(button,input):focus-visible { outline: 3px solid #b57646; outline-offset: 2px; }
+.mailing-card :is(button,input):focus-visible, .mailing-dialog :is(button,input):focus-visible { outline: 3px solid #b57646; outline-offset: 2px; }
 .mailing-thanks h3 { margin: 1.2rem 0 .5rem; }

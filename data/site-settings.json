@@ -4,7 +4,8 @@
     "Baking",
     "Dessert",
     "Dinner",
-    "Sides"
+    "Sides",
+    "Breakfast"
   ],
   "siteContent": {
     "heroTitle": "Welcome to my Kitchen!",
@@ -12,5 +13,5 @@
     "libraryTitle": "More to cook next",
     "footerTitle": "Siena's Kitchen"
   },
-  "updatedAt": "2026-08-16T22:01:33.440Z"
+  "updatedAt": "2026-11-22T02:02:57.677Z"
 }

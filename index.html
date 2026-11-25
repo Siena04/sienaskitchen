@@ -14,9 +14,12 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./siena-mailing.css" />
     <link rel="stylesheet" href="./footer-style.css" />
+    <link rel="stylesheet" href="./recipe-header.css" />
+    <script src="./recipe-header.js" defer></script>
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
   </head>
   <body data-page="home">
@@ -27,118 +30,13 @@
       <span class="ad-rail__label">Advertisement</span>
     </aside>
     <div class="page-shell">
-      <header class="site-header">
-        <button class="header-menu-toggle" type="button" data-menu-toggle aria-label="Open navigation menu" aria-expanded="false" aria-controls="navigationDrawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg></button>
-        <div class="brand-lockup">
-          <div class="brand-title">
-            <img
-              class="brand-logo"
-              src="./assets/siena-profile.jpg"
-              alt="Siena"
-            />
-            <a href="./index.html" class="brand-name">Siena's Kitchen</a>
-          </div>
-          <a
-            class="brand-handle"
-            href="https://instagram.com/sienaskitchen"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span class="brand-handle-icon" aria-hidden="true">
-              <i data-lucide="instagram"></i>
-            </span>
-            @sienaskitchen
-          </a>
-        </div>
-        <div class="sticker-shelf header-sticker-shelf" aria-hidden="true">
-          <img class="sticker-img" src="./assets/stickers/page1-17.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-07.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-05.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-12.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page2-07.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page2-05.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page2-13.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-02.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-03.png" alt="" />
-          <img class="sticker-img" src="./assets/stickers/page1-08.png" alt="" />
-        </div>
-        <div class="top-search">
-          <label class="search-field top-search-field">
-            <span class="sr-only">Search recipes</span>
-            <input id="topSearchInput" type="search" placeholder="Search Recipes..." autocomplete="off" />
-            <span class="search-field-icon" aria-hidden="true">
-              <i data-lucide="search"></i>
-            </span>
-          </label>
-        </div>
+      <header class="site-header shared-site-header">
+        <a href="./index.html" class="brand-name">Siena's Kitchen</a>
       </header>
 
       <main>
         <section class="hero-window">
           <div class="hero-grid">
-            <div class="hero-stack">
-              <div class="home-welcome-column home-welcome-card">
-                <div class="welcome-kitchen-photo-wrap">
-                  <img
-                    class="welcome-kitchen-photo"
-                    src="./assets/welcome-to-my-kitchen.jpg"
-                    alt="Siena holding homemade food in the kitchen"
-                  />
-                </div>
-                <div class="hero-copy">
-                  <p class="welcome-eyebrow">Hello there ♡</p>
-                  <h1 data-site-hero-title>
-                  Welcome to my
-                  <span class="hero-title-kitchen">
-                    Kitchen
-                    <span class="hero-title-icons" aria-hidden="true">
-                      <i data-lucide="kettle"></i>
-                      <i data-lucide="utensils"></i>
-                    </span>
-                  </span>
-                </h1>
-                  <div class="welcome-introduction"><p>Welcome to my recipe archive: a collection of things I love to cook!!</p>
-                    <a href="./about.html">Get to know me <span aria-hidden="true">↗</span></a></div>
-                  <a class="home-shortcut home-shortcut--explore" href="https://instagram.com/sienaskitchen" target="_blank" rel="noreferrer">
-                <span>Check out my page!</span>
-                <span class="home-instagram-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/></svg><span>@sienaskitchen</span></span>
-                <span class="home-shortcut-arrow" aria-hidden="true">→</span>
-              </a>
-                </div>
-              </div>
-              <div class="home-right-column home-top-row">
-                <div class="home-mailing-slot" data-mailing-slot></div>
-                <div class="home-utility-row">
-                <div class="home-pantry-and-mailing">
-                <div class="pantry-card">
-                  <div class="pantry-card-content">
-<h2 class="tool-card-title">My Pantry</h2>
-                  <p class="tool-card-copy">
-                    A well-stocked kitchen is my secret to cooking anything, whenever. Here's what I keep on hand.
-                  </p>
-                  </div>
-                  <svg class="pantry-feature-bear" viewBox="175 165 1165 775" aria-hidden="true" focusable="false">
-                    <image href="./assets/pantry-bear.png" width="1536" height="1024" />
-                  </svg>
-                  <button class="button pantry-open-button pantry-arrow-action" type="button" aria-label="See what I keep in my pantry" aria-haspopup="dialog" aria-controls="pantryPreview"><span class="home-shortcut-arrow" aria-hidden="true">→</span></button>
-                </div>
-              </div>
-                <div class="home-shortcuts" role="group" aria-label="Kitchen shortcuts">
-                <p class="home-tools-caption"><strong>Try my tools</strong> to simplify your cooking</p>
-                <div class="home-tool-apps">
-                  <a class="home-shortcut home-tool-app home-tool-app--calculator" href="./conversion.html">
-                    <span class="home-tool-app-icon" aria-hidden="true"><img src="./assets/calculator-journal.svg" alt="" width="68" height="80" /></span>
-                    <span>Cooking Conversion Calculator</span>
-                  </a>
-                  <div class="home-shortcut home-tool-app home-tool-app--notion">
-                    <span class="home-tool-app-icon"><img src="./assets/notion-app-logo.png" alt="" width="56" height="56" /></span>
-                    <span>Notion Meal Planner</span>
-                  </div>
-                </div>
-              </div>
-              </div>
-              </div>
-            </div>
             <article class="hero-feature-card" data-featured-recipe="mr-beans-apple-snaps">
               <div class="feature-image">
                 <a class="feature-image-link" data-featured-image-link href="./recipe-library.html?recipe=mr-beans-apple-snaps" aria-label="Open Mr Bean's Apple Snaps recipe">
@@ -156,6 +54,60 @@
           </div>
         </section>
 
+        <section class="kitchen-intro" aria-labelledby="kitchenWelcomeTitle">
+          <div class="kitchen-author">
+            <div class="kitchen-author-photo">
+              <img
+                src="./assets/welcome-to-my-kitchen.jpg"
+                alt="Siena holding homemade food in the kitchen"
+                width="1529"
+                height="2048"
+              />
+            </div>
+            <div class="kitchen-author-copy">
+              <h1 id="kitchenWelcomeTitle" data-site-hero-title>Welcome to my Kitchen!</h1>
+              <p class="kitchen-description">Welcome to my recipe archive: a collection of things I love to cook!!</p>
+              <div class="kitchen-author-links">
+                <a class="button kitchen-cta" href="./about.html">About</a>
+                <a class="kitchen-instagram" href="https://instagram.com/sienaskitchen" target="_blank" rel="noreferrer">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none" /></svg>
+                  @sienaskitchen
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="kitchen-utilities">
+            <div class="kitchen-feature-grid">
+              <section class="kitchen-pantry" aria-labelledby="kitchenPantryTitle">
+                <h2 id="kitchenPantryTitle">My Pantry</h2>
+                <p id="kitchenPantryDescription">A well-stocked kitchen is my secret to cooking anything, whenever. Here's what I keep on hand</p>
+                <button class="pantry-open-button kitchen-pantry-button" type="button" aria-label="Open My Pantry" aria-describedby="kitchenPantryDescription" aria-haspopup="dialog" aria-controls="pantryPreview">Take a peek</button>
+                <svg class="kitchen-pantry-art" viewBox="175 165 1165 775" aria-hidden="true" focusable="false">
+                  <image href="./assets/pantry-bear.png" width="1536" height="1024" />
+                </svg>
+              </section>
+              <a class="kitchen-library-link" href="./recipe-library.html" aria-labelledby="kitchenLibraryTitle">
+                <h2 id="kitchenLibraryTitle">Recipe Library <small>A–Z</small></h2>
+                <span class="button kitchen-cta">Browse all recipes</span>
+              </a>
+            </div>
+
+            <section class="kitchen-tools" aria-label="Cooking tools">
+              <div class="kitchen-tool-grid">
+                <a class="kitchen-tool kitchen-tool--calculator" href="./conversion.html">
+                  <span class="kitchen-tool-icon"><img src="./assets/calculator-journal.svg" alt="" width="68" height="80" /></span>
+                  <span>Cooking Conversion<br />Calculator</span>
+                </a>
+                <div class="kitchen-tool kitchen-tool--notion">
+                  <span class="kitchen-tool-icon"><img src="./assets/notion-app-logo.png" alt="" width="56" height="56" /></span>
+                  <span>Notion<br />Meal Planner</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
         <section id="recipeView" class="recipe-view-section">
           <div id="recipeViewContainer" aria-live="polite"></div>
         </section>
@@ -163,20 +115,20 @@
         <section class="home-cooking-section home-fixed-layout" aria-labelledby="homeCookingHeading">
           <div class="section-heading"><h2 id="homeCookingHeading">What Are We Cooking?</h2></div>
           <div class="home-inspiration" aria-label="Explore more">
-                <a class="home-inspiration-card home-inspiration-card--pics" href="./recipe-library.html?recipe=greek-sheet-pan-chicken">
+                <a class="home-inspiration-card home-inspiration-card--pics" href="./recipe-library.html?series=my-picks">
                   <img src="./uploads/recovered-greek-sheet-pan-chicken.jpg" alt="" loading="lazy" />
                   <span class="home-inspiration-content">
                     <img class="picks-avatar" src="./assets/siena-profile.jpg" alt="" loading="lazy" />
                     <span class="home-inspiration-kicker">Things I cook on repeat</span>
-                    <strong>My picks</strong>
-                    <span>Try Greek sheet pan chicken <span aria-hidden="true">→</span></span>
+                    <strong>My Picks</strong>
+                    <span>View recipes <span aria-hidden="true">→</span></span>
                   </span>
                 </a>
-                <a class="home-inspiration-card home-inspiration-card--christmas" href="./recipe-library.html?recipe=mr-beans-apple-snaps">
+                <a class="home-inspiration-card home-inspiration-card--christmas" href="./recipe-library.html?series=christmas">
                   <img src="./uploads/recovered-mr-beans-apple-snaps.jpg" alt="" loading="lazy" />
                   <span class="home-inspiration-content">
-                    <strong>Christmas inspiration</strong>
-                    <span>Try spiced apple snaps <span aria-hidden="true">→</span></span>
+                    <strong>Christmas Inspiration</strong>
+                    <span>View recipes <span aria-hidden="true">→</span></span>
                   </span>
                 </a>
               </div>
@@ -200,15 +152,18 @@
             <div class="recipe-rail-viewport">
               <div id="recipeGrid" class="recipe-grid" aria-live="polite"></div>
             </div>
-            <div class="rail-progress" role="progressbar" aria-label="Recipe list position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="rail-progress" role="scrollbar" tabindex="-1" aria-controls="recipeGrid" aria-orientation="horizontal" aria-label="Recipe list position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
               <span class="rail-progress-thumb"></span>
             </div>
           </div>
+
+          <div class="home-mailing-slot" data-mailing-slot></div>
+
           <div class="recipe-showcase" data-recipe-rail aria-labelledby="onePotHeading">
             <div class="section-heading recipe-showcase-heading">
               <div>
                 <h2 id="onePotHeading">
-                  ONE POT
+                  One pot recipes
                 </h2>
               </div>
               <div class="rail-controls" aria-label="One pot recipes">
@@ -216,49 +171,31 @@
                 <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next one pot recipes">→</button>
               </div>
             </div>
-            <div class="recipe-rail-viewport"><div class="recipe-grid" data-home-collection="one-pot" aria-live="polite"></div></div>
-            <div class="rail-progress" role="progressbar" aria-label="One pot recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
+            <div class="recipe-rail-viewport"><div id="onePotRecipeGrid" class="recipe-grid" data-home-collection="one-pot" aria-live="polite"></div></div>
+            <div class="rail-progress" role="scrollbar" tabindex="-1" aria-controls="onePotRecipeGrid" aria-orientation="horizontal" aria-label="One pot recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
           </div>
-          <div class="recipe-showcase" data-recipe-rail>
-            <div class="section-heading recipe-showcase-heading">
-              <div><h2>Still hungry?</h2></div>
-              <div class="rail-controls" aria-label="More recipes">
-                <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous recipes">←</button>
-                <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next recipes">→</button>
-              </div>
-            </div>
-            <div class="recipe-rail-viewport"><div class="recipe-grid" data-home-collection="hungry" aria-live="polite"></div></div>
-            <div class="rail-progress" role="progressbar" aria-label="More recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
-          </div>
-          <section class="festive-feature" aria-labelledby="festiveHeading">
-            <div class="festive-feature-heading">
-              <div><p class="section-kicker">A little seasonal inspiration</p><h2 id="festiveHeading">Festive bites <span aria-hidden="true">✦</span></h2></div>
-              <a class="festive-all-link" href="./recipe-library.html">Explore the archive <span aria-hidden="true">→</span></a>
-            </div>
-            <div class="festive-recipes" data-home-collection="festive"></div>
-          </section>
-
 
           <section class="wellness-feature" aria-labelledby="wellnessHeading">
             <div class="wellness-feature-copy">
-              <p class="section-kicker">A note from Siena</p>
+              <p class="section-kicker"><span>Featured Collection</span></p>
               <h2 id="wellnessHeading">Big Treat Energy</h2>
               <p>Because sometimes you want to eat an entire tub of ice cream, and sometimes you want to feel good about it afterwards. For those of us with an insatiable sweet tooth and absolutely no intention of giving up dessert, these are for you.</p>
               <a class="button wellness-feature-link" href="./recipe-library.html?series=baked-favourites">Explore the collection <span aria-hidden="true">→</span></a>
             </div>
-            <div class="wellness-feature-options" data-home-collection="wellness" aria-label="Recipe ideas"></div>
-            <div class="treat-image-placeholder" role="img" aria-label="Dessert photo coming soon"><span>Photo coming soon</span></div>
+            <img class="wellness-feature-photo" src="./uploads/triple-choc-ninja-creami.jpg" alt="Triple Choc Ninja Creami ice cream" loading="lazy" />
           </section>
 
 
-          <div class="category-browser">
+          <section class="category-browser" aria-labelledby="categoryHeading">
             <div class="section-heading category-heading">
               <div>
                 <p class="section-kicker">Find your mood</p>
-                <h2>Browse by category</h2>
+                <h2 id="categoryHeading">Browse by category</h2>
               </div>
             </div>
-            <div id="categoryRows" class="category-rows" aria-live="polite"></div>
+            <div class="category-browser-main">
+              <div id="categoryRows" class="category-rows" aria-live="polite"></div>
+            </div>
             <nav class="cuisine-browser" aria-labelledby="cuisineHeading" hidden>
               <div class="cuisine-browser-heading">
                 <h3 id="cuisineHeading">Browse by cuisine</h3>
@@ -266,18 +203,7 @@
               </div>
               <ul id="cuisineRows" class="cuisine-list" tabindex="0" aria-labelledby="cuisineHeading"></ul>
             </nav>
-          </div>
-          <div class="recipe-showcase baking-showcase" data-recipe-rail>
-            <div class="section-heading recipe-showcase-heading">
-              <div><h2>Baking</h2></div>
-              <div class="rail-controls" aria-label="Baking recipes">
-                <button class="rail-control" type="button" data-rail-direction="-1" aria-label="Previous baking recipes">←</button>
-                <button class="rail-control" type="button" data-rail-direction="1" aria-label="Next baking recipes">→</button>
-              </div>
-            </div>
-            <div class="recipe-rail-viewport"><div class="recipe-grid" data-home-collection="baking" aria-live="polite"></div></div>
-            <div class="rail-progress" role="progressbar" aria-label="Baking recipes position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="rail-progress-thumb"></span></div>
-          </div>
+          </section>
 
         </section>
 
@@ -303,33 +229,19 @@
             Instagram
           </a>
         </div>
-        <div class="footer-links">
-          <p class="footer-title">Legal</p>
-          <a href="./privacy.html">Privacy &amp; Cookies</a>
-          <a href="./advertising.html">Advertising disclosure</a>
+        <div class="footer-legal">
+          <div class="footer-links">
+            <p class="footer-title">Legal</p>
+            <a href="./privacy.html">Privacy &amp; Cookies</a>
+            <a href="./advertising.html">Advertising disclosure</a>
+          </div>
+          <a class="footer-camp-link" href="./camping.html" aria-label="Camping recipes">
+            <span class="footer-camp-tent" aria-hidden="true"></span>
+            <span class="footer-camp-surprise" aria-hidden="true">!</span>
+          </a>
         </div>
       </div>
     </footer>
-
-    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
-      <div class="search-overlay__backdrop" data-action="close-search"></div>
-      <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-label="Search recipes">
-        <div class="search-overlay__header">
-          <h2>Search recipes</h2>
-          <button class="button button-ghost button-small" type="button" data-action="close-search">
-            Close
-          </button>
-        </div>
-        <label class="search-field search-overlay-field">
-          <span class="sr-only">Search recipes</span>
-          <input id="overlaySearchInput" type="search" placeholder="Search Recipes..." autocomplete="off" />
-          <span class="search-field-icon" aria-hidden="true">
-            <i data-lucide="search"></i>
-          </span>
-        </label>
-        <div id="overlaySearchResults" class="search-overlay__results" role="list"></div>
-      </div>
-    </div>
 
     <div id="cookOverlay" class="cook-overlay" aria-hidden="true">
       <div class="cook-overlay__backdrop" data-action="close-cook"></div>
@@ -371,10 +283,12 @@
         </div>
       </article>
     </template>
-    <script src="./recipe-cuisines.js" defer></script>
 
     <script src="./ads.js" defer></script>
+    <script src="./recipe-cuisines.js" defer></script>
     <script src="./method-quantities.js" defer></script>
+    <script src="./recipe-servings.js" defer></script>
+    <script src="./recipe-cooking-ui.js" defer></script>
     <script src="./app.js" defer></script>
     <script src="./footer.js" defer></script>
     <script src="./siena-mailing.js" defer></script>

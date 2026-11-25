@@ -119,6 +119,7 @@ function initNavigationDrawer() {
     <nav class="drawer-links" aria-label="Primary">
       <a class="drawer-home" href="./index.html">Home <span aria-hidden="true">→</span></a>
       <a href="./recipe-library.html">A-Z Recipe library <span aria-hidden="true">→</span></a>
+      <a href="./saved-recipes.html">Saved Recipes <span aria-hidden="true">→</span></a>
       <details><summary>By category</summary><div class="drawer-categories"><p>Loading categories…</p></div></details>
       <a href="./conversion.html">Cooking Conversion Calculator <span aria-hidden="true">→</span></a>
       <a href="./about.html">About <span aria-hidden="true">→</span></a>
@@ -149,6 +150,9 @@ function initNavigationDrawer() {
   });
   drawer.querySelector('.drawer-close').addEventListener('click', close);
   drawer.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted && drawer.open && !closing) finishClose();
+  });
   drawer.addEventListener('click', (event) => {
     if (event.target !== drawer) return;
     const bounds = drawer.getBoundingClientRect();
@@ -168,3 +172,64 @@ function initNavigationDrawer() {
   });
 }
 initNavigationDrawer();
+
+function initSiteBack() {
+  const back = document.querySelector("[data-site-back]");
+  if (!back) return;
+
+  function canGoBackWithinSite() {
+    const navigation = window.navigation;
+    const index = navigation?.currentEntry?.index ?? -1;
+    const previousUrl = index >= 0
+      ? navigation.entries()[index - 1]?.url
+      : document.referrer;
+    if (!previousUrl || window.history.length < 2) return false;
+
+    const previous = new URL(previousUrl);
+    const current = new URL(window.location.href);
+    return (
+      previous.href !== current.href &&
+      new URL(".", previous).href === new URL(".", back.href).href
+    );
+  }
+
+  function updateBackLabel() {
+    back.setAttribute("aria-label", canGoBackWithinSite() ? "Go back" : "Back to Home");
+  }
+
+  updateBackLabel();
+  window.addEventListener("pageshow", updateBackLabel);
+  window.navigation?.addEventListener("currententrychange", updateBackLabel);
+  back.addEventListener("click", (event) => {
+    if (
+      event.defaultPrevented || event.button !== 0 ||
+      event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+      !canGoBackWithinSite()
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    window.history.back();
+  });
+}
+initSiteBack();
+
+for (const tentLink of document.querySelectorAll(".footer-camp-link")) {
+  tentLink.addEventListener("click", (event) => {
+    if (
+      event.defaultPrevented || event.button !== 0 ||
+      event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (tentLink.classList.contains("is-hopping")) return;
+    tentLink.classList.add("is-hopping");
+    window.setTimeout(() => window.location.assign(tentLink.href), 300);
+  });
+
+  window.addEventListener("pageshow", () => tentLink.classList.remove("is-hopping"));
+}

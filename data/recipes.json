@@ -14,10 +14,10 @@
       "spiced"
     ],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "4155 kcal",
+      "protein": "44.9g",
+      "carbs": "566.6g",
+      "fat": "199g"
     },
     "image": "./uploads/recovered-mr-beans-apple-snaps.jpg",
     "ingredients": [
@@ -53,7 +53,11 @@
       "Bake for 12 to 14 minutes, or until the edges are golden and the cookie does not look wet under the apple slice."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Uses 3 medium apples and excludes unmeasured sprinkles. Divide by the number of cookies you bake."
+    }
   },
   {
     "id": "best-air-fried-chips",
@@ -70,10 +74,10 @@
       "easy"
     ],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "180 kcal",
+      "protein": "8.4g",
+      "carbs": "31.6g",
+      "fat": "0.3g"
     },
     "image": "./uploads/recovered-best-air-fried-chips.jpg",
     "ingredients": [
@@ -90,7 +94,11 @@
     ],
     "notes": "",
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Includes all of the egg-white and cornstarch coating. Seasoning and any added oil are excluded."
+    }
   },
   {
     "id": "greek-sheet-pan-chicken",
@@ -99,7 +107,7 @@
     "description": "A bright one-pan chicken dinner with lemon, herbs, zucchini, tomatoes, olives, and feta.",
     "prepTime": "15 mins",
     "cookTime": "40-45 mins",
-    "serves": "",
+    "serves": "4",
     "tags": [
       "sheet pan",
       "chicken",
@@ -107,10 +115,10 @@
       "easy"
     ],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "515 kcal",
+      "protein": "37g",
+      "carbs": "9.7g",
+      "fat": "36.8g"
     },
     "image": "./uploads/recovered-greek-sheet-pan-chicken.jpg",
     "ingredients": [
@@ -136,13 +144,29 @@
       "Place the chicken in a large bowl and pour over two-thirds of the marinade. Toss well to coat, then let it sit for 10 to 15 minutes.",
       "Spread the zucchini, red onion, and tomatoes onto a baking sheet. Drizzle over the remaining marinade and toss to coat.",
       "Arrange the chicken on the baking sheet with the vegetables.",
-      "Bake for 30 minutes.",
-      "Add the olives and feta, then bake for another 10 to 15 minutes until the chicken is cooked through.",
+      "Bake the chicken and vegetables for 30 minutes.\nScatter the olives and feta over the tray, then return it to the oven for another 10–15 minutes, until the chicken is cooked through.",
       "Garnish with chopped parsley before serving."
     ],
     "notes": "If the chicken looks very pale, switch to fan-forced for the last 10 minutes. The method text mentioned chicken thighs, but the ingredient list specified chicken breasts, so this version follows the ingredient list.",
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "methodNote": "Reduce olive oil to 1/4 cup to bring the recipe to about 394 calories per serving, based on 4 servings.",
+    "methodNotes": [
+      {
+        "text": "I recommend using pitted or sliced black olives from a glass jar. I find them much less salty than deli olives, so they don’t overwhelm the dish."
+      },
+      {
+        "text": "It’s also nice with sweet potato! I added it in with the other veg in step 4.",
+        "photo": {
+          "src": "./uploads/greek-sheet-pan-chicken-sweet-potato.jpg",
+          "alt": "Greek sheet pan chicken with roasted sweet potato, sliced black olives and feta"
+        }
+      }
+    ],
+    "nutritionEstimate": {
+      "basis": "per serving",
+      "notes": "Uses the full ½ cup olive oil and a 250 g tomato punnet. Using ¼ cup oil reduces each serve by about 126 kcal and 14 g fat."
+    }
   },
   {
     "id": "chicken-crust-pizza",
@@ -159,10 +183,10 @@
       "low carb"
     ],
     "nutrition": {
-      "calories": "470 kcal",
-      "protein": "75g",
-      "carbs": "72g",
-      "fat": ""
+      "calories": "524 kcal",
+      "protein": "71.6g",
+      "carbs": "13.1g",
+      "fat": "19.2g"
     },
     "image": "./uploads/recovered-chicken-crust-pizza.jpg",
     "ingredients": [
@@ -189,9 +213,13 @@
       "Top with salami, pineapple, and mozzarella.",
       "Bake until the chicken crust is cooked through and the cheese is melted and golden."
     ],
-    "notes": "Total nutrition provided: 940 kcal and about 150g protein. The source also listed two different per-serve calorie values, so this recipe uses 470 kcal per serve with 75g protein and keeps the original discrepancy noted here.",
+    "notes": "Earlier nutrition supplied for the whole pizza was 940 kcal and about 150 g protein. The source listed conflicting calorie values per serving. The displayed estimate uses the listed ingredients.",
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per serving",
+      "notes": "Uses a 50 g tomato-paste sachet and a skinless chicken-breast mince estimate."
+    }
   },
   {
     "id": "deli-style-marinated-chicken-breast",
@@ -203,10 +231,10 @@
     "serves": "1",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "753 kcal",
+      "protein": "50.5g",
+      "carbs": "7.6g",
+      "fat": "57g"
     },
     "image": "./uploads/recovered-deli-style-marinated-chicken-breast.jpg",
     "ingredients": [
@@ -234,7 +262,15 @@
       "Toss together with sauce."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "detailPhoto": {
+      "src": "./uploads/deli-style-chicken-sandwiches.jpg",
+      "alt": "Deli-style chicken sandwiches on plates beside two computers"
+    },
+    "nutritionEstimate": {
+      "basis": "per serving",
+      "notes": "Assumes one 220 g chicken breast and includes all marinade and mayo sauce. Bread and fillings are excluded."
+    }
   },
   {
     "id": "simmered-hijiki-salad",
@@ -246,10 +282,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "485 kcal",
+      "protein": "14.1g",
+      "carbs": "47.1g",
+      "fat": "27.2g"
     },
     "image": "./uploads/recovered-simmered-hijiki-salad.jpg",
     "ingredients": [
@@ -276,7 +312,11 @@
       "Add edamame if using."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Assumes a 30 g sheet of fried tofu and uses a dried hijiki reference. Optional additions are excluded."
+    }
   },
   {
     "id": "chinese-sauteed-wombok",
@@ -288,10 +328,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "420 kcal",
+      "protein": "9.5g",
+      "carbs": "29.6g",
+      "fat": "31.2g"
     },
     "image": "",
     "ingredients": [
@@ -321,7 +361,11 @@
       "Serve hot as a side dish."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Includes all the stir-fry and sesame oil. Small quantities of dried chilli and peppercorns are excluded."
+    }
   },
   {
     "id": "chilli-con-carne",
@@ -333,10 +377,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "1419 kcal",
+      "protein": "136.9g",
+      "carbs": "112.3g",
+      "fat": "50.4g"
     },
     "image": "./uploads/recovered-chilli-con-carne.jpg",
     "ingredients": [
@@ -364,7 +408,11 @@
     ],
     "steps": [],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Assumes 95% lean beef mince and 240 g drained black beans. Garnishes and sides are excluded."
+    }
   },
   {
     "id": "healthy-chicken-and-leek-pie",
@@ -376,10 +424,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "1087 kcal",
+      "protein": "60.5g",
+      "carbs": "89.3g",
+      "fat": "54.2g"
     },
     "image": "./uploads/recovered-healthy-chicken-and-leek-pie.jpg",
     "ingredients": [
@@ -402,7 +450,11 @@
     ],
     "steps": [],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Assumes 110 g frozen puff pastry and one 174 g chicken breast."
+    }
   },
   {
     "id": "korean-tofu-pancakes",
@@ -414,10 +466,10 @@
     "serves": "4",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "266 kcal",
+      "protein": "10.4g",
+      "carbs": "40g",
+      "fat": "8g"
     },
     "image": "",
     "ingredients": [
@@ -445,7 +497,11 @@
       "Adding a little water helps the top cook so it is easier to flip."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per serving",
+      "notes": "Assumes 100 g potato starch, half an onion and 1 Australian tablespoon of oil retained in frying."
+    }
   },
   {
     "id": "miso-edamame-risoni",
@@ -501,10 +557,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "1619 kcal",
+      "protein": "59.1g",
+      "carbs": "240.4g",
+      "fat": "49.3g"
     },
     "image": "",
     "ingredients": [
@@ -524,7 +580,11 @@
       "Bake at 175C for 30 minutes."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per loaf",
+      "notes": "Assumes 240 g oat flour, uses dark chocolate as a proxy for the chips and treats the sugar-free syrup and stevia as negligible. Divide by the number of slices."
+    }
   },
   {
     "id": "pork-prawn-dumplings",
@@ -536,10 +596,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "54 kcal",
+      "protein": "3.8g",
+      "carbs": "6.1g",
+      "fat": "1.6g"
     },
     "image": "./uploads/recovered-pork-prawn-dumplings.jpg",
     "ingredients": [
@@ -563,7 +623,11 @@
       "Steam for 10 minutes or until cooked throughout."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per dumpling",
+      "notes": "Assumes 30 wrappers at 9 g each and divides the full filling by 30. Leftover filling can lower the actual amount per dumpling."
+    }
   },
   {
     "id": "korean-mayak-drug-eggs",
@@ -575,10 +639,10 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "199 kcal",
+      "protein": "8.4g",
+      "carbs": "23.8g",
+      "fat": "8.5g"
     },
     "image": "./uploads/recovered-korean-mayak-drug-eggs.jpg",
     "ingredients": [
@@ -599,7 +663,11 @@
       "Serve over rice with the marinade."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per egg",
+      "notes": "Includes one sixth of the marinade per egg. Rice is excluded and less marinade lowers the estimate."
+    }
   },
   {
     "id": "chicken-karaage",
@@ -611,10 +679,10 @@
     "serves": "3",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "584 kcal",
+      "protein": "55.2g",
+      "carbs": "24.3g",
+      "fat": "25.7g"
     },
     "image": "",
     "ingredients": [
@@ -644,7 +712,11 @@
       "Serve with mayo and spring onion."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per serving",
+      "notes": "Assumes 800 g thigh fillets, 60 g retained coating and 28 g absorbed frying oil plus the sesame oil in the marinade. Serving mayo is excluded."
+    }
   },
   {
     "id": "cinnamon-protein-granola",
@@ -656,10 +728,10 @@
     "serves": "4",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "486 kcal",
+      "protein": "26.1g",
+      "carbs": "44.7g",
+      "fat": "24.8g"
     },
     "image": "./uploads/recovered-cinnamon-protein-granola.jpg",
     "ingredients": [
@@ -677,7 +749,11 @@
       "Cook at 150C for 20 minutes, mixing halfway."
     ],
     "measurementSystem": "au",
-    "published": true
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per serving",
+      "notes": "Uses a generic whey protein powder and assumes the sugar-free syrup contributes negligible energy."
+    }
   },
   {
     "id": "korean-chicken-tteokbokki-stew",
@@ -689,12 +765,12 @@
     "serves": "",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "1753 kcal",
+      "protein": "100.5g",
+      "carbs": "153.2g",
+      "fat": "83.2g"
     },
-    "image": "./uploads/recovered-korean-chicken-tteokbokki-stew.webp",
+    "image": "./uploads/korean-chicken-tteokbokki-stew.jpg",
     "ingredients": [
       "4 chicken thigh cutlets",
       "2 potatoes",
@@ -720,6 +796,420 @@
       "If you have rice cakes or ramen noodles, add them in along with the green onion and chili. Once the rice cake or ramen is cooked through, it's ready."
     ],
     "measurementSystem": "au",
+    "published": true,
+    "nutritionEstimate": {
+      "basis": "per batch",
+      "notes": "Assumes 480 g edible thigh cutlets. Optional rice cakes and ramen are excluded because quantities are unspecified."
+    }
+  },
+  {
+    "id": "shabu-shabu-for-one",
+    "title": "Shabu Shabu for One",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "1",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/shabu-shabu-for-one.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "garlic-milk-bread",
+    "title": "Garlic Milk Bread",
+    "category": "Sides",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/garlic-milk-bread.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true,
+    "detailPhoto": {
+      "src": "./uploads/garlic-milk-bread-dough.jpg",
+      "alt": "Seven milk bread dough rounds in a baking tin before baking"
+    }
+  },
+  {
+    "id": "guinness-beef-pie",
+    "title": "Guinness Beef Pie",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/guinness-beef-pie.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "spam-musubi",
+    "title": "Spam Musubi",
+    "category": "Sides",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/spam-musubi.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "breakfast-protein-cheesecake",
+    "title": "Breakfast Protein Cheesecake",
+    "category": "Breakfast",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/breakfast-protein-cheesecake.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "singapore-chilli-mud-crab",
+    "title": "Singapore Chilli Mud Crab",
+    "category": "Dinner",
+    "description": "Mud crab coated in a rich, sweet and spicy Singapore-style chilli sauce.",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/singapore-chilli-mud-crab.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "kangaroo-and-jalapeno-kebabs",
+    "title": "Kangaroo and Jalapeño Kebabs",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/kangaroo-and-jalapeno-kebabs.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "triple-choc-ninja-creami",
+    "title": "Triple Choc Ninja Creami",
+    "category": "Dessert",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/triple-choc-ninja-creami.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "shabu-shabu",
+    "title": "Shabu Shabu",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/shabu-shabu.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "one-pot-mackerel-tofu-rice",
+    "title": "One-Pot Mackerel Tofu Rice",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/one-pot-mackerel-tofu-rice.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:02:57.677Z",
+    "published": true
+  },
+  {
+    "id": "hot-cross-buns",
+    "title": "Hot Cross Buns",
+    "category": "Baking",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/hot-cross-buns.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:03:47.937Z",
+    "published": true
+  },
+  {
+    "id": "mini-beef-wellington",
+    "title": "Mini Beef Wellington",
+    "category": "Sides",
+    "description": "With shiitake and truffle duxelles, served with Gorgonzola cream.",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/mini-beef-wellington.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:04:48.058Z",
+    "published": true
+  },
+  {
+    "id": "campfire-quesadilla",
+    "title": "Campfire Quesadilla",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/campfire-quesadilla.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:10:52.651Z",
+    "detailPhoto": {
+      "src": "./uploads/campfire-quesadilla-by-the-fire.jpg",
+      "alt": "A person holding a foil-wrapped quesadilla beside the campfire"
+    },
+    "published": true
+  },
+  {
+    "id": "protein-pancakes",
+    "title": "Protein Pancakes",
+    "category": "Breakfast",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/protein-pancakes.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:10:52.651Z",
+    "published": true
+  },
+  {
+    "id": "spaghetti-marinara",
+    "title": "Spaghetti Marinara",
+    "category": "Dinner",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/spaghetti-marinara-video-cover.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:14:11.657Z",
+    "detailVideo": "./uploads/spaghetti-marinara.mp4",
+    "published": true
+  },
+  {
+    "id": "strawberry-chia-jam",
+    "title": "Strawberry Chia Jam",
+    "category": "Breakfast",
+    "description": "",
+    "prepTime": "",
+    "cookTime": "",
+    "serves": "",
+    "yieldLabel": "serves",
+    "complexity": "Easy",
+    "tags": [],
+    "nutrition": {
+      "calories": "",
+      "protein": "",
+      "carbs": "",
+      "fat": ""
+    },
+    "image": "./uploads/strawberry-chia-jam.jpg",
+    "ingredients": [],
+    "steps": [],
+    "notes": "",
+    "measurementSystem": "au",
+    "publishedAt": "2026-11-22T02:14:11.657Z",
+    "detailVideo": "./uploads/strawberry-chia-jam.mp4",
     "published": true
   }
 ]
