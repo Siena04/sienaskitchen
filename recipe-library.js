@@ -1637,7 +1637,7 @@ function buildRecipePhotoMeta(recipe) {
   `;
 }
 
-function buildRecipeViewMarkup(recipe) {
+function buildRecipeViewMarkup(recipe, nutrition) {
   if (!recipe) {
     return '<div class="empty-state">No recipe is available yet.</div>';
   }
@@ -1674,14 +1674,12 @@ function buildRecipeViewMarkup(recipe) {
         .join("")
     : "";
   const nutritionEntries = [
-    ["Calories", recipe.nutrition?.calories],
-    ["Protein", recipe.nutrition?.protein],
-    ["Carbs", recipe.nutrition?.carbs],
-    ["Fat", recipe.nutrition?.fat],
+    ["Calories", nutrition.calories],
+    ["Protein", nutrition.protein],
+    ["Carbs", nutrition.carbs],
+    ["Fat", nutrition.fat],
   ].filter(([, value]) => value != null && String(value).trim() !== "");
-  const estimate = recipe.nutritionEstimate;
-  const nutritionBasis = estimate?.basis || (recipe.yieldLabel === "makes" ? "per item" : "per serving");
-  const nutritionHeading = `${estimate ? "Estimated nutrition" : "Nutrition"} ${nutritionBasis}`;
+  const nutritionHeading = "Nutrition per serve";
   const nutritionMarkup = nutritionEntries.length
     ? `
         <section class="recipe-nutrition" aria-label="${escapeHtml(nutritionHeading)}">
@@ -1694,7 +1692,6 @@ function buildRecipeViewMarkup(recipe) {
             )
             .join("")}
           </dl>
-          ${estimate?.notes ? `<p class="recipe-nutrition-note">${escapeHtml(estimate.notes)}</p>` : ""}
         </section>
       `
     : `<p class="recipe-nutrition-note">${recipe.id === "miso-edamame-risoni"
@@ -1839,7 +1836,9 @@ function renderRecipeView(recipe) {
 
   recipePageHeading.textContent = recipe?.title || "Recipe";
   document.title = `${recipePageHeading.textContent} | Siena's Kitchen`;
-  viewContainer.innerHTML = buildRecipeViewMarkup(applyMeasurementSystem(recipe));
+  viewContainer.innerHTML = buildRecipeViewMarkup(
+    applyMeasurementSystem(recipe), window.siteHeader.getNutritionPerServe(recipe)
+  );
   for (const link of viewContainer.querySelectorAll("[data-related-recipe-id]")) {
     const related = allRecipes.find(({ id }) => id === link.dataset.relatedRecipeId);
     if (related) window.siteHeader.addCardNutrition(link.querySelector(".recipe-photo-card-title"), related);

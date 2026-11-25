@@ -48,9 +48,32 @@
       </label>
     </div>`;
 
+  function getNutritionPerServe(recipe) {
+    const nutrition = recipe?.nutrition || {};
+    const basis = recipe?.nutritionEstimate?.basis;
+    if (basis !== 'per batch' && basis !== 'per loaf') {
+      return nutrition;
+    }
+
+    const serves = String(recipe.serves ?? '').trim();
+    if (!/^\d+(?:\.\d+)?$/.test(serves) || Number(serves) <= 0) {
+      return {};
+    }
+
+    return Object.fromEntries(Object.entries(nutrition).map(([key, raw]) => {
+      const value = String(raw ?? '').trim().match(/^(\d+(?:\.\d+)?)\s*(kcal|g)?$/i);
+      if (!value) return [key, ''];
+      const [, amount, unit = key === 'calories' ? 'kcal' : 'g'] = value;
+      const perServe = Number(amount) / Number(serves);
+      return [key, unit.toLowerCase() === 'kcal'
+        ? Math.round(perServe) + ' ' + unit
+        : Number(perServe.toFixed(1)) + unit];
+    }));
+  }
+
   function addCardNutrition(title, recipe) {
     if (!title) return;
-    const nutrition = recipe?.nutrition || {};
+    const nutrition = getNutritionPerServe(recipe);
     const fields = [
       ['kcal', 'Calories', nutrition.calories],
       ['P', 'Protein', nutrition.protein],
@@ -69,11 +92,9 @@
       return;
     }
 
-    const estimate = recipe.nutritionEstimate;
-    const basis = estimate?.basis || (recipe.yieldLabel === 'makes' ? 'per item' : 'per serving');
     const label = document.createElement('span');
     label.className = 'recipe-card-nutrition-basis';
-    label.textContent = estimate ? `Est. ${basis}` : basis[0].toUpperCase() + basis.slice(1);
+    label.textContent = 'Per serve';
     row.setAttribute('role', 'group');
     row.setAttribute('aria-label', label.textContent);
     row.append(label);
@@ -121,6 +142,7 @@
 
   window.siteHeader = {
     addCardNutrition,
+    getNutritionPerServe,
     setRecipeProvider(provider) {
       getRecipes = provider;
     },

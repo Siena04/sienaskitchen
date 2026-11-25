@@ -2120,7 +2120,7 @@ function getSelectedRecipe(recipes, options = {}) {
   return recipes[0] || allRecipes[0] || null;
 }
 
-function buildRecipeViewMarkup(recipe, options = {}) {
+function buildRecipeViewMarkup(recipe, nutrition, options = {}) {
   if (!recipe) {
     return '<div class="empty-state">No recipe is available yet. Add one in admin mode.</div>';
   }
@@ -2155,17 +2155,17 @@ function buildRecipeViewMarkup(recipe, options = {}) {
         .join("")
     : "";
   const nutritionEntries = [
-    ["Calories", recipe.nutrition?.calories],
-    ["Protein", recipe.nutrition?.protein],
-    ["Carbs", recipe.nutrition?.carbs],
-    ["Fat", recipe.nutrition?.fat],
+    ["Calories", nutrition.calories],
+    ["Protein", nutrition.protein],
+    ["Carbs", nutrition.carbs],
+    ["Fat", nutrition.fat],
   ].filter(([, value]) => value);
   const nutritionMarkup = nutritionEntries.length
     ? `
         <section class="sidebar-card notebook-card">
           <div class="subsection-heading compact">
             <p class="section-kicker">Nutrition</p>
-            <h2>${escapeHtml(recipe.nutritionEstimate?.basis || (recipe.yieldLabel === "makes" ? "per item" : "per serving"))}</h2>
+            <h2>Per serve</h2>
           </div>
           <div class="info-stack nutrition-stack">
             ${nutritionEntries
@@ -2262,11 +2262,12 @@ function buildRecipePreviewMarkup(recipe) {
     : `<p class="preview-note">Ingredients unavailable for this recipe.</p>`;
 
   const complexity = getComplexityRating(recipe);
+  const nutrition = window.siteHeader.getNutritionPerServe(recipe);
   const nutritionEntries = [
-    ["Calories", recipe.nutrition?.calories || "-"],
-    ["Protein", recipe.nutrition?.protein || "-"],
-    ["Carbs", recipe.nutrition?.carbs || "-"],
-    ["Fat", recipe.nutrition?.fat || "-"],
+    ["Calories", nutrition.calories || "-"],
+    ["Protein", nutrition.protein || "-"],
+    ["Carbs", nutrition.carbs || "-"],
+    ["Fat", nutrition.fat || "-"],
   ];
 
   const nutritionMarkup = nutritionEntries.some(([, value]) => value !== "-")
@@ -2313,7 +2314,7 @@ function buildRecipePreviewMarkup(recipe) {
             <strong>${escapeHtml(complexity)}</strong>
           </div>
           <div class="preview-macros">
-            <p class="preview-subtitle">Macros ${escapeHtml(recipe.nutritionEstimate?.basis || (recipe.yieldLabel === "makes" ? "per item" : "per serving"))}</p>
+            <p class="preview-subtitle">Macros per serve</p>
             ${nutritionMarkup}
           </div>
         </aside>
@@ -2333,7 +2334,7 @@ function renderRecipeView(recipe, options = {}) {
     return;
   }
   const displayRecipe = applyMeasurementSystem(recipe);
-  target.innerHTML = buildRecipeViewMarkup(displayRecipe, options);
+  target.innerHTML = buildRecipeViewMarkup(displayRecipe, window.siteHeader.getNutritionPerServe(recipe), options);
   refreshIcons();
 }
 
