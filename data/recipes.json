@@ -963,15 +963,15 @@
     "description": "",
     "prepTime": "",
     "cookTime": "",
-    "serves": "",
+    "serves": "4",
     "yieldLabel": "serves",
     "complexity": "Easy",
     "tags": [],
     "nutrition": {
-      "calories": "",
-      "protein": "",
-      "carbs": "",
-      "fat": ""
+      "calories": "190 kcal",
+      "protein": "28g",
+      "carbs": "4g",
+      "fat": "6g"
     },
     "image": "./uploads/kangaroo-and-jalapeno-kebabs.jpg",
     "ingredients": [
