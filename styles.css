@@ -7242,7 +7242,6 @@ body[data-page="home"] .recipe-showcase .recipe-card-category::before { backgrou
   font: 400 0.72rem/1.4 Aptos, Arial, sans-serif;
 }
 .recipe-card-nutrition span { white-space: nowrap; }
-.recipe-card-nutrition-basis { flex-basis: 100%; }
 .feature-info .recipe-card-nutrition { margin-block: 0.25rem 0.65rem; }
 .recipe-card-nutrition b { color: #526451; font-weight: 700; }
 body[data-page="home"] .recipe-showcase .recipe-card-open { grid-column: 2; grid-row: 1; }

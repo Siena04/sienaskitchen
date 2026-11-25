@@ -1679,11 +1679,9 @@ function buildRecipeViewMarkup(recipe, nutrition) {
     ["Carbs", nutrition.carbs],
     ["Fat", nutrition.fat],
   ].filter(([, value]) => value != null && String(value).trim() !== "");
-  const nutritionHeading = "Nutrition per serve";
   const nutritionMarkup = nutritionEntries.length
     ? `
-        <section class="recipe-nutrition" aria-label="${escapeHtml(nutritionHeading)}">
-          <h2>${escapeHtml(nutritionHeading)}</h2>
+        <section class="recipe-nutrition" aria-label="Nutrition per serve">
           <dl class="recipe-meta-grid">
           ${nutritionEntries
             .map(

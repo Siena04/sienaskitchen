@@ -80,24 +80,17 @@
       ['C', 'Carbohydrates', nutrition.carbs],
       ['F', 'Fat', nutrition.fat],
     ];
-    const row = document.createElement('div');
-    row.className = 'recipe-card-nutrition';
     const category = title.closest('.recipe-card')?.querySelector('.recipe-card-category');
     if (category) title.append(category);
-    title.insertAdjacentElement('afterend', row);
 
     const hasValues = fields.some(([, , value]) => String(value ?? '').trim());
-    if (!hasValues) {
-      row.textContent = 'Macros pending';
-      return;
-    }
+    if (!hasValues) return;
 
-    const label = document.createElement('span');
-    label.className = 'recipe-card-nutrition-basis';
-    label.textContent = 'Per serve';
+    const row = document.createElement('div');
+    row.className = 'recipe-card-nutrition';
     row.setAttribute('role', 'group');
-    row.setAttribute('aria-label', label.textContent);
-    row.append(label);
+    row.setAttribute('aria-label', 'Nutrition per serve');
+    title.insertAdjacentElement('afterend', row);
     fields.forEach(([label, fullLabel, raw]) => {
       const value = String(raw ?? '').trim();
       const clean = label === 'kcal' ? value.replace(/\s*kcal\s*$/i, '').trim() : value;

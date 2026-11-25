@@ -2162,11 +2162,7 @@ function buildRecipeViewMarkup(recipe, nutrition, options = {}) {
   ].filter(([, value]) => value);
   const nutritionMarkup = nutritionEntries.length
     ? `
-        <section class="sidebar-card notebook-card">
-          <div class="subsection-heading compact">
-            <p class="section-kicker">Nutrition</p>
-            <h2>Per serve</h2>
-          </div>
+        <section class="sidebar-card notebook-card" aria-label="Nutrition per serve">
           <div class="info-stack nutrition-stack">
             ${nutritionEntries
               .map(
@@ -2313,8 +2309,7 @@ function buildRecipePreviewMarkup(recipe) {
             <span>Complexity</span>
             <strong>${escapeHtml(complexity)}</strong>
           </div>
-          <div class="preview-macros">
-            <p class="preview-subtitle">Macros per serve</p>
+          <div class="preview-macros" role="group" aria-label="Nutrition per serve">
             ${nutritionMarkup}
           </div>
         </aside>
