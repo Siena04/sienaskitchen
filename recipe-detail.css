@@ -139,7 +139,7 @@ body.is-standalone-recipe .recipe-page-heading .section-kicker {
 .recipe-detail-controls {
   display: grid;
   gap: 0.62rem;
-  padding-top: 0.62rem;
+  padding-top: 1.05rem;
   border-top: 1px solid #bfa48a;
 }
 
